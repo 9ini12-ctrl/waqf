@@ -126,6 +126,16 @@ body {
   animation: reveal 320ms ease;
 }
 
+.system-alert {
+  margin-top: 12px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid #f1d07c;
+  background: #fff7e2;
+  color: #5a4405;
+  line-height: 1.7;
+}
+
 .options-grid {
   display: grid;
   gap: 12px;
@@ -316,6 +326,16 @@ textarea:focus {
   border-radius: 10px;
   background: #f7faf5;
   border: 1px solid #e4ece2;
+}
+
+.request-code {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #f0f8f4;
+  border: 1px dashed #9cc8b1;
+  font-weight: 700;
+  letter-spacing: 0.4px;
 }
 
 .error {

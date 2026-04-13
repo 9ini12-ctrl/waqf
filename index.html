@@ -22,6 +22,7 @@
         <button id="tab-start" class="tab-btn active" type="button">بدء طلب جديد</button>
         <button id="tab-track" class="tab-btn" type="button">متابعة طلب</button>
       </section>
+      <section id="system-alert" class="system-alert hidden" aria-live="polite"></section>
 
       <section id="start-view" class="panel active" aria-labelledby="tab-start">
         <div id="options-grid" class="options-grid"></div>
@@ -56,6 +57,8 @@
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
