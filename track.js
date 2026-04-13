@@ -28,7 +28,8 @@ async function onSubmit(event) {
 
 async function loadByToken(token) {
   clearAlert();
-  content.innerHTML = '<p class="text-sm font-semibold text-waqf-700">جاري تحميل حالة الطلب...</p>';
+  content.innerHTML =
+    '<p class="rounded-2xl border border-waqf-200 bg-white px-3 py-3 text-sm font-semibold text-waqf-700">جاري تحميل حالة الطلب...</p>';
 
   try {
     const response = await fetch(`/api/public/track?token=${encodeURIComponent(token)}`, {
@@ -52,7 +53,7 @@ async function loadByToken(token) {
 function renderRequest(request) {
   if (!request) {
     content.innerHTML =
-      '<p class="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700">لم يتم العثور على طلب بهذا الرمز.</p>';
+      '<p class="rounded-2xl border border-rose-200 bg-rose-50/80 px-3 py-3 text-sm font-semibold text-rose-700">لم يتم العثور على طلب بهذا الرمز.</p>';
     return;
   }
 
@@ -60,7 +61,7 @@ function renderRequest(request) {
   const requiredActions = Array.isArray(request.required_actions) ? request.required_actions : [];
 
   content.innerHTML = `
-    <article class="rounded-xl border border-waqf-300 bg-white p-4">
+    <article class="rounded-2xl border border-waqf-200 bg-white/95 p-4 shadow-soft">
       <h3 class="text-base font-extrabold text-waqf-900">${escapeHtml(request.applicant_name || "مقدم الطلب")}</h3>
       <div class="mt-2 space-y-2 text-sm text-waqf-800">
         <p><strong>رقم الطلب:</strong> ${escapeHtml(request.request_number || "-")}</p>
@@ -78,10 +79,10 @@ function renderRequest(request) {
               ? requiredActions
                   .map(
                     (action) =>
-                      `<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-900">${escapeHtml(action)}</div>`
+                      `<div class="rounded-xl border border-accent-200 bg-accent-50 px-3 py-2 text-xs text-waqf-900">${escapeHtml(action)}</div>`
                   )
                   .join("")
-              : '<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا توجد متطلبات إضافية حاليًا.</div>'
+              : '<div class="rounded-xl border border-waqf-200 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا توجد متطلبات إضافية حاليًا.</div>'
           }
         </div>
       </div>
@@ -94,14 +95,14 @@ function renderRequest(request) {
               ? timeline
                   .map(
                     (item) =>
-                      `<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-900"><strong>${escapeHtml(
+                      `<div class="rounded-xl border border-waqf-200 bg-white px-3 py-2 text-xs text-waqf-900"><strong>${escapeHtml(
                         item.status || "تحديث"
                       )}</strong><br>${escapeHtml(item.note || "-")}<br><span class="text-waqf-700">${formatDate(
                         item.at || request.updated_at || request.created_at
                       )}</span></div>`
                   )
                   .join("")
-              : '<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا يوجد سجل حالة مفصل.</div>'
+              : '<div class="rounded-xl border border-waqf-200 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا يوجد سجل حالة مفصل.</div>'
           }
         </div>
       </div>
@@ -112,9 +113,9 @@ function renderRequest(request) {
 function showAlert(message, type = "warn") {
   alertBox.classList.remove(
     "hidden",
-    "border-amber-300",
-    "bg-amber-50",
-    "text-amber-900",
+    "border-accent-200",
+    "bg-accent-50",
+    "text-accent-700",
     "border-rose-300",
     "bg-rose-50",
     "text-rose-800"
@@ -123,7 +124,7 @@ function showAlert(message, type = "warn") {
   if (type === "error") {
     alertBox.classList.add("border-rose-300", "bg-rose-50", "text-rose-800");
   } else {
-    alertBox.classList.add("border-amber-300", "bg-amber-50", "text-amber-900");
+    alertBox.classList.add("border-accent-200", "bg-accent-50", "text-accent-700");
   }
 
   alertBox.textContent = message;

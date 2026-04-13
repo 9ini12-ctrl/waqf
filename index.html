@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>منصة أوقاف مدكر</title>
+    <title>منصة الأوقاف</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
     <script>
@@ -16,25 +16,34 @@
         theme: {
           extend: {
             fontFamily: {
-              cairo: ["Cairo", "sans-serif"]
+              tajawal: ["Tajawal", "sans-serif"]
             },
             colors: {
               waqf: {
-                50: "#fbf6f3",
-                100: "#f5e9e2",
-                200: "#ead4c7",
-                300: "#d9b39f",
-                400: "#cb8f77",
-                500: "#b87864",
-                600: "#9c604f",
-                700: "#7f4a3d",
-                800: "#64372d",
-                900: "#43231d"
+                50: "#f5f7fb",
+                100: "#e9edf5",
+                200: "#d6deea",
+                300: "#bac8dc",
+                400: "#8ea2bf",
+                500: "#677d9e",
+                600: "#4b5f7c",
+                700: "#34465f",
+                800: "#243246",
+                900: "#121a26"
+              },
+              accent: {
+                50: "#eef6ff",
+                100: "#d9ebff",
+                200: "#b6d9ff",
+                500: "#0a84ff",
+                600: "#0077ed",
+                700: "#0068d1"
               }
             },
             boxShadow: {
-              panel: "0 20px 45px rgba(67, 35, 29, 0.2)",
-              card: "0 8px 22px rgba(67, 35, 29, 0.08)"
+              panel: "0 24px 60px rgba(18, 26, 38, 0.18)",
+              card: "0 8px 22px rgba(18, 26, 38, 0.08)",
+              soft: "0 2px 10px rgba(18, 26, 38, 0.07)"
             }
           }
         }
@@ -46,8 +55,8 @@
         0% {
           transform: scale(1);
         }
-        40% {
-          transform: scale(1.02);
+        35% {
+          transform: scale(1.015);
         }
         100% {
           transform: scale(1);
@@ -55,27 +64,32 @@
       }
 
       .preview-bump {
-        animation: bump 360ms ease;
+        animation: bump 320ms ease;
       }
     </style>
   </head>
-  <body class="min-h-screen bg-gradient-to-b from-waqf-100 via-waqf-50 to-[#f2e6de] font-cairo text-waqf-900">
-    <main class="mx-auto max-w-5xl px-4 py-6 md:py-10">
-      <header class="rounded-2xl border border-waqf-300 bg-[#f8ede7] p-5 shadow-card md:p-7">
+  <body class="min-h-screen bg-gradient-to-b from-white via-waqf-50 to-waqf-100 font-tajawal text-waqf-900">
+    <div class="pointer-events-none fixed inset-0 overflow-hidden">
+      <div class="absolute -left-20 top-8 h-72 w-72 rounded-full bg-accent-500/10 blur-3xl"></div>
+      <div class="absolute -right-20 bottom-8 h-80 w-80 rounded-full bg-waqf-400/20 blur-3xl"></div>
+    </div>
+
+    <main class="relative mx-auto max-w-5xl px-4 py-6 md:py-10">
+      <header class="rounded-3xl border border-white/70 bg-white/80 p-5 shadow-soft backdrop-blur md:p-7">
         <div class="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p class="text-xs font-bold text-waqf-700">جمعية مدكر لتحفيظ القرآن الكريم</p>
-            <h1 class="mt-2 text-2xl font-extrabold leading-relaxed md:text-3xl">منصة الأوقاف</h1>
+            <p class="text-xs font-bold tracking-wide text-waqf-600">جمعية مدكر لتحفيظ القرآن الكريم</p>
+            <h1 class="mt-2 text-2xl font-extrabold leading-relaxed md:text-3xl">منصة إدارة طلبات الأوقاف</h1>
           </div>
           <a
             href="/admin.html"
-            class="rounded-lg border border-waqf-500 bg-white px-3 py-2 text-xs font-bold text-waqf-800 transition hover:bg-waqf-50"
+            class="rounded-full border border-waqf-300 bg-white px-4 py-2 text-xs font-bold text-waqf-800 transition hover:border-accent-500 hover:text-accent-600"
           >
             لوحة الإدارة
           </a>
         </div>
-        <p class="mt-3 text-sm leading-7 text-waqf-800">
-          اختر المسار، ثم أكمل الخيارات من البوب-أب السفلي. سيتم تعبئة بطاقة الطلب في الأعلى تلقائيًا حتى الاكتمال.
+        <p class="mt-3 text-sm leading-7 text-waqf-700">
+          تجربة حديثة تفاعلية: اختيار مسار الوقف خطوة بخطوة مع معاينة فورية وإصدار رقم طلب قابل للمتابعة.
         </p>
       </header>
 
@@ -83,14 +97,14 @@
         <button
           id="tab-start"
           type="button"
-          class="rounded-xl border border-waqf-500 bg-white px-4 py-3 text-sm font-extrabold text-waqf-900 shadow-card"
+          class="rounded-2xl border border-transparent bg-accent-600 px-4 py-3 text-sm font-extrabold text-white shadow-card"
         >
           طلب جديد
         </button>
         <button
           id="tab-track"
           type="button"
-          class="rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-extrabold text-waqf-800"
+          class="rounded-2xl border border-waqf-200 bg-white px-4 py-3 text-sm font-extrabold text-waqf-800 shadow-soft"
         >
           متابعة طلب
         </button>
@@ -98,38 +112,38 @@
 
       <section
         id="system-alert"
-        class="mt-4 hidden rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900"
+        class="mt-4 hidden rounded-2xl border border-accent-200 bg-accent-50 px-4 py-3 text-sm font-semibold text-accent-700"
       ></section>
 
       <section id="start-view" class="mt-4 space-y-4">
-        <section id="flow-section" class="rounded-2xl border border-waqf-300 bg-[#fbf3ef] p-4 shadow-card md:p-5">
-          <h2 class="text-base font-extrabold text-waqf-900">ابدأ باختيار المسار</h2>
-          <p class="mt-1 text-sm text-waqf-800">كل مسار يفتح لك رحلة خيارات مخصصة خطوة بخطوة.</p>
+        <section id="flow-section" class="rounded-3xl border border-white/70 bg-white/85 p-4 shadow-soft backdrop-blur md:p-5">
+          <h2 class="text-base font-extrabold text-waqf-900">اختر المسار المناسب</h2>
+          <p class="mt-1 text-sm text-waqf-700">اضغط على أي مسار لتبدأ رحلة تفاعلية خطوة بخطوة.</p>
           <div id="flow-list" class="mt-4 grid gap-3 md:grid-cols-2"></div>
         </section>
 
-        <section id="preview-stage" class="hidden rounded-2xl border border-waqf-400 bg-[#f9f0ea] p-4 shadow-card md:p-5">
+        <section id="preview-stage" class="hidden rounded-3xl border border-white/70 bg-white/85 p-4 shadow-soft backdrop-blur md:p-5">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <h2 id="preview-route-title" class="text-base font-extrabold text-waqf-900"></h2>
             <p id="preview-progress" class="text-xs font-extrabold text-waqf-700"></p>
           </div>
 
-          <div class="mt-3 h-2 rounded-full bg-white">
-            <div id="preview-progress-bar" class="h-2 rounded-full bg-gradient-to-l from-waqf-700 to-waqf-500 transition-all duration-300"></div>
+          <div class="mt-3 h-2 rounded-full bg-waqf-100">
+            <div id="preview-progress-bar" class="h-2 rounded-full bg-gradient-to-r from-accent-500 to-accent-700 transition-all duration-300"></div>
           </div>
 
-          <div id="preview-card" class="mt-4 rounded-xl border border-waqf-300 bg-white p-4">
-            <p class="text-xs font-bold text-waqf-600">بطاقة الطلب (تتعبأ تلقائيًا)</p>
+          <div id="preview-card" class="mt-4 rounded-2xl border border-waqf-200 bg-white p-4 shadow-soft">
+            <p class="text-xs font-bold tracking-wide text-waqf-600">LIVE PREVIEW</p>
             <div id="preview-list" class="mt-3 space-y-2"></div>
           </div>
         </section>
 
-        <section id="result-card" class="hidden rounded-2xl border border-emerald-300 bg-emerald-100/80 p-4 shadow-card md:p-5" aria-live="polite"></section>
+        <section id="result-card" class="hidden rounded-3xl border border-accent-200 bg-accent-50/80 p-4 shadow-soft md:p-5" aria-live="polite"></section>
       </section>
 
-      <section id="track-view" class="mt-4 hidden rounded-2xl border border-waqf-300 bg-[#fbf3ef] p-4 shadow-card md:p-5">
+      <section id="track-view" class="mt-4 hidden rounded-3xl border border-white/70 bg-white/85 p-4 shadow-soft backdrop-blur md:p-5">
         <h2 class="text-base font-extrabold text-waqf-900">متابعة الطلب</h2>
-        <p class="mt-1 text-sm text-waqf-800">يمكنك المتابعة برقم الطلب، أو عبر الرابط المرسل إلى البريد.</p>
+        <p class="mt-1 text-sm text-waqf-700">يمكنك المتابعة برقم الطلب أو من الرابط المرسل إلى البريد.</p>
 
         <form id="track-form" class="mt-4 grid gap-3 sm:grid-cols-[1fr,auto] sm:items-end" novalidate>
           <label class="space-y-2 text-sm font-bold text-waqf-900" for="request-number">
@@ -140,48 +154,48 @@
               type="text"
               placeholder="MDK-WQF-20260413-000001"
               required
-              class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-300"
+              class="w-full rounded-2xl border border-waqf-300 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-accent-500/30"
             />
           </label>
-          <button type="submit" class="rounded-lg bg-waqf-800 px-4 py-2 text-sm font-bold text-white">بحث</button>
+          <button type="submit" class="rounded-2xl bg-accent-600 px-4 py-2 text-sm font-bold text-white">بحث</button>
         </form>
 
         <section id="track-result" class="mt-4"></section>
       </section>
     </main>
 
-    <div id="sheet-backdrop" class="fixed inset-0 z-30 hidden bg-waqf-900/55 backdrop-blur-[2px]"></div>
+    <div id="sheet-backdrop" class="fixed inset-0 z-30 hidden bg-waqf-900/45 backdrop-blur-[3px]"></div>
 
     <section id="sheet-panel" class="fixed inset-x-0 bottom-0 z-40 hidden">
-      <div class="mx-auto w-full max-w-4xl rounded-t-3xl border border-waqf-500 bg-[#f8efe9] shadow-panel">
+      <div class="mx-auto w-full max-w-4xl rounded-t-[32px] border border-white/60 bg-white/92 shadow-panel backdrop-blur">
         <div class="mx-auto mt-2 h-1.5 w-20 rounded-full bg-waqf-300"></div>
 
         <header class="px-4 pt-3">
           <div class="flex items-center justify-between gap-2">
             <h3 id="sheet-route-title" class="text-sm font-extrabold text-waqf-900"></h3>
-            <button id="sheet-close" type="button" class="rounded-full border border-waqf-400 bg-white px-2 py-1 text-xs font-bold text-waqf-700">إغلاق</button>
+            <button id="sheet-close" type="button" class="rounded-full border border-waqf-300 bg-white px-3 py-1 text-xs font-bold text-waqf-700">إغلاق</button>
           </div>
           <p id="sheet-step-meta" class="mt-1 text-xs font-bold text-waqf-700"></p>
           <div id="sheet-stepper" class="mt-2 flex items-center gap-2 overflow-x-auto pb-2"></div>
         </header>
 
         <div class="max-h-[62vh] overflow-y-auto px-4 pb-2 pt-1">
-          <section class="rounded-xl border border-waqf-300 bg-white p-4">
+          <section class="rounded-2xl border border-waqf-200 bg-white p-4 shadow-soft">
             <h4 id="sheet-question-title" class="text-sm font-extrabold text-waqf-900"></h4>
-            <p id="sheet-question-help" class="mt-1 text-sm text-waqf-800"></p>
+            <p id="sheet-question-help" class="mt-1 text-sm text-waqf-700"></p>
             <div id="sheet-options" class="mt-4 space-y-2"></div>
-            <p id="sheet-hint" class="mt-2 hidden text-xs font-semibold text-waqf-700"></p>
+            <p id="sheet-hint" class="mt-2 hidden text-xs font-semibold text-waqf-600"></p>
           </section>
 
-          <p id="sheet-error" class="mt-3 hidden rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700"></p>
+          <p id="sheet-error" class="mt-3 hidden rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700"></p>
         </div>
 
-        <footer class="border-t border-waqf-300 bg-[#fdf8f5] p-4">
+        <footer class="border-t border-waqf-200 bg-white/95 p-4">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <button
               id="sheet-back"
               type="button"
-              class="rounded-lg border border-waqf-500 bg-white px-3 py-2 text-sm font-bold text-waqf-900"
+              class="rounded-2xl border border-waqf-300 bg-white px-3 py-2 text-sm font-bold text-waqf-900"
             >
               السابق
             </button>
@@ -189,14 +203,14 @@
               <button
                 id="sheet-next"
                 type="button"
-                class="rounded-lg bg-waqf-700 px-4 py-2 text-sm font-bold text-white"
+                class="rounded-2xl bg-accent-600 px-4 py-2 text-sm font-bold text-white"
               >
                 التالي
               </button>
               <button
                 id="sheet-submit"
                 type="button"
-                class="hidden rounded-lg bg-waqf-900 px-4 py-2 text-sm font-bold text-white"
+                class="hidden rounded-2xl bg-waqf-900 px-4 py-2 text-sm font-bold text-white"
               >
                 إصدار الطلب
               </button>

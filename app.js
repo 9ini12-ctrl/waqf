@@ -375,12 +375,12 @@ function setTab(tab) {
   const isStart = tab === "start";
 
   tabStart.className = isStart
-    ? "rounded-xl border border-waqf-500 bg-white px-4 py-3 text-sm font-extrabold text-waqf-900 shadow-card"
-    : "rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-extrabold text-waqf-800";
+    ? "rounded-2xl border border-transparent bg-accent-600 px-4 py-3 text-sm font-extrabold text-white shadow-card"
+    : "rounded-2xl border border-waqf-200 bg-white px-4 py-3 text-sm font-extrabold text-waqf-800 shadow-soft";
 
   tabTrack.className = !isStart
-    ? "rounded-xl border border-waqf-500 bg-white px-4 py-3 text-sm font-extrabold text-waqf-900 shadow-card"
-    : "rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-extrabold text-waqf-800";
+    ? "rounded-2xl border border-transparent bg-accent-600 px-4 py-3 text-sm font-extrabold text-white shadow-card"
+    : "rounded-2xl border border-waqf-200 bg-white px-4 py-3 text-sm font-extrabold text-waqf-800 shadow-soft";
 
   startView.classList.toggle("hidden", !isStart);
   trackView.classList.toggle("hidden", isStart);
@@ -396,10 +396,10 @@ function renderFlowList() {
       <button
         type="button"
         data-flow-id="${flow.id}"
-        class="w-full rounded-xl border border-waqf-300 bg-white px-4 py-4 text-right shadow-card transition hover:-translate-y-0.5 hover:border-waqf-500 hover:bg-waqf-50"
+        class="group w-full rounded-2xl border border-waqf-200 bg-white/95 px-4 py-4 text-right shadow-soft transition duration-200 hover:-translate-y-0.5 hover:border-accent-500/45 hover:shadow-card"
       >
-        <p class="text-sm font-extrabold text-waqf-900">${flow.title}</p>
-        <p class="mt-1 text-xs font-semibold text-waqf-700">${flow.description}</p>
+        <p class="text-sm font-extrabold text-waqf-900 transition group-hover:text-accent-700">${flow.title}</p>
+        <p class="mt-1 text-xs font-semibold leading-6 text-waqf-700">${flow.description}</p>
       </button>
     `
   ).join("");
@@ -511,6 +511,7 @@ function renderStep() {
   if (isLast) {
     sheetNext.classList.add("hidden");
     sheetSubmit.classList.remove("hidden");
+    sheetHint.classList.add("hidden");
   } else if (step.type === "choice") {
     sheetNext.classList.add("hidden");
     sheetSubmit.classList.add("hidden");
@@ -530,9 +531,9 @@ function renderSheetStepper(total, active) {
     const done = idx < active;
 
     const badge = isActive
-      ? "border-waqf-800 bg-waqf-800 text-white"
+      ? "border-accent-600 bg-accent-600 text-white shadow-soft"
       : done
-        ? "border-waqf-500 bg-waqf-500 text-white"
+        ? "border-accent-200 bg-accent-100 text-accent-700"
         : "border-waqf-300 bg-white text-waqf-700";
 
     return `<span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-[11px] font-extrabold ${badge}">${number}</span>`;
@@ -551,10 +552,10 @@ function renderControl(step) {
             type="button"
             data-choice-id="${step.id}"
             data-choice-value="${option.value}"
-            class="w-full rounded-lg border px-3 py-3 text-right text-sm font-bold transition ${
+            class="w-full rounded-2xl border px-3 py-3 text-right text-sm font-bold transition ${
               selected
-                ? "border-waqf-700 bg-waqf-200 text-waqf-900 shadow-card"
-                : "border-waqf-300 bg-white text-waqf-900 hover:border-waqf-500 hover:bg-waqf-50"
+                ? "border-accent-500 bg-accent-50 text-accent-700 shadow-soft"
+                : "border-waqf-300 bg-white text-waqf-900 hover:border-accent-500/40 hover:bg-accent-50/60"
             }"
           >
             ${option.label}
@@ -570,7 +571,7 @@ function renderControl(step) {
         name="${step.id}"
         rows="4"
         placeholder="${step.placeholder || ""}"
-        class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-300"
+        class="w-full rounded-2xl border border-waqf-300 bg-white px-3 py-2 text-sm text-waqf-900 outline-none transition focus:border-accent-500/40 focus:ring-2 focus:ring-accent-500/25"
       >${escapeHtml(value)}</textarea>
     `;
   }
@@ -584,7 +585,7 @@ function renderControl(step) {
       min="${step.min ?? ""}"
       max="${step.max ?? ""}"
       step="${step.step ?? ""}"
-      class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-300"
+      class="w-full rounded-2xl border border-waqf-300 bg-white px-3 py-2 text-sm text-waqf-900 outline-none transition focus:border-accent-500/40 focus:ring-2 focus:ring-accent-500/25"
     />
   `;
 }
@@ -744,8 +745,8 @@ function renderPreview() {
       const valueText = hasValue ? escapeHtml(formatStepValue(step, rawValue)) : "بانتظار";
 
       return `
-        <div class="rounded-lg border px-3 py-2 text-xs ${
-          hasValue ? "border-waqf-300 bg-waqf-50 text-waqf-900" : "border-waqf-200 bg-white text-waqf-500"
+        <div class="rounded-xl border px-3 py-2 text-xs ${
+          hasValue ? "border-accent-200 bg-accent-50 text-waqf-900" : "border-waqf-200 bg-white text-waqf-500"
         }">
           <strong>${escapeHtml(step.label)}:</strong> ${valueText}
         </div>
@@ -894,28 +895,28 @@ function renderResult({ requestNumber, createdAt, flowTitle, outcome, trackingUr
   resultCard.classList.remove("hidden");
 
   const trackingLinkBlock = trackingUrl
-    ? `<div class="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs"><strong>رابط المتابعة:</strong> <a class="underline" href="${trackingUrl}" target="_blank" rel="noopener">فتح صفحة المتابعة</a></div>`
+    ? `<div class="rounded-xl border border-accent-200 bg-white px-3 py-2 text-xs"><strong>رابط المتابعة:</strong> <a class="font-bold text-accent-700 underline" href="${trackingUrl}" target="_blank" rel="noopener">فتح صفحة المتابعة</a></div>`
     : "";
 
   const emailBlock = emailStatus
-    ? `<div class="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs">${escapeHtml(emailStatus)}</div>`
+    ? `<div class="rounded-xl border border-accent-200 bg-white px-3 py-2 text-xs">${escapeHtml(emailStatus)}</div>`
     : "";
 
   resultCard.innerHTML = `
-    <h3 class="text-base font-extrabold text-emerald-900">تم إصدار الطلب بنجاح</h3>
-    <div class="mt-3 space-y-2 text-sm text-emerald-900">
-      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>رقم الطلب:</strong> ${escapeHtml(requestNumber)}</div>
-      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>المسار:</strong> ${escapeHtml(flowTitle)}</div>
-      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>الحالة:</strong> ${escapeHtml(outcome.status)}</div>
-      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>التوصية:</strong> ${escapeHtml(outcome.recommendation)}</div>
-      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>تاريخ الإنشاء:</strong> ${formatDate(createdAt || new Date().toISOString())}</div>
+    <h3 class="text-base font-extrabold text-waqf-900">تم إصدار الطلب بنجاح</h3>
+    <div class="mt-3 space-y-2 text-sm text-waqf-900">
+      <div class="rounded-xl border border-accent-200 bg-white px-3 py-2"><strong>رقم الطلب:</strong> ${escapeHtml(requestNumber)}</div>
+      <div class="rounded-xl border border-accent-200 bg-white px-3 py-2"><strong>المسار:</strong> ${escapeHtml(flowTitle)}</div>
+      <div class="rounded-xl border border-accent-200 bg-white px-3 py-2"><strong>الحالة:</strong> ${escapeHtml(outcome.status)}</div>
+      <div class="rounded-xl border border-accent-200 bg-white px-3 py-2"><strong>التوصية:</strong> ${escapeHtml(outcome.recommendation)}</div>
+      <div class="rounded-xl border border-accent-200 bg-white px-3 py-2"><strong>تاريخ الإنشاء:</strong> ${formatDate(createdAt || new Date().toISOString())}</div>
       ${emailBlock}
       ${trackingLinkBlock}
     </div>
 
     <div class="mt-4 flex flex-wrap gap-2">
-      <button id="result-new" type="button" class="rounded-lg border border-emerald-400 bg-white px-4 py-2 text-sm font-bold text-emerald-800">بدء طلب جديد</button>
-      <button id="result-track-tab" type="button" class="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-bold text-white">متابعة برقم الطلب</button>
+      <button id="result-new" type="button" class="rounded-2xl border border-waqf-300 bg-white px-4 py-2 text-sm font-bold text-waqf-800">بدء طلب جديد</button>
+      <button id="result-track-tab" type="button" class="rounded-2xl bg-accent-600 px-4 py-2 text-sm font-bold text-white">متابعة برقم الطلب</button>
     </div>
   `;
 
@@ -1032,7 +1033,7 @@ async function onTrackSubmit(event) {
     const request = Array.isArray(data) ? data[0] : data;
     if (!request) {
       trackResult.innerHTML =
-        '<p class="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700">لا يوجد طلب بهذا الرقم.</p>';
+        '<p class="rounded-2xl border border-rose-200 bg-rose-50/80 px-3 py-2 text-sm font-semibold text-rose-700">لا يوجد طلب بهذا الرقم.</p>';
       return;
     }
 
@@ -1040,7 +1041,7 @@ async function onTrackSubmit(event) {
     const requiredActions = Array.isArray(request.required_actions) ? request.required_actions : [];
 
     trackResult.innerHTML = `
-      <article class="rounded-xl border border-waqf-300 bg-white p-4">
+      <article class="rounded-2xl border border-waqf-200 bg-white/95 p-4 shadow-soft">
         <h3 class="text-sm font-extrabold text-waqf-900">رقم الطلب: ${escapeHtml(request.request_number)}</h3>
         <div class="mt-2 space-y-2 text-sm text-waqf-800">
           <p><strong>المسار:</strong> ${escapeHtml(request.option_title)}</p>
@@ -1057,10 +1058,10 @@ async function onTrackSubmit(event) {
                 ? requiredActions
                     .map(
                       (action) =>
-                        `<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-900">${escapeHtml(action)}</div>`
+                        `<div class="rounded-xl border border-accent-200 bg-accent-50 px-3 py-2 text-xs text-waqf-900">${escapeHtml(action)}</div>`
                     )
                     .join("")
-                : '<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا توجد متطلبات إضافية.</div>'
+                : '<div class="rounded-xl border border-waqf-200 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا توجد متطلبات إضافية.</div>'
             }
           </div>
         </div>
@@ -1073,14 +1074,14 @@ async function onTrackSubmit(event) {
                 ? timeline
                     .map(
                       (item) =>
-                        `<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-900"><strong>${escapeHtml(
+                        `<div class="rounded-xl border border-waqf-200 bg-white px-3 py-2 text-xs text-waqf-900"><strong>${escapeHtml(
                           item.status || "تحديث"
                         )}</strong><br>${escapeHtml(item.note || "-")}<br><span class="text-waqf-700">${formatDate(
                           item.at || request.updated_at || request.created_at
                         )}</span></div>`
                     )
                     .join("")
-                : '<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا يوجد سجل حالة مفصل.</div>'
+                : '<div class="rounded-xl border border-waqf-200 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا يوجد سجل حالة مفصل.</div>'
             }
           </div>
         </div>
@@ -1107,23 +1108,18 @@ function hideSheetError() {
 function showAlert(message, type = "warn") {
   alertBox.classList.remove(
     "hidden",
-    "border-amber-300",
-    "bg-amber-50",
-    "text-amber-900",
+    "border-accent-200",
+    "bg-accent-50",
+    "text-accent-700",
     "border-rose-300",
     "bg-rose-50",
-    "text-rose-800",
-    "border-emerald-300",
-    "bg-emerald-50",
-    "text-emerald-800"
+    "text-rose-800"
   );
 
   if (type === "error") {
     alertBox.classList.add("border-rose-300", "bg-rose-50", "text-rose-800");
-  } else if (type === "success") {
-    alertBox.classList.add("border-emerald-300", "bg-emerald-50", "text-emerald-800");
   } else {
-    alertBox.classList.add("border-amber-300", "bg-amber-50", "text-amber-900");
+    alertBox.classList.add("border-accent-200", "bg-accent-50", "text-accent-700");
   }
 
   alertBox.textContent = message;

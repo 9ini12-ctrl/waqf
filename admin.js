@@ -179,7 +179,7 @@ function renderRequests() {
 
   if (!state.requests.length) {
     listEl.innerHTML =
-      '<p class="rounded-lg border border-dashed border-waqf-300 bg-waqf-50 px-3 py-4 text-sm font-semibold text-waqf-700">لا توجد طلبات مطابقة حاليًا.</p>';
+      '<p class="rounded-2xl border border-dashed border-waqf-300 bg-waqf-50 px-3 py-4 text-sm font-semibold text-waqf-700">لا توجد طلبات مطابقة حاليًا.</p>';
     return;
   }
 
@@ -190,15 +190,17 @@ function renderRequests() {
         <button
           type="button"
           data-request-number="${escapeHtml(request.request_number)}"
-          class="w-full rounded-xl border px-3 py-3 text-right transition ${
+          class="w-full rounded-2xl border px-3 py-3 text-right transition ${
             selected
-              ? "border-waqf-600 bg-waqf-100"
-              : "border-waqf-300 bg-white hover:border-waqf-500 hover:bg-waqf-50"
+              ? "border-accent-500/45 bg-accent-50"
+              : "border-waqf-200 bg-white hover:border-accent-500/35 hover:bg-accent-50/60"
           }"
         >
           <div class="flex flex-wrap items-center justify-between gap-2">
             <p class="text-xs font-extrabold text-waqf-900">${escapeHtml(request.request_number)}</p>
-            <span class="rounded-full bg-white px-2 py-1 text-[11px] font-bold text-waqf-700">${escapeHtml(request.status || "-")}</span>
+            <span class="rounded-full border border-waqf-200 bg-white px-2 py-1 text-[11px] font-bold text-waqf-700">${escapeHtml(
+              request.status || "-"
+            )}</span>
           </div>
           <p class="mt-2 text-sm font-bold text-waqf-900">${escapeHtml(request.applicant_name || "-")}</p>
           <p class="mt-1 text-xs text-waqf-700">${escapeHtml(request.option_title || "-")}</p>
@@ -261,7 +263,7 @@ function renderDetail(request) {
   ]
     .map(
       ([label, value]) =>
-        `<div class="rounded-lg border border-waqf-300 bg-[#fffaf7] px-3 py-2 text-xs text-waqf-900"><strong>${escapeHtml(
+        `<div class="rounded-xl border border-waqf-200 bg-white px-3 py-2 text-xs text-waqf-900"><strong>${escapeHtml(
           label
         )}:</strong> ${escapeHtml(value || "-")}</div>`
     )
@@ -272,7 +274,7 @@ function renderDetail(request) {
     ? timeline
         .map(
           (item) => `
-          <div class="rounded-lg border border-waqf-300 bg-white px-3 py-2 text-xs text-waqf-900">
+          <div class="rounded-xl border border-waqf-200 bg-white px-3 py-2 text-xs text-waqf-900">
             <p class="font-bold">${escapeHtml(item.status || "تحديث")}</p>
             <p class="mt-1">${escapeHtml(item.note || "-")}</p>
             <p class="mt-1 text-[11px] text-waqf-600">${formatDate(item.at)}</p>
@@ -280,7 +282,7 @@ function renderDetail(request) {
         `
         )
         .join("")
-    : '<p class="rounded-lg border border-dashed border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا يوجد سجل حالة حتى الآن.</p>';
+    : '<p class="rounded-xl border border-dashed border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا يوجد سجل حالة حتى الآن.</p>';
 
   fillStatusOptions(request.status || "");
   updateRecommendation.value = request.recommendation || "";
@@ -381,23 +383,23 @@ async function apiFetch(path, options = {}) {
 function showAlert(message, type = "warn") {
   alertEl.classList.remove(
     "hidden",
-    "border-amber-300",
-    "bg-amber-50",
-    "text-amber-900",
+    "border-accent-200",
+    "bg-accent-50",
+    "text-accent-700",
     "border-rose-300",
     "bg-rose-50",
     "text-rose-800",
-    "border-emerald-300",
-    "bg-emerald-50",
-    "text-emerald-800"
+    "border-sky-200",
+    "bg-sky-50",
+    "text-sky-700"
   );
 
   if (type === "error") {
     alertEl.classList.add("border-rose-300", "bg-rose-50", "text-rose-800");
   } else if (type === "success") {
-    alertEl.classList.add("border-emerald-300", "bg-emerald-50", "text-emerald-800");
+    alertEl.classList.add("border-sky-200", "bg-sky-50", "text-sky-700");
   } else {
-    alertEl.classList.add("border-amber-300", "bg-amber-50", "text-amber-900");
+    alertEl.classList.add("border-accent-200", "bg-accent-50", "text-accent-700");
   }
 
   alertEl.textContent = message;

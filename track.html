@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>متابعة الطلب - منصة أوقاف مدكر</title>
+    <title>متابعة الطلب - منصة الأوقاف</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
     <script>
@@ -16,21 +16,33 @@
         theme: {
           extend: {
             fontFamily: {
-              cairo: ["Cairo", "sans-serif"]
+              tajawal: ["Tajawal", "sans-serif"]
             },
             colors: {
               waqf: {
-                50: "#fbf6f3",
-                100: "#f5e9e2",
-                200: "#ead4c7",
-                300: "#d9b39f",
-                400: "#cb8f77",
-                500: "#b87864",
-                600: "#9c604f",
-                700: "#7f4a3d",
-                800: "#64372d",
-                900: "#43231d"
+                50: "#f5f7fb",
+                100: "#e9edf5",
+                200: "#d6deea",
+                300: "#bac8dc",
+                400: "#8ea2bf",
+                500: "#677d9e",
+                600: "#4b5f7c",
+                700: "#34465f",
+                800: "#243246",
+                900: "#121a26"
+              },
+              accent: {
+                50: "#eef6ff",
+                100: "#d9ebff",
+                200: "#b6d9ff",
+                500: "#0a84ff",
+                600: "#0077ed",
+                700: "#0068d1"
               }
+            },
+            boxShadow: {
+              soft: "0 2px 10px rgba(18, 26, 38, 0.07)",
+              card: "0 8px 22px rgba(18, 26, 38, 0.08)"
             }
           }
         }
@@ -38,16 +50,36 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="min-h-screen bg-gradient-to-b from-waqf-100 via-waqf-50 to-[#f2e6de] font-cairo text-waqf-900">
-    <main class="mx-auto max-w-3xl px-4 py-6 md:py-10">
-      <header class="rounded-2xl border border-waqf-300 bg-[#f8ede7] p-5 md:p-7">
-        <h1 class="text-2xl font-extrabold">متابعة الطلب</h1>
-        <p class="mt-2 text-sm text-waqf-800">هذه الصفحة تعرض حالة طلبك وتحديثاته أولًا بأول.</p>
+  <body class="min-h-screen bg-gradient-to-b from-white via-waqf-50 to-waqf-100 font-tajawal text-waqf-900">
+    <div class="pointer-events-none fixed inset-0 overflow-hidden">
+      <div class="absolute -right-20 top-8 h-72 w-72 rounded-full bg-accent-500/10 blur-3xl"></div>
+      <div class="absolute -left-20 bottom-8 h-80 w-80 rounded-full bg-waqf-400/20 blur-3xl"></div>
+    </div>
+
+    <main class="relative mx-auto max-w-3xl px-4 py-6 md:py-10">
+      <header class="rounded-3xl border border-white/70 bg-white/85 p-5 shadow-soft backdrop-blur md:p-7">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p class="text-xs font-bold tracking-wide text-waqf-600">متابعة رقمية آمنة</p>
+            <h1 class="mt-2 text-2xl font-extrabold md:text-3xl">متابعة الطلب</h1>
+          </div>
+          <a
+            href="/index.html"
+            class="rounded-full border border-waqf-300 bg-white px-4 py-2 text-xs font-bold text-waqf-800 transition hover:border-accent-500 hover:text-accent-700"
+            >العودة للرئيسية</a
+          >
+        </div>
+        <p class="mt-3 text-sm leading-7 text-waqf-700">
+          أدخل رمز المتابعة المرسل لك لعرض حالة الطلب وآخر التحديثات المطلوبة.
+        </p>
       </header>
 
-      <section id="track-alert" class="mt-4 hidden rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900"></section>
+      <section
+        id="track-alert"
+        class="mt-4 hidden rounded-2xl border border-accent-200 bg-accent-50 px-4 py-3 text-sm font-semibold text-accent-700"
+      ></section>
 
-      <section class="mt-4 rounded-2xl border border-waqf-300 bg-[#fbf3ef] p-4 md:p-5">
+      <section class="mt-4 rounded-3xl border border-white/70 bg-white/88 p-4 shadow-soft backdrop-blur md:p-5">
         <form id="track-token-form" class="grid gap-3 sm:grid-cols-[1fr,auto] sm:items-end" novalidate>
           <label class="space-y-2 text-sm font-bold text-waqf-900" for="tracking-token">
             <span>رمز المتابعة</span>
@@ -55,12 +87,12 @@
               id="tracking-token"
               name="tracking-token"
               type="text"
-              placeholder="ألصق رمز المتابعة"
+              placeholder="الصق الرمز هنا"
               required
-              class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-waqf-300"
+              class="w-full rounded-2xl border border-waqf-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-accent-500/40 focus:ring-2 focus:ring-accent-500/25"
             />
           </label>
-          <button type="submit" class="rounded-lg bg-waqf-800 px-4 py-2 text-sm font-bold text-white">عرض الحالة</button>
+          <button type="submit" class="rounded-2xl bg-accent-600 px-4 py-2 text-sm font-bold text-white shadow-card">عرض الحالة</button>
         </form>
 
         <section id="track-content" class="mt-4"></section>
