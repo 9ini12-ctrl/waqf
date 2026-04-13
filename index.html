@@ -4,56 +4,171 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>منصة أوقاف مدكر</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              cairo: ["Cairo", "sans-serif"]
+            },
+            colors: {
+              waqf: {
+                50: "#fbf6f3",
+                100: "#f5e9e2",
+                200: "#ebd4c8",
+                300: "#dcb8a6",
+                400: "#cb8f77",
+                500: "#b97761",
+                600: "#9d5f4c",
+                700: "#814b3c",
+                800: "#62382d",
+                900: "#44261f"
+              }
+            },
+            boxShadow: {
+              warm: "0 18px 35px rgba(129, 75, 60, 0.15)",
+              soft: "0 10px 25px rgba(68, 38, 31, 0.08)"
+            }
+          }
+        }
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <div class="shape shape-a"></div>
-    <div class="shape shape-b"></div>
-    <main class="container">
-      <header class="hero">
-        <p class="eyebrow">جمعية مدكر لتحفيظ القرآن الكريم</p>
-        <h1>منصة تحويل الراغب بالوقف إلى واقف فعلي</h1>
-        <p class="subtitle">
-          اختر مسارك المناسب، أجب عن الأسئلة، وسيتم إصدار رقم طلب مع آلية متابعة واضحة.
+  <body class="min-h-screen bg-gradient-to-b from-waqf-50 via-[#f7f3f0] to-[#efe7e2] font-cairo text-waqf-900">
+    <div class="pointer-events-none fixed -top-16 -right-10 h-64 w-64 rounded-full bg-waqf-200/70 blur-3xl"></div>
+    <div class="pointer-events-none fixed -bottom-20 -left-14 h-80 w-80 rounded-full bg-waqf-300/60 blur-3xl"></div>
+
+    <main class="relative mx-auto max-w-6xl px-4 py-6 md:py-10">
+      <header class="overflow-hidden rounded-3xl border border-waqf-200/70 bg-gradient-to-l from-waqf-700 to-waqf-500 px-5 py-6 text-white shadow-warm md:px-8">
+        <p class="text-sm font-semibold tracking-wide text-waqf-100">جمعية مدكر لتحفيظ القرآن الكريم</p>
+        <h1 class="mt-2 text-2xl font-extrabold leading-relaxed md:text-4xl">رحلة وقفية ثرية من النية إلى التنفيذ</h1>
+        <p class="mt-3 max-w-3xl text-sm leading-8 text-waqf-100 md:text-base">
+          اختر المسار المناسب، استكشف أسئلة ذكية وتفاعلية، احصل على خطة مبدئية، ثم يصدر لك رقم طلب مع متابعة مباشرة.
         </p>
       </header>
 
-      <section class="tabs" aria-label="التنقل">
-        <button id="tab-start" class="tab-btn active" type="button">بدء طلب جديد</button>
-        <button id="tab-track" class="tab-btn" type="button">متابعة طلب</button>
-      </section>
-      <section id="system-alert" class="system-alert hidden" aria-live="polite"></section>
+      <div class="mt-5 grid gap-3 sm:grid-cols-2">
+        <button
+          id="tab-start"
+          type="button"
+          class="rounded-2xl border border-waqf-300 bg-white px-4 py-3 text-sm font-bold text-waqf-800 shadow-soft transition hover:-translate-y-0.5"
+        >
+          بدء رحلة وقف جديدة
+        </button>
+        <button
+          id="tab-track"
+          type="button"
+          class="rounded-2xl border border-transparent bg-waqf-100/90 px-4 py-3 text-sm font-bold text-waqf-700 transition hover:-translate-y-0.5"
+        >
+          متابعة طلب سابق
+        </button>
+      </div>
 
-      <section id="start-view" class="panel active" aria-labelledby="tab-start">
-        <div id="options-grid" class="options-grid"></div>
+      <section
+        id="system-alert"
+        class="mt-4 hidden rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900"
+        aria-live="polite"
+      ></section>
 
-        <form id="question-form" class="question-form hidden" novalidate>
-          <h2 id="form-title"></h2>
-          <p id="form-description" class="form-description"></p>
-          <div id="form-fields" class="form-fields"></div>
-          <div class="actions">
-            <button type="button" id="back-to-options" class="btn btn-secondary">رجوع للخيارات</button>
-            <button type="submit" class="btn btn-primary">إرسال الطلب</button>
+      <section id="start-view" class="mt-5">
+        <div id="flow-grid" class="grid gap-4 md:grid-cols-2"></div>
+
+        <section id="journey-panel" class="mt-4 hidden rounded-3xl border border-waqf-200 bg-white/85 p-4 shadow-warm backdrop-blur md:p-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p id="journey-flow-title" class="text-xs font-bold text-waqf-500"></p>
+              <h2 id="step-title" class="mt-1 text-xl font-extrabold text-waqf-800"></h2>
+              <p id="step-description" class="mt-1 text-sm leading-7 text-waqf-700"></p>
+            </div>
+            <span id="step-counter" class="rounded-full bg-waqf-100 px-3 py-1 text-xs font-bold text-waqf-700"></span>
           </div>
-        </form>
 
-        <section id="result-card" class="result-card hidden" aria-live="polite"></section>
+          <div class="mt-4 h-2 overflow-hidden rounded-full bg-waqf-100">
+            <div id="progress-bar" class="h-full rounded-full bg-gradient-to-r from-waqf-400 to-waqf-600 transition-all duration-300"></div>
+          </div>
+
+          <div class="mt-5 grid gap-4 lg:grid-cols-[1.8fr,1fr]">
+            <form id="journey-form" class="space-y-4 rounded-2xl border border-waqf-100 bg-white p-4 shadow-soft md:p-5" novalidate>
+              <div id="step-content" class="space-y-4"></div>
+              <p id="form-error" class="hidden rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700"></p>
+              <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+                <button
+                  id="cancel-journey"
+                  type="button"
+                  class="rounded-xl border border-waqf-200 px-4 py-2 text-sm font-bold text-waqf-700 transition hover:bg-waqf-50"
+                >
+                  رجوع للخيارات
+                </button>
+                <div class="flex flex-wrap gap-2">
+                  <button
+                    id="prev-step"
+                    type="button"
+                    class="rounded-xl border border-waqf-300 px-4 py-2 text-sm font-bold text-waqf-700 transition hover:bg-waqf-50"
+                  >
+                    السابق
+                  </button>
+                  <button
+                    id="next-step"
+                    type="button"
+                    class="rounded-xl bg-waqf-500 px-4 py-2 text-sm font-bold text-white transition hover:bg-waqf-600"
+                  >
+                    التالي
+                  </button>
+                  <button
+                    id="submit-request"
+                    type="submit"
+                    class="hidden rounded-xl bg-waqf-700 px-4 py-2 text-sm font-bold text-white transition hover:bg-waqf-800"
+                  >
+                    إصدار رقم الطلب
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <aside class="space-y-3 rounded-2xl border border-waqf-100 bg-waqf-50/70 p-4 shadow-soft">
+              <h3 class="text-sm font-extrabold text-waqf-800">ملخص حي للرحلة</h3>
+              <p id="journey-mood" class="text-sm leading-7 text-waqf-700"></p>
+              <div id="journey-completion" class="rounded-xl bg-white px-3 py-2 text-xs font-semibold text-waqf-700"></div>
+              <div id="live-summary" class="space-y-2"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="result-card" class="mt-4 hidden rounded-3xl border border-emerald-200 bg-emerald-50/70 p-5 shadow-soft" aria-live="polite"></section>
       </section>
 
-      <section id="track-view" class="panel" aria-labelledby="tab-track">
-        <form id="track-form" class="track-form" novalidate>
-          <label for="request-number">رقم الطلب</label>
-          <input
-            id="request-number"
-            name="request-number"
-            type="text"
-            placeholder="مثال: MDK-WQF-20260413-0001"
-            required
-          />
-          <button type="submit" class="btn btn-primary">متابعة</button>
-        </form>
+      <section id="track-view" class="mt-5 hidden">
+        <div class="rounded-3xl border border-waqf-200 bg-white/85 p-4 shadow-warm md:p-6">
+          <form id="track-form" class="grid gap-3 sm:grid-cols-[1fr,auto] sm:items-end" novalidate>
+            <label class="space-y-2 text-sm font-bold text-waqf-800" for="request-number">
+              <span>رقم الطلب</span>
+              <input
+                id="request-number"
+                name="request-number"
+                type="text"
+                placeholder="مثال: MDK-WQF-20260413-000001"
+                required
+                class="w-full rounded-xl border border-waqf-200 px-3 py-2 text-sm text-waqf-900 outline-none ring-waqf-200 transition focus:ring-2"
+              />
+            </label>
+            <button
+              type="submit"
+              class="rounded-xl bg-waqf-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-waqf-700"
+            >
+              متابعة الطلب
+            </button>
+          </form>
 
-        <section id="track-result" class="track-result" aria-live="polite"></section>
+          <section id="track-result" class="mt-4"></section>
+        </div>
       </section>
     </main>
 
