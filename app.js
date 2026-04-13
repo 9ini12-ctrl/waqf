@@ -346,6 +346,7 @@ const trackView = document.getElementById("track-view");
 
 const flowSection = document.getElementById("flow-section");
 const flowList = document.getElementById("flow-list");
+const frameBackdrop = document.getElementById("flow-frame-backdrop");
 const wizardSection = document.getElementById("wizard-section");
 const wizardTitle = document.getElementById("wizard-title");
 const stepsMeta = document.getElementById("steps-meta");
@@ -395,6 +396,7 @@ async function boot() {
 function bindEvents() {
   tabStart.addEventListener("click", () => setTab("start"));
   tabTrack.addEventListener("click", () => setTab("track"));
+  frameBackdrop.addEventListener("click", resetToFlowSelection);
 
   flowList.addEventListener("click", (event) => {
     const button = event.target.closest("[data-flow-id]");
@@ -427,15 +429,25 @@ function setTab(tab) {
   const isStart = tab === "start";
 
   tabStart.className = isStart
-    ? "rounded-xl border border-waqf-300 bg-white px-4 py-3 text-sm font-bold text-waqf-800"
-    : "rounded-xl border border-transparent bg-waqf-100 px-4 py-3 text-sm font-bold text-waqf-700";
+    ? "rounded-xl border border-waqf-400 bg-[#fff7f3] px-4 py-3 text-sm font-bold text-waqf-900"
+    : "rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-bold text-waqf-800";
 
   tabTrack.className = !isStart
-    ? "rounded-xl border border-waqf-300 bg-white px-4 py-3 text-sm font-bold text-waqf-800"
-    : "rounded-xl border border-transparent bg-waqf-100 px-4 py-3 text-sm font-bold text-waqf-700";
+    ? "rounded-xl border border-waqf-400 bg-[#fff7f3] px-4 py-3 text-sm font-bold text-waqf-900"
+    : "rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-bold text-waqf-800";
 
   startView.classList.toggle("hidden", !isStart);
   trackView.classList.toggle("hidden", isStart);
+
+  if (!isStart) {
+    setFrameOpen(false);
+    state.selectedFlowId = null;
+    state.answers = {};
+    state.stepIndex = 0;
+    wizardSection.classList.add("hidden");
+    draftSection.classList.add("hidden");
+    flowSection.classList.remove("hidden");
+  }
 }
 
 function renderFlowList() {
@@ -444,10 +456,10 @@ function renderFlowList() {
       <button
         type="button"
         data-flow-id="${flow.id}"
-        class="w-full rounded-xl border border-waqf-200 bg-waqf-50 px-4 py-4 text-right transition hover:border-waqf-300"
+        class="w-full rounded-xl border border-waqf-300 bg-[#fffaf7] px-4 py-4 text-right shadow-sm transition hover:border-waqf-500 hover:bg-waqf-100"
       >
-        <p class="text-sm font-extrabold text-waqf-800">${flow.title}</p>
-        <p class="mt-1 text-xs text-waqf-700">${flow.description}</p>
+        <p class="text-sm font-extrabold text-waqf-900">${flow.title}</p>
+        <p class="mt-1 text-xs text-waqf-800">${flow.description}</p>
       </button>
     `
   ).join("");
@@ -463,6 +475,7 @@ function startFlow(flowId) {
   state.answers = { flow_id: flowId };
   state.stepIndex = 0;
 
+  setFrameOpen(true);
   flowSection.classList.add("hidden");
   draftSection.classList.add("hidden");
   wizardSection.classList.remove("hidden");
@@ -475,6 +488,7 @@ function resetToFlowSelection() {
   state.answers = {};
   state.stepIndex = 0;
 
+  setFrameOpen(false);
   clearQuestionError();
   hideResult();
 
@@ -559,16 +573,16 @@ function renderStepper(total, active) {
     const isDone = idx < active;
 
     const badgeClass = isActive
-      ? "border-waqf-700 bg-waqf-700 text-white"
+      ? "border-waqf-800 bg-waqf-800 text-white shadow-sm"
       : isDone
-        ? "border-waqf-300 bg-waqf-200 text-waqf-800"
-        : "border-waqf-200 bg-white text-waqf-600";
+        ? "border-waqf-500 bg-waqf-500 text-white"
+        : "border-waqf-300 bg-waqf-50 text-waqf-700";
 
     return `
       <div class="flex min-w-fit items-center gap-2">
         <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-extrabold ${badgeClass}">${stepNumber}</span>
-        <span class="text-xs font-semibold text-waqf-700">${isDraft ? "مسودة" : "سؤال"}</span>
-        ${idx < total ? '<span class="mx-1 h-px w-5 bg-waqf-200"></span>' : ""}
+        <span class="text-xs font-semibold text-waqf-800">${isDraft ? "مسودة" : "سؤال"}</span>
+        ${idx < total ? '<span class="mx-1 h-px w-5 bg-waqf-300"></span>' : ""}
       </div>
     `;
   }).join("");
@@ -587,7 +601,9 @@ function renderQuestionControl(question) {
             data-choice-field="${question.id}"
             data-choice-value="${option.value}"
             class="w-full rounded-lg border px-3 py-3 text-right text-sm font-bold transition ${
-              selected ? "border-waqf-500 bg-waqf-100 text-waqf-900" : "border-waqf-200 bg-white text-waqf-800"
+              selected
+                ? "border-waqf-700 bg-waqf-200 text-waqf-900"
+                : "border-waqf-300 bg-[#fffaf7] text-waqf-900 hover:bg-waqf-100"
             }"
           >
             ${option.label}
@@ -603,7 +619,7 @@ function renderQuestionControl(question) {
         name="${question.id}"
         rows="4"
         placeholder="${question.placeholder || ""}"
-        class="w-full rounded-lg border border-waqf-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-waqf-200"
+        class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-200"
       >${escapeHtml(value)}</textarea>
     `;
   }
@@ -617,7 +633,7 @@ function renderQuestionControl(question) {
       min="${question.min ?? ""}"
       max="${question.max ?? ""}"
       step="${question.step ?? ""}"
-      class="w-full rounded-lg border border-waqf-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-waqf-200"
+      class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-200"
     />
   `;
 }
@@ -830,6 +846,7 @@ async function submitRequest() {
 function renderResult(requestNumber, createdAt, flowTitle, outcome) {
   const name = state.answers.full_name || "-";
 
+  setFrameOpen(false);
   resultCard.classList.remove("hidden");
   resultCard.innerHTML = `
     <h3 class="text-base font-extrabold text-emerald-900">تم إصدار رقم الطلب بنجاح</h3>
@@ -1056,6 +1073,12 @@ function showSystemAlert(message, type = "warn") {
 function clearSystemAlert() {
   systemAlert.classList.add("hidden");
   systemAlert.textContent = "";
+}
+
+function setFrameOpen(isOpen) {
+  frameBackdrop.classList.toggle("hidden", !isOpen);
+  document.body.classList.toggle("overflow-hidden", isOpen);
+  document.body.classList.toggle("h-screen", isOpen);
 }
 
 function formatDate(dateValue) {

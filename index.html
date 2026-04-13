@@ -38,9 +38,9 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="min-h-screen bg-waqf-50 font-cairo text-waqf-900">
+  <body class="min-h-screen bg-gradient-to-b from-waqf-100 via-waqf-50 to-[#efe3dd] font-cairo text-waqf-900">
     <main class="mx-auto max-w-4xl px-4 py-6 md:py-10">
-      <header class="rounded-2xl border border-waqf-200 bg-white p-5 md:p-7">
+      <header class="rounded-2xl border border-waqf-300 bg-[#f8f0ec] p-5 shadow-sm md:p-7">
         <p class="text-xs font-bold text-waqf-600">جمعية مدكر لتحفيظ القرآن الكريم</p>
         <h1 class="mt-2 text-2xl font-extrabold leading-relaxed md:text-3xl">منصة الأوقاف</h1>
         <p class="mt-2 text-sm leading-7 text-waqf-700">
@@ -52,14 +52,14 @@
         <button
           id="tab-start"
           type="button"
-          class="rounded-xl border border-waqf-300 bg-white px-4 py-3 text-sm font-bold text-waqf-800"
+          class="rounded-xl border border-waqf-400 bg-[#fff7f3] px-4 py-3 text-sm font-bold text-waqf-900"
         >
           طلب جديد
         </button>
         <button
           id="tab-track"
           type="button"
-          class="rounded-xl border border-transparent bg-waqf-100 px-4 py-3 text-sm font-bold text-waqf-700"
+          class="rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-bold text-waqf-800"
         >
           متابعة طلب
         </button>
@@ -71,83 +71,98 @@
       ></section>
 
       <section id="start-view" class="mt-4 space-y-4">
-        <section id="flow-section" class="rounded-2xl border border-waqf-200 bg-white p-4 md:p-5">
+        <section id="flow-section" class="rounded-2xl border border-waqf-300 bg-[#fbf4f0] p-4 shadow-sm md:p-5">
           <h2 class="text-base font-extrabold text-waqf-800">اختر نوع الطلب</h2>
           <p class="mt-1 text-sm text-waqf-700">اختر خيارًا واحدًا للانتقال مباشرة إلى أسئلة هذا المسار.</p>
           <div id="flow-list" class="mt-4 grid gap-3"></div>
         </section>
 
-        <section id="wizard-section" class="hidden rounded-2xl border border-waqf-200 bg-white p-4 md:p-5">
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <h2 id="wizard-title" class="text-base font-extrabold text-waqf-800"></h2>
-            <p id="steps-meta" class="text-xs font-bold text-waqf-600"></p>
-          </div>
+        <div id="flow-frame-backdrop" class="fixed inset-0 z-30 hidden bg-waqf-900/45 backdrop-blur-[2px]"></div>
 
-          <div id="stepper" class="mt-3 flex items-center gap-2 overflow-x-auto pb-2"></div>
+        <section id="wizard-section" class="hidden fixed inset-0 z-40 p-2 md:p-6">
+          <div class="mx-auto flex h-[calc(100vh-1rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-waqf-400 bg-[#f7efea] shadow-2xl md:h-[88vh]">
+            <div class="border-b border-waqf-300 bg-waqf-100/90 p-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h2 id="wizard-title" class="text-base font-extrabold text-waqf-900"></h2>
+                <p id="steps-meta" class="text-xs font-bold text-waqf-700"></p>
+              </div>
+              <div id="stepper" class="mt-3 flex items-center gap-2 overflow-x-auto pb-2"></div>
+            </div>
 
-          <div class="mt-4 rounded-xl border border-waqf-200 bg-waqf-50 p-4">
-            <h3 id="question-label" class="text-sm font-extrabold text-waqf-900"></h3>
-            <p id="question-help" class="mt-1 text-sm text-waqf-700"></p>
-            <div id="question-input" class="mt-4 space-y-2"></div>
-            <p id="question-hint" class="mt-3 hidden text-xs font-semibold text-waqf-600"></p>
-          </div>
+            <div class="flex-1 overflow-y-auto p-4">
+              <div class="rounded-xl border border-waqf-300 bg-white/80 p-4">
+                <h3 id="question-label" class="text-sm font-extrabold text-waqf-900"></h3>
+                <p id="question-help" class="mt-1 text-sm text-waqf-800"></p>
+                <div id="question-input" class="mt-4 space-y-2"></div>
+                <p id="question-hint" class="mt-3 hidden text-xs font-semibold text-waqf-700"></p>
+              </div>
+              <p id="question-error" class="mt-3 hidden rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700"></p>
+            </div>
 
-          <p id="question-error" class="mt-3 hidden rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700"></p>
-
-          <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
-            <button
-              id="btn-cancel"
-              type="button"
-              class="rounded-lg border border-waqf-300 px-3 py-2 text-sm font-bold text-waqf-700"
-            >
-              تغيير المسار
-            </button>
-            <div class="flex gap-2">
-              <button
-                id="btn-back"
-                type="button"
-                class="rounded-lg border border-waqf-300 px-3 py-2 text-sm font-bold text-waqf-700"
-              >
-                السابق
-              </button>
-              <button
-                id="btn-next"
-                type="button"
-                class="rounded-lg bg-waqf-700 px-4 py-2 text-sm font-bold text-white"
-              >
-                التالي
-              </button>
+            <div class="border-t border-waqf-300 bg-[#fdf8f6] p-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <button
+                  id="btn-cancel"
+                  type="button"
+                  class="rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm font-bold text-waqf-800"
+                >
+                  تغيير المسار
+                </button>
+                <div class="flex gap-2">
+                  <button
+                    id="btn-back"
+                    type="button"
+                    class="rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm font-bold text-waqf-800"
+                  >
+                    السابق
+                  </button>
+                  <button
+                    id="btn-next"
+                    type="button"
+                    class="rounded-lg bg-waqf-800 px-4 py-2 text-sm font-bold text-white"
+                  >
+                    التالي
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        <section id="draft-section" class="hidden rounded-2xl border border-waqf-200 bg-white p-4 md:p-5">
-          <h2 id="draft-title" class="text-base font-extrabold text-waqf-800">مسودة الطلب قبل الإرسال</h2>
-          <p class="mt-1 text-sm text-waqf-700">راجع البيانات التالية، ثم أصدر رقم الطلب رسميًا.</p>
-          <div id="draft-list" class="mt-4 space-y-2"></div>
-
-          <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
-            <button
-              id="btn-draft-back"
-              type="button"
-              class="rounded-lg border border-waqf-300 px-3 py-2 text-sm font-bold text-waqf-700"
-            >
-              العودة للتعديل
-            </button>
-            <button
-              id="btn-submit"
-              type="button"
-              class="rounded-lg bg-waqf-800 px-4 py-2 text-sm font-bold text-white"
-            >
-              إصدار رقم الطلب
-            </button>
+        <section id="draft-section" class="hidden fixed inset-0 z-40 p-2 md:p-6">
+          <div class="mx-auto flex h-[calc(100vh-1rem)] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-waqf-400 bg-[#f7efea] shadow-2xl md:h-[88vh]">
+            <div class="border-b border-waqf-300 bg-waqf-100/90 p-4">
+              <h2 id="draft-title" class="text-base font-extrabold text-waqf-900">مسودة الطلب قبل الإرسال</h2>
+              <p class="mt-1 text-sm text-waqf-800">راجع البيانات التالية، ثم أصدر رقم الطلب رسميًا.</p>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4">
+              <div id="draft-list" class="space-y-2"></div>
+            </div>
+            <div class="border-t border-waqf-300 bg-[#fdf8f6] p-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <button
+                  id="btn-draft-back"
+                  type="button"
+                  class="rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm font-bold text-waqf-800"
+                >
+                  العودة للتعديل
+                </button>
+                <button
+                  id="btn-submit"
+                  type="button"
+                  class="rounded-lg bg-waqf-800 px-4 py-2 text-sm font-bold text-white"
+                >
+                  إصدار رقم الطلب
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section id="result-card" class="hidden rounded-2xl border border-emerald-200 bg-emerald-50 p-4 md:p-5" aria-live="polite"></section>
+        <section id="result-card" class="hidden rounded-2xl border border-emerald-300 bg-emerald-100/70 p-4 shadow-sm md:p-5" aria-live="polite"></section>
       </section>
 
-      <section id="track-view" class="mt-4 hidden rounded-2xl border border-waqf-200 bg-white p-4 md:p-5">
+      <section id="track-view" class="mt-4 hidden rounded-2xl border border-waqf-300 bg-[#fbf4f0] p-4 shadow-sm md:p-5">
         <form id="track-form" class="grid gap-3 sm:grid-cols-[1fr,auto] sm:items-end" novalidate>
           <label class="space-y-2 text-sm font-bold text-waqf-800" for="request-number">
             <span>رقم الطلب</span>
