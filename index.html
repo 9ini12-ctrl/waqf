@@ -3,243 +3,937 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>منصة الأوقاف</title>
+    <title>منصة مدكر للأوقاف</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
-    <script>
-      window.tailwind = window.tailwind || {};
-      window.tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              tajawal: ["Tajawal", "sans-serif"]
-            },
-            colors: {
-              waqf: {
-                50: "#f4f7fb",
-                100: "#e8eef7",
-                200: "#d5dfec",
-                300: "#b9c8dd",
-                400: "#91a8c6",
-                500: "#6a85ab",
-                600: "#516889",
-                700: "#3c4f6b",
-                800: "#29384f",
-                900: "#131d2c"
-              },
-              accent: {
-                50: "#edf6ff",
-                100: "#d8ebff",
-                200: "#b4d8ff",
-                500: "#0a84ff",
-                600: "#0077ed",
-                700: "#0065cb"
-              }
-            },
-            boxShadow: {
-              shell: "0 28px 80px rgba(18, 29, 44, 0.18)",
-              panel: "0 24px 50px rgba(18, 29, 44, 0.16)",
-              card: "0 10px 26px rgba(18, 29, 44, 0.08)",
-              soft: "0 3px 12px rgba(18, 29, 44, 0.06)"
-            }
-          }
-        }
-      };
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      @keyframes cardPulse {
+      :root {
+        --bg-0: #040a14;
+        --bg-1: #0a1426;
+        --bg-2: #102440;
+        --card: rgba(255, 255, 255, 0.07);
+        --card-strong: rgba(255, 255, 255, 0.13);
+        --line: rgba(255, 255, 255, 0.16);
+        --text: #f5f9ff;
+        --muted: #9bb0cf;
+        --accent: #00d0ff;
+        --accent-2: #4cffc7;
+        --error: #ff7a93;
+        --shadow-xl: 0 26px 70px rgba(0, 0, 0, 0.45);
+        --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.28);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        font-family: "Tajawal", sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at 15% 20%, #11315a 0%, transparent 38%),
+          radial-gradient(circle at 85% 0%, #0e4a54 0%, transparent 42%),
+          linear-gradient(180deg, #02060f 0%, #070f1d 58%, #091226 100%);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .app-shell {
+        position: relative;
+        width: 100%;
+        max-width: 440px;
+        min-height: 100dvh;
+        margin: 0 auto;
+        overflow: hidden;
+        background: linear-gradient(160deg, var(--bg-0) 0%, var(--bg-1) 45%, var(--bg-2) 100%);
+      }
+
+      @media (min-width: 880px) {
+        .app-shell {
+          margin-top: 18px;
+          margin-bottom: 18px;
+          min-height: calc(100dvh - 36px);
+          border-radius: 36px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: var(--shadow-xl);
+        }
+      }
+
+      .ambient {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .orb {
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(55px);
+        opacity: 0.45;
+      }
+
+      .orb-a {
+        width: 210px;
+        height: 210px;
+        top: -68px;
+        left: 30%;
+        background: #23b9ff;
+      }
+
+      .orb-b {
+        width: 230px;
+        height: 230px;
+        bottom: -96px;
+        right: -48px;
+        background: #28ffd7;
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .header-wrap {
+        padding: calc(env(safe-area-inset-top) + 12px) 16px 12px;
+      }
+
+      .hero {
+        border: 1px solid var(--line);
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
+        backdrop-filter: blur(14px);
+        border-radius: 26px;
+        padding: 14px;
+        box-shadow: var(--shadow-md);
+      }
+
+      .hero-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .eyebrow {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.45px;
+      }
+
+      .title {
+        margin: 3px 0 0;
+        font-size: 20px;
+        line-height: 1.6;
+        font-weight: 800;
+      }
+
+      .hero-sub {
+        margin: 8px 0 0;
+        font-size: 12px;
+        line-height: 1.9;
+        color: #d3e2f8;
+      }
+
+      .admin-link {
+        text-decoration: none;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 6px 11px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .kpi-row {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .kpi {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 14px;
+        padding: 8px 6px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      .kpi strong {
+        display: block;
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--accent-2);
+      }
+
+      .kpi span {
+        display: block;
+        margin-top: 2px;
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+
+      .segment-wrap {
+        padding: 0 16px;
+      }
+
+      .segment {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 6px;
+      }
+
+      .seg-btn {
+        width: 100%;
+        border: 1px solid transparent;
+        border-radius: 14px;
+        padding: 11px 10px;
+        background: transparent;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .seg-active {
+        background: linear-gradient(145deg, rgba(0, 208, 255, 0.24), rgba(0, 208, 255, 0.1));
+        border-color: rgba(0, 208, 255, 0.45);
+        color: #f4ffff;
+      }
+
+      .system-alert {
+        margin: 9px 0 0;
+        border-radius: 14px;
+        border: 1px solid;
+        padding: 10px 12px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.7;
+      }
+
+      .system-alert.warn {
+        background: rgba(0, 208, 255, 0.12);
+        border-color: rgba(0, 208, 255, 0.45);
+        color: #bcefff;
+      }
+
+      .system-alert.error {
+        background: rgba(255, 122, 147, 0.1);
+        border-color: rgba(255, 122, 147, 0.45);
+        color: #ffc0d2;
+      }
+
+      .main-scroll {
+        padding: 12px 16px 118px;
+      }
+
+      #start-view,
+      #track-view {
+        display: grid;
+        gap: 10px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        background: var(--card);
+        border-radius: 24px;
+        padding: 14px;
+        backdrop-filter: blur(12px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .panel-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .panel-help {
+        margin: 5px 0 0;
+        color: #bed0eb;
+        font-size: 12px;
+        line-height: 1.8;
+      }
+
+      .flow-list {
+        margin-top: 12px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .route-card {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 18px;
+        padding: 12px;
+        text-align: right;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .route-kicker {
+        margin: 0;
+        font-size: 11px;
+        font-weight: 700;
+        color: #d2e7ff;
+      }
+
+      .route-title {
+        margin: 6px 0 0;
+        font-size: 14px;
+        line-height: 1.8;
+        font-weight: 800;
+      }
+
+      .route-desc {
+        margin: 4px 0 0;
+        font-size: 12px;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .route-meta {
+        margin-top: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        font-weight: 700;
+        color: #cde0f8;
+      }
+
+      .preview-wrap {
+        display: grid;
+        gap: 10px;
+      }
+
+      .progress-bar {
+        margin-top: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.16);
+        overflow: hidden;
+      }
+
+      .progress-value {
+        height: 100%;
+        width: 0;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        transition: width 240ms ease;
+      }
+
+      .preview-card {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 22px;
+        padding: 13px;
+      }
+
+      .preview-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+
+      .preview-list {
+        margin-top: 9px;
+        display: grid;
+        gap: 7px;
+      }
+
+      .preview-row {
+        border: 1px solid;
+        border-radius: 12px;
+        padding: 8px 10px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .preview-row.filled {
+        border-color: rgba(76, 255, 199, 0.45);
+        background: rgba(76, 255, 199, 0.1);
+        color: #e6fff7;
+      }
+
+      .preview-row.pending {
+        border-color: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--muted);
+      }
+
+      .result-card {
+        border: 1px solid rgba(76, 255, 199, 0.45);
+        background: rgba(76, 255, 199, 0.12);
+      }
+
+      .result-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .result-list {
+        margin-top: 10px;
+        display: grid;
+        gap: 7px;
+      }
+
+      .result-item {
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(0, 0, 0, 0.2);
+        padding: 8px 10px;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      .result-actions {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .action-btn {
+        border-radius: 13px;
+        border: 1px solid var(--line);
+        padding: 10px 8px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .action-btn.secondary {
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--text);
+      }
+
+      .action-btn.primary {
+        background: linear-gradient(90deg, var(--accent), #1ba8ff);
+        border-color: rgba(0, 208, 255, 0.55);
+        color: #001629;
+      }
+
+      .track-form {
+        margin-top: 10px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .field-label {
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .field-control {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 13px;
+        background: rgba(0, 0, 0, 0.2);
+        color: var(--text);
+        padding: 10px 12px;
+        font: inherit;
+      }
+
+      .field-control::placeholder {
+        color: #7f96ba;
+      }
+
+      .field-control:focus {
+        outline: 2px solid rgba(0, 208, 255, 0.38);
+        border-color: rgba(0, 208, 255, 0.5);
+      }
+
+      .btn-primary {
+        width: 100%;
+        border: 1px solid rgba(0, 208, 255, 0.52);
+        border-radius: 13px;
+        background: linear-gradient(90deg, var(--accent), #1ba8ff);
+        color: #001629;
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .empty-card {
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.06);
+        padding: 10px 12px;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      .empty-card.error {
+        border-color: rgba(255, 122, 147, 0.42);
+        background: rgba(255, 122, 147, 0.12);
+        color: #ffd0db;
+      }
+
+      .track-card {
+        border: 1px solid var(--line);
+        background: var(--card);
+        border-radius: 22px;
+        padding: 13px;
+        backdrop-filter: blur(10px);
+      }
+
+      .track-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .track-meta {
+        margin-top: 8px;
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        line-height: 1.7;
+        color: #d3e4fd;
+      }
+
+      .section-cap {
+        margin: 10px 0 0;
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--muted);
+      }
+
+      .chip-list {
+        margin-top: 7px;
+        display: grid;
+        gap: 7px;
+      }
+
+      .chip {
+        border: 1px solid rgba(76, 255, 199, 0.38);
+        border-radius: 12px;
+        background: rgba(76, 255, 199, 0.12);
+        padding: 8px 10px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .timeline-item {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 8px 10px;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+
+      .sheet-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(3, 8, 16, 0.62);
+        backdrop-filter: blur(2px);
+        z-index: 30;
+      }
+
+      .sheet-panel {
+        position: fixed;
+        inset-inline: 0;
+        bottom: 0;
+        z-index: 40;
+        padding: 0 7px max(env(safe-area-inset-bottom), 8px);
+      }
+
+      .sheet-shell {
+        width: 100%;
+        max-width: 440px;
+        margin: 0 auto;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 28px 28px 0 0;
+        background: linear-gradient(180deg, rgba(10, 20, 34, 0.96), rgba(8, 16, 28, 0.97));
+        box-shadow: var(--shadow-xl);
+      }
+
+      .sheet-handle {
+        margin: 8px auto 0;
+        width: 58px;
+        height: 5px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.24);
+      }
+
+      .sheet-head {
+        padding: 10px 14px 0;
+      }
+
+      .sheet-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .sheet-title {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .close-btn {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.09);
+        color: var(--text);
+        padding: 5px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .sheet-meta {
+        margin: 5px 0 0;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+      }
+
+      .sheet-stepper {
+        margin-top: 7px;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+      }
+
+      .stepper-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+
+      .step-dot {
+        display: inline-flex;
+        width: 22px;
+        height: 22px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.06);
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .step-dot.active {
+        border-color: rgba(0, 208, 255, 0.62);
+        background: rgba(0, 208, 255, 0.24);
+        color: #f2ffff;
+      }
+
+      .step-dot.done {
+        border-color: rgba(76, 255, 199, 0.55);
+        background: rgba(76, 255, 199, 0.18);
+        color: #dcfff3;
+      }
+
+      .step-line {
+        width: 14px;
+        height: 2px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .step-line.done {
+        background: rgba(76, 255, 199, 0.55);
+      }
+
+      .sheet-body {
+        max-height: 56vh;
+        overflow-y: auto;
+        padding: 0 14px 7px;
+      }
+
+      .question-card {
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.06);
+        padding: 12px;
+      }
+
+      .question-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .question-help {
+        margin: 4px 0 0;
+        color: #c2d5f3;
+        font-size: 12px;
+        line-height: 1.8;
+      }
+
+      .sheet-options {
+        margin-top: 10px;
+        display: grid;
+        gap: 7px;
+      }
+
+      .choice-btn {
+        width: 100%;
+        text-align: right;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.22);
+        color: var(--text);
+        padding: 10px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .choice-btn.is-selected {
+        border-color: rgba(0, 208, 255, 0.55);
+        background: rgba(0, 208, 255, 0.18);
+        color: #d8f8ff;
+      }
+
+      .sheet-hint {
+        margin: 7px 0 0;
+        font-size: 11px;
+        font-weight: 700;
+        color: #92ffc9;
+      }
+
+      .sheet-error {
+        margin-top: 8px;
+        border: 1px solid rgba(255, 122, 147, 0.44);
+        border-radius: 12px;
+        background: rgba(255, 122, 147, 0.12);
+        color: #ffc5d3;
+        padding: 8px 10px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .sheet-foot {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 10px 14px 12px;
+      }
+
+      .sheet-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .btn {
+        border-radius: 14px;
+        padding: 10px 10px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .btn-ghost {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text);
+      }
+
+      .btn-next {
+        border: 1px solid rgba(0, 208, 255, 0.58);
+        background: linear-gradient(90deg, var(--accent), #17b8ff);
+        color: #001629;
+      }
+
+      .btn-submit {
+        grid-column: 1 / -1;
+        border: 1px solid rgba(76, 255, 199, 0.5);
+        background: linear-gradient(90deg, #4cffc7, #24d9ff);
+        color: #002019;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .preview-bump {
+        animation: bump 280ms ease;
+      }
+
+      @keyframes bump {
         0% {
           transform: scale(1);
         }
         45% {
-          transform: scale(1.012);
+          transform: scale(1.01);
         }
         100% {
           transform: scale(1);
         }
       }
-
-      .preview-bump {
-        animation: cardPulse 300ms ease;
-      }
     </style>
   </head>
-  <body class="min-h-screen bg-[#dbe3ef] font-tajawal text-waqf-900">
-    <main
-      class="relative mx-auto flex w-full max-w-[430px] flex-col overflow-hidden bg-gradient-to-b from-[#f9fbff] via-waqf-50 to-waqf-100 md:my-5 md:min-h-[860px] md:rounded-[36px] md:border md:border-white/70 md:shadow-shell"
-      style="min-height: 100dvh"
-    >
-      <div class="pointer-events-none absolute inset-0 overflow-hidden">
-        <div class="absolute -top-20 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-accent-500/12 blur-3xl"></div>
-        <div class="absolute bottom-8 -left-16 h-56 w-56 rounded-full bg-waqf-400/18 blur-3xl"></div>
+  <body>
+    <main class="app-shell">
+      <div class="ambient" aria-hidden="true">
+        <span class="orb orb-a"></span>
+        <span class="orb orb-b"></span>
       </div>
 
-      <header class="relative z-10 px-4 pb-3 pt-4" style="padding-top: calc(env(safe-area-inset-top) + 12px)">
-        <div class="rounded-[26px] border border-white/75 bg-white/85 p-4 shadow-soft backdrop-blur">
-          <div class="flex items-start justify-between gap-2">
-            <div>
-              <p class="text-[11px] font-bold tracking-wide text-waqf-600">جمعية مدكر لتحفيظ القرآن الكريم</p>
-              <h1 class="mt-1 text-lg font-extrabold leading-8 text-waqf-900">منصة الأوقاف الذكية</h1>
+      <div class="content">
+        <header class="header-wrap">
+          <div class="hero">
+            <div class="hero-top">
+              <div>
+                <p class="eyebrow">MADKAR WAQF PLATFORM</p>
+                <h1 class="title">رحلة الوقف الرقمية</h1>
+              </div>
+              <a href="/admin.html" class="admin-link">الإدارة</a>
             </div>
-            <a
-              href="/admin.html"
-              class="rounded-full border border-waqf-200 bg-white px-3 py-1.5 text-[11px] font-bold text-waqf-700"
-              >إدارة</a
-            >
+            <p class="hero-sub">منصة تفاعلية لإصدار الطلبات الوقفية ومتابعتها من الهاتف بخطوات واضحة وسريعة.</p>
+            <div class="kpi-row" aria-hidden="true">
+              <div class="kpi">
+                <strong>4</strong>
+                <span>مسارات رئيسية</span>
+              </div>
+              <div class="kpi">
+                <strong>+1</strong>
+                <span>رقم طلب فوري</span>
+              </div>
+              <div class="kpi">
+                <strong>100%</strong>
+                <span>تتبع رقمي</span>
+              </div>
+            </div>
           </div>
-          <p class="mt-2 text-xs leading-6 text-waqf-700">
-            رحلة جوال سريعة: اختيار المسار، تعبئة الخيارات، إصدار رقم الطلب، ثم المتابعة من نفس الشاشة.
-          </p>
-        </div>
-      </header>
-
-      <section class="relative z-10 px-4">
-        <div class="grid grid-cols-2 gap-2 rounded-[20px] border border-white/80 bg-white/80 p-1.5 shadow-soft backdrop-blur">
-          <button
-            id="tab-start"
-            type="button"
-            class="w-full rounded-2xl bg-waqf-900 px-4 py-2.5 text-sm font-extrabold text-white"
-          >
-            طلب جديد
-          </button>
-          <button
-            id="tab-track"
-            type="button"
-            class="w-full rounded-2xl border border-waqf-100 bg-white px-4 py-2.5 text-sm font-bold text-waqf-700"
-          >
-            متابعة طلب
-          </button>
-        </div>
-
-        <section
-          id="system-alert"
-          class="mt-3 hidden rounded-2xl border border-accent-200 bg-accent-50 px-4 py-3 text-xs font-bold text-accent-700"
-        ></section>
-      </section>
-
-      <section class="relative z-10 flex-1 overflow-y-auto px-4 pb-28 pt-3">
-        <section id="start-view" class="space-y-3">
-          <section id="flow-section" class="rounded-[26px] border border-white/75 bg-white/90 p-4 shadow-soft backdrop-blur">
-            <div class="flex items-center justify-between gap-2">
-              <h2 class="text-sm font-extrabold text-waqf-900">اختر المسار</h2>
-              <span class="rounded-full bg-waqf-100 px-2 py-1 text-[11px] font-bold text-waqf-700">4 مسارات</span>
-            </div>
-            <p class="mt-1 text-xs leading-6 text-waqf-700">كل مسار يفتح لك رحلة مغلقة بخطوات واضحة حتى إصدار الطلب.</p>
-            <div id="flow-list" class="mt-3 space-y-2.5"></div>
-          </section>
-
-          <section id="preview-stage" class="hidden space-y-3">
-            <div class="rounded-[24px] border border-white/75 bg-white/92 p-4 shadow-soft">
-              <div class="flex items-center justify-between gap-2">
-                <h2 id="preview-route-title" class="text-sm font-extrabold text-waqf-900"></h2>
-                <p id="preview-progress" class="text-[11px] font-extrabold text-waqf-700"></p>
-              </div>
-              <div class="mt-3 h-2 rounded-full bg-waqf-100">
-                <div
-                  id="preview-progress-bar"
-                  class="h-2 rounded-full bg-gradient-to-r from-accent-500 to-accent-700 transition-all duration-300"
-                ></div>
-              </div>
-            </div>
-
-            <div id="preview-card" class="rounded-[24px] border border-white/80 bg-white/95 p-4 shadow-card">
-              <div class="mb-2 flex items-center justify-between">
-                <p class="text-[11px] font-bold tracking-wide text-waqf-500">DRAFT PREVIEW</p>
-                <span class="text-[11px] font-bold text-accent-600">يتحدث تلقائيًا</span>
-              </div>
-              <div id="preview-list" class="space-y-2"></div>
-            </div>
-          </section>
-
-          <section
-            id="result-card"
-            class="hidden rounded-[26px] border border-accent-200 bg-accent-50/85 p-4 shadow-soft"
-            aria-live="polite"
-          ></section>
-        </section>
-
-        <section id="track-view" class="hidden space-y-3">
-          <section class="rounded-[26px] border border-white/75 bg-white/90 p-4 shadow-soft">
-            <h2 class="text-sm font-extrabold text-waqf-900">متابعة الطلب</h2>
-            <p class="mt-1 text-xs leading-6 text-waqf-700">أدخل رقم الطلب أو استخدم الرابط المرسل إلى بريدك الإلكتروني.</p>
-
-            <form id="track-form" class="mt-3 space-y-2.5" novalidate>
-              <label class="block space-y-1.5 text-xs font-bold text-waqf-900" for="request-number">
-                <span>رقم الطلب</span>
-                <input
-                  id="request-number"
-                  name="request-number"
-                  type="text"
-                  placeholder="MDK-WQF-20260413-000001"
-                  required
-                  class="w-full rounded-2xl border border-waqf-200 bg-white px-3 py-2.5 text-sm text-waqf-900 outline-none transition focus:border-accent-500/40 focus:ring-2 focus:ring-accent-500/25"
-                />
-              </label>
-              <button type="submit" class="w-full rounded-2xl bg-accent-600 px-4 py-2.5 text-sm font-bold text-white">بحث</button>
-            </form>
-          </section>
-
-          <section id="track-result"></section>
-        </section>
-      </section>
-    </main>
-
-    <div id="sheet-backdrop" class="fixed inset-0 z-30 hidden bg-waqf-900/40 backdrop-blur-[2px]"></div>
-
-    <section id="sheet-panel" class="fixed inset-x-0 bottom-0 z-40 hidden px-2" style="padding-bottom: max(env(safe-area-inset-bottom), 8px)">
-      <div class="mx-auto w-full max-w-[430px] rounded-t-[30px] border border-white/80 bg-white/96 shadow-panel backdrop-blur">
-        <div class="mx-auto mt-2 h-1.5 w-16 rounded-full bg-waqf-300"></div>
-
-        <header class="px-4 pt-3">
-          <div class="flex items-center justify-between gap-2">
-            <h3 id="sheet-route-title" class="text-sm font-extrabold text-waqf-900"></h3>
-            <button id="sheet-close" type="button" class="rounded-full border border-waqf-200 bg-white px-3 py-1 text-xs font-bold text-waqf-700">
-              إغلاق
-            </button>
-          </div>
-          <p id="sheet-step-meta" class="mt-1 text-[11px] font-bold text-waqf-600"></p>
-          <div id="sheet-stepper" class="mt-2 flex items-center gap-1.5 overflow-x-auto pb-2"></div>
         </header>
 
-        <div class="max-h-[56vh] overflow-y-auto px-4 pb-2 pt-1">
-          <section class="rounded-[22px] border border-waqf-100 bg-waqf-50/60 p-3.5">
-            <h4 id="sheet-question-title" class="text-sm font-extrabold text-waqf-900"></h4>
-            <p id="sheet-question-help" class="mt-1 text-xs leading-6 text-waqf-700"></p>
-            <div id="sheet-options" class="mt-3 space-y-2"></div>
-            <p id="sheet-hint" class="mt-2 hidden text-[11px] font-bold text-accent-700"></p>
+        <section class="segment-wrap">
+          <div class="segment">
+            <button id="tab-start" type="button" class="seg-btn seg-active">طلب جديد</button>
+            <button id="tab-track" type="button" class="seg-btn">متابعة طلب</button>
+          </div>
+
+          <section id="system-alert" class="system-alert hidden"></section>
+        </section>
+
+        <section class="main-scroll">
+          <section id="start-view">
+            <section id="flow-section" class="panel">
+              <h2 class="panel-title">اختر نوع طلبك</h2>
+              <p class="panel-help">اضغط على المسار المناسب لك، ثم أكمل الخطوات حتى إصدار الطلب.</p>
+              <div id="flow-list" class="flow-list"></div>
+            </section>
+
+            <section id="preview-stage" class="hidden preview-wrap">
+              <section class="panel">
+                <div style="display: flex; justify-content: space-between; gap: 8px; align-items: center">
+                  <h2 id="preview-route-title" class="panel-title"></h2>
+                  <p id="preview-progress" class="eyebrow" style="color: var(--muted)"></p>
+                </div>
+                <div class="progress-bar">
+                  <div id="preview-progress-bar" class="progress-value"></div>
+                </div>
+              </section>
+
+              <section id="preview-card" class="preview-card">
+                <div class="preview-meta">
+                  <span>DRAFT PREVIEW</span>
+                  <span>يتحدث تلقائيًا</span>
+                </div>
+                <div id="preview-list" class="preview-list"></div>
+              </section>
+            </section>
+
+            <section id="result-card" class="panel result-card hidden" aria-live="polite"></section>
           </section>
 
-          <p id="sheet-error" class="mt-2 hidden rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700"></p>
+          <section id="track-view" class="hidden">
+            <section class="panel">
+              <h2 class="panel-title">متابعة الطلب</h2>
+              <p class="panel-help">أدخل رقم الطلب لمعرفة الحالة وسجل التحديثات.</p>
+
+              <form id="track-form" class="track-form" novalidate>
+                <label class="field-label" for="request-number">
+                  <span>رقم الطلب</span>
+                  <input
+                    id="request-number"
+                    name="request-number"
+                    type="text"
+                    placeholder="MDK-WQF-20260413-000001"
+                    required
+                    class="field-control"
+                  />
+                </label>
+                <button type="submit" class="btn-primary">بحث</button>
+              </form>
+            </section>
+
+            <section id="track-result" style="margin-top: 10px"></section>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <div id="sheet-backdrop" class="sheet-backdrop hidden"></div>
+
+    <section id="sheet-panel" class="sheet-panel hidden">
+      <div class="sheet-shell">
+        <div class="sheet-handle"></div>
+
+        <header class="sheet-head">
+          <div class="sheet-title-row">
+            <h3 id="sheet-route-title" class="sheet-title"></h3>
+            <button id="sheet-close" type="button" class="close-btn">إغلاق</button>
+          </div>
+          <p id="sheet-step-meta" class="sheet-meta"></p>
+          <div id="sheet-stepper" class="sheet-stepper"></div>
+        </header>
+
+        <div class="sheet-body">
+          <section class="question-card">
+            <h4 id="sheet-question-title" class="question-title"></h4>
+            <p id="sheet-question-help" class="question-help"></p>
+            <div id="sheet-options" class="sheet-options"></div>
+            <p id="sheet-hint" class="sheet-hint hidden"></p>
+          </section>
+
+          <p id="sheet-error" class="sheet-error hidden"></p>
         </div>
 
-        <footer class="border-t border-waqf-100 bg-white/95 px-4 pb-4 pt-3">
-          <div class="grid grid-cols-2 gap-2">
-            <button
-              id="sheet-back"
-              type="button"
-              class="rounded-2xl border border-waqf-200 bg-white px-3 py-2.5 text-sm font-bold text-waqf-900"
-            >
-              السابق
-            </button>
-            <button
-              id="sheet-next"
-              type="button"
-              class="rounded-2xl bg-accent-600 px-4 py-2.5 text-sm font-bold text-white"
-            >
-              التالي
-            </button>
-            <button
-              id="sheet-submit"
-              type="button"
-              class="col-span-2 hidden rounded-2xl bg-waqf-900 px-4 py-2.5 text-sm font-bold text-white"
-            >
-              إصدار الطلب
-            </button>
+        <footer class="sheet-foot">
+          <div class="sheet-actions">
+            <button id="sheet-back" type="button" class="btn btn-ghost">السابق</button>
+            <button id="sheet-next" type="button" class="btn btn-next">التالي</button>
+            <button id="sheet-submit" type="button" class="btn btn-submit hidden">إصدار الطلب</button>
           </div>
         </footer>
       </div>

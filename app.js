@@ -374,13 +374,8 @@ function setTab(tab) {
   state.tab = tab;
   const isStart = tab === "start";
 
-  tabStart.className = isStart
-    ? "w-full rounded-2xl bg-waqf-900 px-4 py-2.5 text-sm font-extrabold text-white transition"
-    : "w-full rounded-2xl border border-waqf-100 bg-white px-4 py-2.5 text-sm font-bold text-waqf-700 transition";
-
-  tabTrack.className = !isStart
-    ? "w-full rounded-2xl bg-waqf-900 px-4 py-2.5 text-sm font-extrabold text-white transition"
-    : "w-full rounded-2xl border border-waqf-100 bg-white px-4 py-2.5 text-sm font-bold text-waqf-700 transition";
+  tabStart.className = isStart ? "seg-btn seg-active" : "seg-btn";
+  tabTrack.className = !isStart ? "seg-btn seg-active" : "seg-btn";
 
   startView.classList.toggle("hidden", !isStart);
   trackView.classList.toggle("hidden", isStart);
@@ -396,19 +391,17 @@ function renderFlowList() {
       <button
         type="button"
         data-flow-id="${flow.id}"
-        class="group w-full rounded-[22px] border border-white/80 bg-white/95 px-4 py-4 text-right shadow-soft transition active:scale-[0.995]"
+        class="route-card"
       >
-        <div class="flex items-center justify-between gap-2">
-          <span class="inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-waqf-100 px-2 text-[11px] font-extrabold text-waqf-700">
-            ${String(idx + 1).padStart(2, "0")}
-          </span>
-          <span class="text-[11px] font-bold text-waqf-600">${flow.questions.length + CONTACT_STEPS.length} خطوات</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <p class="route-kicker">المسار ${String(idx + 1).padStart(2, "0")}</p>
+          <span class="route-kicker">${flow.questions.length + CONTACT_STEPS.length} خطوات</span>
         </div>
-        <p class="mt-2 text-sm font-extrabold leading-7 text-waqf-900">${flow.title}</p>
-        <p class="mt-1 text-xs font-semibold leading-6 text-waqf-700">${flow.description}</p>
-        <div class="mt-3 flex items-center justify-between">
-          <span class="text-xs font-bold text-accent-700">ابدأ المسار</span>
-          <span class="text-lg leading-none text-accent-700">‹</span>
+        <p class="route-title">${flow.title}</p>
+        <p class="route-desc">${flow.description}</p>
+        <div class="route-meta">
+          <span>ابدأ المسار</span>
+          <span>⟨</span>
         </div>
       </button>
     `
@@ -508,7 +501,7 @@ function renderStep() {
   renderSheetStepper(steps.length, state.stepIndex);
 
   sheetBack.disabled = state.stepIndex === 0;
-  sheetBack.classList.toggle("opacity-50", state.stepIndex === 0);
+  sheetBack.style.opacity = state.stepIndex === 0 ? "0.5" : "1";
 
   if (state.submitting) {
     sheetSubmit.disabled = true;
@@ -541,18 +534,13 @@ function renderSheetStepper(total, active) {
     const done = idx < active;
     const isLast = idx === total - 1;
 
-    const badge = isActive
-      ? "border-accent-600 bg-accent-600 text-white"
-      : done
-        ? "border-accent-200 bg-accent-100 text-accent-700"
-        : "border-waqf-200 bg-white text-waqf-500";
-
-    const line = done ? "bg-accent-500" : "bg-waqf-200";
+    const badge = isActive ? "step-dot active" : done ? "step-dot done" : "step-dot";
+    const line = done ? "step-line done" : "step-line";
 
     return `
-      <span class="inline-flex shrink-0 items-center gap-1.5">
-        <span class="inline-flex h-6 w-6 items-center justify-center rounded-full border text-[10px] font-extrabold ${badge}">${number}</span>
-        ${isLast ? "" : `<span class="h-[2px] w-4 rounded-full ${line}"></span>`}
+      <span class="stepper-item">
+        <span class="${badge}">${number}</span>
+        ${isLast ? "" : `<span class="${line}"></span>`}
       </span>
     `;
   }).join("");
@@ -570,11 +558,7 @@ function renderControl(step) {
             type="button"
             data-choice-id="${step.id}"
             data-choice-value="${option.value}"
-            class="w-full rounded-2xl border px-3 py-3 text-right text-sm font-bold transition ${
-              selected
-                ? "border-accent-500 bg-accent-50 text-accent-700 shadow-soft"
-                : "border-waqf-200 bg-white text-waqf-900"
-            }"
+            class="choice-btn ${selected ? "is-selected" : ""}"
           >
             ${option.label}
           </button>
@@ -589,7 +573,7 @@ function renderControl(step) {
         name="${step.id}"
         rows="4"
         placeholder="${step.placeholder || ""}"
-        class="w-full rounded-2xl border border-waqf-200 bg-white px-3 py-2.5 text-sm text-waqf-900 outline-none transition focus:border-accent-500/40 focus:ring-2 focus:ring-accent-500/25"
+        class="field-control"
       >${escapeHtml(value)}</textarea>
     `;
   }
@@ -603,7 +587,7 @@ function renderControl(step) {
       min="${step.min ?? ""}"
       max="${step.max ?? ""}"
       step="${step.step ?? ""}"
-      class="w-full rounded-2xl border border-waqf-200 bg-white px-3 py-2.5 text-sm text-waqf-900 outline-none transition focus:border-accent-500/40 focus:ring-2 focus:ring-accent-500/25"
+      class="field-control"
     />
   `;
 }
@@ -763,8 +747,8 @@ function renderPreview() {
       const valueText = hasValue ? escapeHtml(formatStepValue(step, rawValue)) : "بانتظار";
 
       return `
-        <div class="rounded-2xl border px-3 py-2 text-xs ${
-          hasValue ? "border-accent-200 bg-accent-50 text-waqf-900" : "border-waqf-200 bg-white text-waqf-500"
+        <div class="preview-row ${
+          hasValue ? "filled" : "pending"
         }">
           <strong>${escapeHtml(step.label)}:</strong> ${valueText}
         </div>
@@ -913,28 +897,28 @@ function renderResult({ requestNumber, createdAt, flowTitle, outcome, trackingUr
   resultCard.classList.remove("hidden");
 
   const trackingLinkBlock = trackingUrl
-    ? `<div class="rounded-2xl border border-accent-200 bg-white px-3 py-2 text-xs"><strong>رابط المتابعة:</strong> <a class="font-bold text-accent-700 underline" href="${trackingUrl}" target="_blank" rel="noopener">فتح صفحة المتابعة</a></div>`
+    ? `<div class="result-item"><strong>رابط المتابعة:</strong> <a class="muted" href="${trackingUrl}" target="_blank" rel="noopener">فتح صفحة المتابعة</a></div>`
     : "";
 
   const emailBlock = emailStatus
-    ? `<div class="rounded-2xl border border-accent-200 bg-white px-3 py-2 text-xs">${escapeHtml(emailStatus)}</div>`
+    ? `<div class="result-item">${escapeHtml(emailStatus)}</div>`
     : "";
 
   resultCard.innerHTML = `
-    <h3 class="text-sm font-extrabold text-waqf-900">تم إصدار الطلب بنجاح</h3>
-    <div class="mt-3 space-y-2 text-sm text-waqf-900">
-      <div class="rounded-2xl border border-accent-200 bg-white px-3 py-2"><strong>رقم الطلب:</strong> ${escapeHtml(requestNumber)}</div>
-      <div class="rounded-2xl border border-accent-200 bg-white px-3 py-2"><strong>المسار:</strong> ${escapeHtml(flowTitle)}</div>
-      <div class="rounded-2xl border border-accent-200 bg-white px-3 py-2"><strong>الحالة:</strong> ${escapeHtml(outcome.status)}</div>
-      <div class="rounded-2xl border border-accent-200 bg-white px-3 py-2"><strong>التوصية:</strong> ${escapeHtml(outcome.recommendation)}</div>
-      <div class="rounded-2xl border border-accent-200 bg-white px-3 py-2"><strong>تاريخ الإنشاء:</strong> ${formatDate(createdAt || new Date().toISOString())}</div>
+    <h3 class="result-title">تم إصدار الطلب بنجاح</h3>
+    <div class="result-list">
+      <div class="result-item"><strong>رقم الطلب:</strong> ${escapeHtml(requestNumber)}</div>
+      <div class="result-item"><strong>المسار:</strong> ${escapeHtml(flowTitle)}</div>
+      <div class="result-item"><strong>الحالة:</strong> ${escapeHtml(outcome.status)}</div>
+      <div class="result-item"><strong>التوصية:</strong> ${escapeHtml(outcome.recommendation)}</div>
+      <div class="result-item"><strong>تاريخ الإنشاء:</strong> ${formatDate(createdAt || new Date().toISOString())}</div>
       ${emailBlock}
       ${trackingLinkBlock}
     </div>
 
-    <div class="mt-4 grid grid-cols-2 gap-2">
-      <button id="result-new" type="button" class="rounded-2xl border border-waqf-200 bg-white px-4 py-2.5 text-sm font-bold text-waqf-800">طلب جديد</button>
-      <button id="result-track-tab" type="button" class="rounded-2xl bg-accent-600 px-4 py-2.5 text-sm font-bold text-white">متابعة</button>
+    <div class="result-actions">
+      <button id="result-new" type="button" class="action-btn secondary">طلب جديد</button>
+      <button id="result-track-tab" type="button" class="action-btn primary">متابعة</button>
     </div>
   `;
 
@@ -1051,7 +1035,7 @@ async function onTrackSubmit(event) {
     const request = Array.isArray(data) ? data[0] : data;
     if (!request) {
       trackResult.innerHTML =
-        '<p class="rounded-2xl border border-rose-200 bg-rose-50/80 px-3 py-3 text-sm font-semibold text-rose-700">لا يوجد طلب بهذا الرقم.</p>';
+        '<p class="empty-card error">لا يوجد طلب بهذا الرقم.</p>';
       return;
     }
 
@@ -1059,47 +1043,47 @@ async function onTrackSubmit(event) {
     const requiredActions = Array.isArray(request.required_actions) ? request.required_actions : [];
 
     trackResult.innerHTML = `
-      <article class="rounded-[24px] border border-white/80 bg-white/95 p-4 shadow-soft">
-        <h3 class="text-sm font-extrabold text-waqf-900">رقم الطلب: ${escapeHtml(request.request_number)}</h3>
-        <div class="mt-2 space-y-2 text-xs leading-6 text-waqf-800">
+      <article class="track-card">
+        <h3 class="track-title">رقم الطلب: ${escapeHtml(request.request_number)}</h3>
+        <div class="track-meta">
           <p><strong>المسار:</strong> ${escapeHtml(request.option_title)}</p>
           <p><strong>الحالة:</strong> ${escapeHtml(request.status)}</p>
           <p><strong>النتيجة:</strong> ${escapeHtml(request.route_result)}</p>
           <p><strong>آخر تحديث:</strong> ${formatDate(request.updated_at || request.created_at)}</p>
         </div>
 
-        <div class="mt-3">
-          <p class="text-xs font-extrabold text-waqf-700">المطلوب حاليًا</p>
-          <div class="mt-2 space-y-2">
+        <div>
+          <p class="section-cap">المطلوب حاليًا</p>
+          <div class="chip-list">
             ${
               requiredActions.length
                 ? requiredActions
                     .map(
                       (action) =>
-                        `<div class="rounded-2xl border border-accent-200 bg-accent-50 px-3 py-2 text-xs text-waqf-900">${escapeHtml(action)}</div>`
+                        `<div class="chip">${escapeHtml(action)}</div>`
                     )
                     .join("")
-                : '<div class="rounded-2xl border border-waqf-200 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا توجد متطلبات إضافية.</div>'
+                : '<div class="empty-card">لا توجد متطلبات إضافية.</div>'
             }
           </div>
         </div>
 
-        <div class="mt-3">
-          <p class="text-xs font-extrabold text-waqf-700">سجل الحالة</p>
-          <div class="mt-2 space-y-2">
+        <div>
+          <p class="section-cap">سجل الحالة</p>
+          <div class="chip-list">
             ${
               timeline.length
                 ? timeline
                     .map(
                       (item) =>
-                        `<div class="rounded-2xl border border-waqf-200 bg-white px-3 py-2 text-xs text-waqf-900"><strong>${escapeHtml(
+                        `<div class="timeline-item"><strong>${escapeHtml(
                           item.status || "تحديث"
-                        )}</strong><br>${escapeHtml(item.note || "-")}<br><span class="text-waqf-700">${formatDate(
+                        )}</strong><br>${escapeHtml(item.note || "-")}<br><span class="muted">${formatDate(
                           item.at || request.updated_at || request.created_at
                         )}</span></div>`
                     )
                     .join("")
-                : '<div class="rounded-2xl border border-waqf-200 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا يوجد سجل حالة مفصل.</div>'
+                : '<div class="empty-card">لا يوجد سجل حالة مفصل.</div>'
             }
           </div>
         </div>
@@ -1124,27 +1108,12 @@ function hideSheetError() {
 }
 
 function showAlert(message, type = "warn") {
-  alertBox.classList.remove(
-    "hidden",
-    "border-accent-200",
-    "bg-accent-50",
-    "text-accent-700",
-    "border-rose-300",
-    "bg-rose-50",
-    "text-rose-800"
-  );
-
-  if (type === "error") {
-    alertBox.classList.add("border-rose-300", "bg-rose-50", "text-rose-800");
-  } else {
-    alertBox.classList.add("border-accent-200", "bg-accent-50", "text-accent-700");
-  }
-
+  alertBox.className = `system-alert ${type === "error" ? "error" : "warn"}`;
   alertBox.textContent = message;
 }
 
 function clearAlert() {
-  alertBox.classList.add("hidden");
+  alertBox.className = "system-alert hidden";
   alertBox.textContent = "";
 }
 
