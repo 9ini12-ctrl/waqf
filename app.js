@@ -519,27 +519,64 @@ const systemAlert = document.getElementById("system-alert");
 const trackForm = document.getElementById("track-form");
 const trackResult = document.getElementById("track-result");
 
-const appConfig = window.APP_CONFIG || {};
-const supabaseUrl = appConfig.supabaseUrl || "";
-const supabaseAnonKey = appConfig.supabaseAnonKey || "";
-const supabaseClient =
-  supabaseUrl && supabaseAnonKey && window.supabase?.createClient
-    ? window.supabase.createClient(supabaseUrl, supabaseAnonKey)
-    : null;
+let supabaseClient = null;
 
-init();
+boot();
 
-function init() {
+async function boot() {
   renderFlowCards();
   bindEvents();
   setActiveTab("start");
 
+  const appConfig = await resolveAppConfig();
+  const supabaseUrl = appConfig.supabaseUrl || "";
+  const supabaseAnonKey = appConfig.supabaseAnonKey || "";
+
+  if (supabaseUrl && supabaseAnonKey && window.supabase?.createClient) {
+    supabaseClient = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+  }
+
   if (!supabaseClient) {
     showSystemAlert(
-      "تنبيه: إعدادات Supabase غير مكتملة. حدّث config.js حتى تعمل ميزة إصدار الطلب والمتابعة.",
+      "تنبيه: تعذّر تحميل إعدادات Supabase. في Vercel أضف متغيرات البيئة SUPABASE_URL وSUPABASE_ANON_KEY، أو استخدم config.js محليًا.",
       "warn"
     );
   }
+}
+
+async function resolveAppConfig() {
+  const fromWindow = normalizeConfig(window.APP_CONFIG || {});
+  if (fromWindow.supabaseUrl && fromWindow.supabaseAnonKey) {
+    return fromWindow;
+  }
+
+  try {
+    const response = await fetch("/api/config", {
+      method: "GET",
+      headers: { Accept: "application/json" }
+    });
+
+    if (!response.ok) {
+      return fromWindow;
+    }
+
+    const payload = await response.json();
+    const fromApi = normalizeConfig(payload || {});
+    if (fromApi.supabaseUrl && fromApi.supabaseAnonKey) {
+      return fromApi;
+    }
+  } catch (_error) {
+    // Ignore silently and fallback to local config.
+  }
+
+  return fromWindow;
+}
+
+function normalizeConfig(config) {
+  return {
+    supabaseUrl: typeof config.supabaseUrl === "string" ? config.supabaseUrl.trim() : "",
+    supabaseAnonKey: typeof config.supabaseAnonKey === "string" ? config.supabaseAnonKey.trim() : ""
+  };
 }
 
 function bindEvents() {

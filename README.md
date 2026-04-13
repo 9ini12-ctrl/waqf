@@ -19,7 +19,20 @@
 - `supabaseUrl`: رابط المشروع.
 - `supabaseAnonKey`: مفتاح `anon public`.
 
-## 3) تشغيل محلي
+> ملاحظة: `config.js` مناسب للتجربة المحلية. في Vercel يفضّل استخدام Environment Variables كما في القسم التالي.
+
+## 3) ربط Supabase مع Vercel
+1. ارفع المشروع على GitHub.
+2. استورده داخل Vercel.
+3. من إعدادات المشروع في Vercel أضف متغيرات البيئة:
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+4. أعد النشر (Redeploy).
+
+الواجهة ستقرأ القيم تلقائيًا من endpoint:
+- `/api/config`
+
+## 4) تشغيل محلي
 يمكن فتح `index.html` مباشرة، أو تشغيل أي سيرفر ثابت مثل:
 
 ```bash
@@ -31,6 +44,7 @@ python3 -m http.server 8080
 
 ## ملاحظات تشغيلية
 - الواجهة تعتمد على Tailwind عبر CDN (لا تحتاج بناء Build محلي).
+- في Vercel تم إضافة function في [`api/config.js`](./api/config.js) لتمرير إعدادات Supabase من Environment Variables.
 - إنشاء الطلب يتم عبر RPC: `create_waqf_request`.
 - المتابعة برقم الطلب تتم عبر RPC: `track_waqf_request`.
 - رقم الطلب يصدر من السيرفر بصيغة:
