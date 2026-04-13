@@ -429,12 +429,12 @@ function setTab(tab) {
   const isStart = tab === "start";
 
   tabStart.className = isStart
-    ? "rounded-xl border border-waqf-400 bg-[#fff7f3] px-4 py-3 text-sm font-bold text-waqf-900"
-    : "rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-bold text-waqf-800";
+    ? "rounded-xl border border-waqf-500 bg-white px-4 py-3 text-sm font-extrabold text-waqf-900 shadow-card"
+    : "rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-extrabold text-waqf-800";
 
   tabTrack.className = !isStart
-    ? "rounded-xl border border-waqf-400 bg-[#fff7f3] px-4 py-3 text-sm font-bold text-waqf-900"
-    : "rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-bold text-waqf-800";
+    ? "rounded-xl border border-waqf-500 bg-white px-4 py-3 text-sm font-extrabold text-waqf-900 shadow-card"
+    : "rounded-xl border border-transparent bg-waqf-200 px-4 py-3 text-sm font-extrabold text-waqf-800";
 
   startView.classList.toggle("hidden", !isStart);
   trackView.classList.toggle("hidden", isStart);
@@ -456,10 +456,10 @@ function renderFlowList() {
       <button
         type="button"
         data-flow-id="${flow.id}"
-        class="w-full rounded-xl border border-waqf-300 bg-[#fffaf7] px-4 py-4 text-right shadow-sm transition hover:border-waqf-500 hover:bg-waqf-100"
+        class="w-full rounded-xl border border-waqf-300 bg-white px-4 py-4 text-right shadow-card transition hover:-translate-y-0.5 hover:border-waqf-500 hover:bg-waqf-50"
       >
         <p class="text-sm font-extrabold text-waqf-900">${flow.title}</p>
-        <p class="mt-1 text-xs text-waqf-800">${flow.description}</p>
+        <p class="mt-1 text-xs font-semibold text-waqf-700">${flow.description}</p>
       </button>
     `
   ).join("");
@@ -576,13 +576,13 @@ function renderStepper(total, active) {
       ? "border-waqf-800 bg-waqf-800 text-white shadow-sm"
       : isDone
         ? "border-waqf-500 bg-waqf-500 text-white"
-        : "border-waqf-300 bg-waqf-50 text-waqf-700";
+        : "border-waqf-300 bg-white text-waqf-700";
 
     return `
       <div class="flex min-w-fit items-center gap-2">
         <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-extrabold ${badgeClass}">${stepNumber}</span>
         <span class="text-xs font-semibold text-waqf-800">${isDraft ? "مسودة" : "سؤال"}</span>
-        ${idx < total ? '<span class="mx-1 h-px w-5 bg-waqf-300"></span>' : ""}
+        ${idx < total ? '<span class="mx-1 h-px w-5 bg-waqf-400"></span>' : ""}
       </div>
     `;
   }).join("");
@@ -602,8 +602,8 @@ function renderQuestionControl(question) {
             data-choice-value="${option.value}"
             class="w-full rounded-lg border px-3 py-3 text-right text-sm font-bold transition ${
               selected
-                ? "border-waqf-700 bg-waqf-200 text-waqf-900"
-                : "border-waqf-300 bg-[#fffaf7] text-waqf-900 hover:bg-waqf-100"
+                ? "border-waqf-700 bg-waqf-200 text-waqf-900 shadow-card"
+                : "border-waqf-300 bg-white text-waqf-900 hover:border-waqf-500 hover:bg-waqf-50"
             }"
           >
             ${option.label}
@@ -619,7 +619,7 @@ function renderQuestionControl(question) {
         name="${question.id}"
         rows="4"
         placeholder="${question.placeholder || ""}"
-        class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-200"
+        class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-300"
       >${escapeHtml(value)}</textarea>
     `;
   }
@@ -633,7 +633,7 @@ function renderQuestionControl(question) {
       min="${question.min ?? ""}"
       max="${question.max ?? ""}"
       step="${question.step ?? ""}"
-      class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-200"
+      class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-300"
     />
   `;
 }
