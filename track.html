@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>متابعة الطلب - منصة أوقاف مدكر</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              cairo: ["Cairo", "sans-serif"]
+            },
+            colors: {
+              waqf: {
+                50: "#fbf6f3",
+                100: "#f5e9e2",
+                200: "#ead4c7",
+                300: "#d9b39f",
+                400: "#cb8f77",
+                500: "#b87864",
+                600: "#9c604f",
+                700: "#7f4a3d",
+                800: "#64372d",
+                900: "#43231d"
+              }
+            }
+          }
+        }
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-waqf-100 via-waqf-50 to-[#f2e6de] font-cairo text-waqf-900">
+    <main class="mx-auto max-w-3xl px-4 py-6 md:py-10">
+      <header class="rounded-2xl border border-waqf-300 bg-[#f8ede7] p-5 md:p-7">
+        <h1 class="text-2xl font-extrabold">متابعة الطلب</h1>
+        <p class="mt-2 text-sm text-waqf-800">هذه الصفحة تعرض حالة طلبك وتحديثاته أولًا بأول.</p>
+      </header>
+
+      <section id="track-alert" class="mt-4 hidden rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900"></section>
+
+      <section class="mt-4 rounded-2xl border border-waqf-300 bg-[#fbf3ef] p-4 md:p-5">
+        <form id="track-token-form" class="grid gap-3 sm:grid-cols-[1fr,auto] sm:items-end" novalidate>
+          <label class="space-y-2 text-sm font-bold text-waqf-900" for="tracking-token">
+            <span>رمز المتابعة</span>
+            <input
+              id="tracking-token"
+              name="tracking-token"
+              type="text"
+              placeholder="ألصق رمز المتابعة"
+              required
+              class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-waqf-300"
+            />
+          </label>
+          <button type="submit" class="rounded-lg bg-waqf-800 px-4 py-2 text-sm font-bold text-white">عرض الحالة</button>
+        </form>
+
+        <section id="track-content" class="mt-4"></section>
+      </section>
+    </main>
+
+    <script src="track.js"></script>
+  </body>
+</html>

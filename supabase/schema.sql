@@ -7,6 +7,7 @@ create sequence if not exists public.waqf_request_seq start 1;
 create table if not exists public.waqf_requests (
   id uuid primary key default gen_random_uuid(),
   request_number text not null unique,
+  tracking_token uuid not null unique default gen_random_uuid(),
   option_id text not null check (
     option_id in (
       'buy_over_million',
@@ -31,6 +32,11 @@ create table if not exists public.waqf_requests (
   updated_at timestamptz not null default timezone('utc', now())
 );
 
+alter table public.waqf_requests
+add column if not exists tracking_token uuid not null default gen_random_uuid();
+
+create unique index if not exists waqf_requests_tracking_token_key on public.waqf_requests (tracking_token);
+
 create or replace function public.set_waqf_updated_at()
 returns trigger
 language plpgsql
@@ -51,6 +57,22 @@ alter table public.waqf_requests enable row level security;
 -- منع الوصول المباشر من anon/authenticated والاعتماد على RPC فقط.
 revoke all on public.waqf_requests from anon, authenticated;
 
+drop function if exists public.create_waqf_request(
+  text,
+  text,
+  text,
+  text,
+  text,
+  text,
+  text,
+  jsonb,
+  text,
+  text,
+  text,
+  jsonb,
+  jsonb
+);
+
 create or replace function public.create_waqf_request(
   p_option_id text,
   p_option_title text,
@@ -66,7 +88,7 @@ create or replace function public.create_waqf_request(
   p_required_actions jsonb,
   p_timeline jsonb
 )
-returns table (request_number text, created_at timestamptz)
+returns table (request_number text, created_at timestamptz, tracking_token uuid)
 language plpgsql
 security definer
 set search_path = public
@@ -75,6 +97,7 @@ declare
   v_amount numeric;
   v_request_number text;
   v_created_at timestamptz;
+  v_tracking_token uuid;
 begin
   if p_option_id = 'buy_over_million' then
     v_amount := coalesce((p_answers ->> 'available_amount')::numeric, 0);
@@ -128,10 +151,10 @@ begin
     coalesce(p_required_actions, '[]'::jsonb),
     coalesce(p_timeline, '[]'::jsonb)
   )
-  returning public.waqf_requests.request_number, public.waqf_requests.created_at
-  into v_request_number, v_created_at;
+  returning public.waqf_requests.request_number, public.waqf_requests.created_at, public.waqf_requests.tracking_token
+  into v_request_number, v_created_at, v_tracking_token;
 
-  return query select v_request_number, v_created_at;
+  return query select v_request_number, v_created_at, v_tracking_token;
 end;
 $$;
 
@@ -171,6 +194,42 @@ as $$
   limit 1;
 $$;
 
+create or replace function public.track_waqf_request_by_token(p_tracking_token text)
+returns table (
+  request_number text,
+  option_id text,
+  option_title text,
+  applicant_name text,
+  status text,
+  route_result text,
+  recommendation text,
+  required_actions jsonb,
+  timeline jsonb,
+  created_at timestamptz,
+  updated_at timestamptz
+)
+language sql
+security definer
+stable
+set search_path = public
+as $$
+  select
+    w.request_number,
+    w.option_id,
+    w.option_title,
+    w.applicant_name,
+    w.status,
+    w.route_result,
+    w.recommendation,
+    w.required_actions,
+    w.timeline,
+    w.created_at,
+    w.updated_at
+  from public.waqf_requests w
+  where w.tracking_token::text = lower(trim(p_tracking_token))
+  limit 1;
+$$;
+
 grant execute on function public.create_waqf_request(
   text,
   text,
@@ -188,3 +247,4 @@ grant execute on function public.create_waqf_request(
 ) to anon, authenticated;
 
 grant execute on function public.track_waqf_request(text) to anon, authenticated;
+grant execute on function public.track_waqf_request_by_token(text) to anon, authenticated;

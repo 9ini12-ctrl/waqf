@@ -1,49 +1,28 @@
 const PHONE_REGEX = /^(\+966|0)?5\d{8}$/;
 
-const CONTACT_QUESTIONS = [
+const CONTACT_STEPS = [
   {
     id: "full_name",
     label: "الاسم الكامل",
-    help: "الاسم الذي سيظهر على الطلب الرسمي.",
+    help: "الاسم الذي سيظهر على الطلب.",
     type: "text",
     required: true,
     placeholder: "الاسم الرباعي"
   },
   {
     id: "phone",
-    label: "رقم الجوال",
-    help: "يستخدم للمتابعة وإشعارات الطلب.",
+    label: "رقم التواصل",
+    help: "رقم الجوال المعتمد للمتابعة.",
     type: "tel",
     required: true,
     placeholder: "05xxxxxxxx"
   },
   {
-    id: "city",
-    label: "المدينة",
-    help: "مدينة مقدم الطلب.",
-    type: "text",
-    required: true,
-    placeholder: "الرياض"
-  },
-  {
-    id: "preferred_contact",
-    label: "وسيلة التواصل المفضلة",
-    help: "اختر الوسيلة الأساسية للتواصل.",
-    type: "choice",
-    required: true,
-    options: [
-      { value: "call", label: "اتصال هاتفي" },
-      { value: "whatsapp", label: "واتساب" },
-      { value: "email", label: "بريد إلكتروني" }
-    ]
-  },
-  {
     id: "email",
     label: "البريد الإلكتروني",
-    help: "يظهر فقط عند اختيار التواصل بالبريد.",
+    help: "سيصلك رابط متابعة الطلب على هذا البريد.",
     type: "email",
     required: true,
-    showIf: (answers) => answers.preferred_contact === "email",
     placeholder: "name@example.com"
   }
 ];
@@ -56,8 +35,8 @@ const FLOWS = [
     questions: [
       {
         id: "available_amount",
-        label: "قيمة المبلغ المتاح (ريال)",
-        help: "هذا المسار يشترط مبلغ مليون ريال فأكثر.",
+        label: "المبلغ المتاح (ريال)",
+        help: "هذا المسار يشترط مليون ريال فأكثر.",
         type: "number",
         required: true,
         min: 1000000,
@@ -66,8 +45,8 @@ const FLOWS = [
       },
       {
         id: "preferred_asset_type",
-        label: "نوع الأصل الوقفي المفضل",
-        help: "اختر التوجه الأقرب لك.",
+        label: "نوع الأصل المفضل",
+        help: "اختر الخيار الأقرب لك.",
         type: "choice",
         required: true,
         options: [
@@ -79,8 +58,8 @@ const FLOWS = [
       },
       {
         id: "target_city",
-        label: "المدينة المستهدفة للاستثمار",
-        help: "يمكنك تعديلها لاحقًا مع الفريق.",
+        label: "المدينة المستهدفة",
+        help: "مكان الاستثمار الوقفي.",
         type: "choice",
         required: true,
         options: [
@@ -104,29 +83,21 @@ const FLOWS = [
       },
       {
         id: "wants_partnership",
-        label: "هل ترغب بشراكة مع واقفين آخرين؟",
-        help: "يساعدنا في اقتراح النموذج الأنسب.",
+        label: "هل ترغب بشراكة وقفية؟",
+        help: "الشراكة تتيح خيارات إضافية.",
         type: "choice",
         required: true,
         options: [
           { value: "yes", label: "نعم" },
           { value: "no", label: "لا" }
         ]
-      },
-      {
-        id: "notes",
-        label: "ملاحظات إضافية",
-        help: "اختياري.",
-        type: "textarea",
-        required: false,
-        placeholder: "أي اشتراطات أو تفاصيل إضافية"
       }
     ]
   },
   {
     id: "have_asset_convert",
     title: "لدي أصل وأرغب بتحويله إلى وقف",
-    description: "تقييم الأصل واستكمال إجراءات التحويل.",
+    description: "تقييم الأصل والتحويل الوقفي.",
     questions: [
       {
         id: "asset_type",
@@ -143,8 +114,8 @@ const FLOWS = [
       },
       {
         id: "asset_estimated_value",
-        label: "القيمة التقديرية للأصل (ريال)",
-        help: "رقم تقريبي مبدئي.",
+        label: "القيمة التقديرية (ريال)",
+        help: "قيمة تقريبية مبدئية.",
         type: "number",
         required: true,
         min: 1,
@@ -154,14 +125,14 @@ const FLOWS = [
       {
         id: "asset_city",
         label: "مدينة الأصل",
-        help: "مكان الأصل الحالي.",
+        help: "الموقع الحالي للأصل.",
         type: "text",
         required: true,
         placeholder: "المدينة"
       },
       {
         id: "has_legal_docs",
-        label: "هل وثائق الملكية مكتملة؟",
+        label: "هل الوثائق مكتملة؟",
         help: "اكتمال الوثائق يسرع الإجراء.",
         type: "choice",
         required: true,
@@ -172,29 +143,21 @@ const FLOWS = [
       },
       {
         id: "has_disputes",
-        label: "هل توجد نزاعات أو التزامات على الأصل؟",
-        help: "يجب الإفصاح حتى تُبنى خطة دقيقة.",
+        label: "هل توجد نزاعات أو التزامات؟",
+        help: "الشفافية تساعد في دقة المسار.",
         type: "choice",
         required: true,
         options: [
           { value: "no", label: "لا" },
           { value: "yes", label: "نعم" }
         ]
-      },
-      {
-        id: "notes",
-        label: "ملاحظات إضافية",
-        help: "اختياري.",
-        type: "textarea",
-        required: false,
-        placeholder: "تفاصيل إضافية عن الأصل"
       }
     ]
   },
   {
     id: "transfer_nazir",
     title: "لدي وقف وأرغب بنقل النظارة للجمعية",
-    description: "نقل النظارة وفق المتطلبات الشرعية والنظامية.",
+    description: "نقل النظارة وفق الإجراءات النظامية.",
     questions: [
       {
         id: "waqf_name",
@@ -207,7 +170,7 @@ const FLOWS = [
       {
         id: "waqf_deed_number",
         label: "رقم صك الوقف",
-        help: "كما هو في المستند الرسمي.",
+        help: "كما هو في الوثيقة الرسمية.",
         type: "text",
         required: true,
         placeholder: "رقم الصك"
@@ -215,15 +178,15 @@ const FLOWS = [
       {
         id: "current_nazir_name",
         label: "اسم الناظر الحالي",
-        help: "الاسم المعتمد حاليًا.",
+        help: "الاسم المعتمد حالياً.",
         type: "text",
         required: true,
         placeholder: "اسم الناظر"
       },
       {
         id: "has_family_approval",
-        label: "هل توجد موافقة من ذوي العلاقة؟",
-        help: "مطلوبة في كثير من الحالات.",
+        label: "هل توجد موافقات من ذوي العلاقة؟",
+        help: "لإكمال مسار النقل.",
         type: "choice",
         required: true,
         options: [
@@ -234,7 +197,7 @@ const FLOWS = [
       {
         id: "has_court_approval",
         label: "هل توجد موافقة رسمية/قضائية؟",
-        help: "تسهل مباشرة الإجراء القانوني.",
+        help: "تُسرّع اعتماد نقل النظارة.",
         type: "choice",
         required: true,
         options: [
@@ -245,10 +208,10 @@ const FLOWS = [
       {
         id: "transfer_reason",
         label: "سبب نقل النظارة",
-        help: "شرح موجز للسبب.",
+        help: "وصف موجز.",
         type: "textarea",
         required: true,
-        placeholder: "اكتب سبب نقل النظارة"
+        placeholder: "سبب نقل النظارة"
       }
     ]
   },
@@ -260,7 +223,7 @@ const FLOWS = [
       {
         id: "contribution_amount",
         label: "قيمة المساهمة (ريال)",
-        help: "هذا المسار يشترط أقل من مليون ريال.",
+        help: "هذا المسار للمبالغ الأقل من مليون.",
         type: "number",
         required: true,
         min: 1000,
@@ -271,7 +234,7 @@ const FLOWS = [
       {
         id: "payment_type",
         label: "طريقة السداد",
-        help: "اختر الصيغة المناسبة لك.",
+        help: "اختر الطريقة المناسبة.",
         type: "choice",
         required: true,
         options: [
@@ -295,8 +258,8 @@ const FLOWS = [
       },
       {
         id: "contribution_purpose",
-        label: "مجال المساهمة المفضل",
-        help: "كيف تفضل توجيه مساهمتك؟",
+        label: "مجال المساهمة",
+        help: "كيف تفضل توجيه المساهمة؟",
         type: "choice",
         required: true,
         options: [
@@ -307,22 +270,14 @@ const FLOWS = [
       },
       {
         id: "named_supporter",
-        label: "هل ترغب بإظهار اسمك ضمن المساهمين؟",
-        help: "اختياري حسب رغبتك.",
+        label: "إظهار الاسم ضمن المساهمين",
+        help: "حسب رغبتك.",
         type: "choice",
         required: true,
         options: [
           { value: "yes", label: "نعم" },
           { value: "no", label: "لا" }
         ]
-      },
-      {
-        id: "notes",
-        label: "ملاحظات إضافية",
-        help: "اختياري.",
-        type: "textarea",
-        required: false,
-        placeholder: "أي تفاصيل إضافية"
       }
     ]
   }
@@ -332,7 +287,7 @@ const FLOW_MAP = Object.fromEntries(FLOWS.map((flow) => [flow.id, flow]));
 
 const state = {
   tab: "start",
-  selectedFlowId: null,
+  flowId: null,
   answers: {},
   stepIndex: 0,
   submitting: false
@@ -340,33 +295,36 @@ const state = {
 
 const tabStart = document.getElementById("tab-start");
 const tabTrack = document.getElementById("tab-track");
-const systemAlert = document.getElementById("system-alert");
 const startView = document.getElementById("start-view");
 const trackView = document.getElementById("track-view");
+const alertBox = document.getElementById("system-alert");
 
 const flowSection = document.getElementById("flow-section");
 const flowList = document.getElementById("flow-list");
-const frameBackdrop = document.getElementById("flow-frame-backdrop");
-const wizardSection = document.getElementById("wizard-section");
-const wizardTitle = document.getElementById("wizard-title");
-const stepsMeta = document.getElementById("steps-meta");
-const stepper = document.getElementById("stepper");
-const questionLabel = document.getElementById("question-label");
-const questionHelp = document.getElementById("question-help");
-const questionInput = document.getElementById("question-input");
-const questionHint = document.getElementById("question-hint");
-const questionError = document.getElementById("question-error");
-const btnCancel = document.getElementById("btn-cancel");
-const btnBack = document.getElementById("btn-back");
-const btnNext = document.getElementById("btn-next");
 
-const draftSection = document.getElementById("draft-section");
-const draftTitle = document.getElementById("draft-title");
-const draftList = document.getElementById("draft-list");
-const btnDraftBack = document.getElementById("btn-draft-back");
-const btnSubmit = document.getElementById("btn-submit");
+const previewStage = document.getElementById("preview-stage");
+const previewRouteTitle = document.getElementById("preview-route-title");
+const previewProgress = document.getElementById("preview-progress");
+const previewProgressBar = document.getElementById("preview-progress-bar");
+const previewCard = document.getElementById("preview-card");
+const previewList = document.getElementById("preview-list");
 
 const resultCard = document.getElementById("result-card");
+
+const sheetBackdrop = document.getElementById("sheet-backdrop");
+const sheetPanel = document.getElementById("sheet-panel");
+const sheetClose = document.getElementById("sheet-close");
+const sheetRouteTitle = document.getElementById("sheet-route-title");
+const sheetStepMeta = document.getElementById("sheet-step-meta");
+const sheetStepper = document.getElementById("sheet-stepper");
+const sheetQuestionTitle = document.getElementById("sheet-question-title");
+const sheetQuestionHelp = document.getElementById("sheet-question-help");
+const sheetOptions = document.getElementById("sheet-options");
+const sheetHint = document.getElementById("sheet-hint");
+const sheetError = document.getElementById("sheet-error");
+const sheetBack = document.getElementById("sheet-back");
+const sheetNext = document.getElementById("sheet-next");
+const sheetSubmit = document.getElementById("sheet-submit");
 
 const trackForm = document.getElementById("track-form");
 const trackResult = document.getElementById("track-result");
@@ -376,8 +334,8 @@ let supabaseClient = null;
 boot();
 
 async function boot() {
-  renderFlowList();
   bindEvents();
+  renderFlowList();
   setTab("start");
 
   const config = await resolveAppConfig();
@@ -386,42 +344,30 @@ async function boot() {
   }
 
   if (!supabaseClient) {
-    showSystemAlert(
-      "تعذّر تحميل إعدادات Supabase. في Vercel أضف SUPABASE_URL وSUPABASE_ANON_KEY.",
-      "warn"
-    );
+    showAlert("تعذر تحميل إعدادات Supabase. تأكد من config.js أو متغيرات Vercel.", "warn");
   }
 }
 
 function bindEvents() {
   tabStart.addEventListener("click", () => setTab("start"));
   tabTrack.addEventListener("click", () => setTab("track"));
-  frameBackdrop.addEventListener("click", resetToFlowSelection);
 
   flowList.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-flow-id]");
-    if (!button) return;
-    startFlow(button.dataset.flowId);
+    const card = event.target.closest("[data-flow-id]");
+    if (!card) return;
+    startFlow(card.dataset.flowId);
   });
 
-  btnCancel.addEventListener("click", resetToFlowSelection);
-  btnBack.addEventListener("click", goBack);
-  btnNext.addEventListener("click", goNext);
+  sheetBackdrop.addEventListener("click", closeJourney);
+  sheetClose.addEventListener("click", closeJourney);
+  sheetBack.addEventListener("click", goBack);
+  sheetNext.addEventListener("click", goNext);
+  sheetSubmit.addEventListener("click", submitRequest);
 
-  questionInput.addEventListener("click", onChoiceClick);
-  questionInput.addEventListener("input", onInputChange);
+  sheetOptions.addEventListener("click", onChoiceClick);
+  sheetOptions.addEventListener("input", onInputChange);
 
-  btnDraftBack.addEventListener("click", () => {
-    const questions = getVisibleQuestions();
-    state.stepIndex = Math.max(questions.length - 1, 0);
-    draftSection.classList.add("hidden");
-    wizardSection.classList.remove("hidden");
-    renderQuestion();
-  });
-
-  btnSubmit.addEventListener("click", submitRequest);
-
-  trackForm.addEventListener("submit", handleTrack);
+  trackForm.addEventListener("submit", onTrackSubmit);
 }
 
 function setTab(tab) {
@@ -440,13 +386,7 @@ function setTab(tab) {
   trackView.classList.toggle("hidden", isStart);
 
   if (!isStart) {
-    setFrameOpen(false);
-    state.selectedFlowId = null;
-    state.answers = {};
-    state.stepIndex = 0;
-    wizardSection.classList.add("hidden");
-    draftSection.classList.add("hidden");
-    flowSection.classList.remove("hidden");
+    closeJourney({ preservePreview: false });
   }
 }
 
@@ -468,137 +408,148 @@ function renderFlowList() {
 function startFlow(flowId) {
   if (!FLOW_MAP[flowId]) return;
 
-  clearSystemAlert();
+  clearAlert();
   hideResult();
 
-  state.selectedFlowId = flowId;
+  state.flowId = flowId;
   state.answers = { flow_id: flowId };
   state.stepIndex = 0;
 
-  setFrameOpen(true);
   flowSection.classList.add("hidden");
-  draftSection.classList.add("hidden");
-  wizardSection.classList.remove("hidden");
+  previewStage.classList.remove("hidden");
 
-  renderQuestion();
+  openSheet(true);
+  renderPreview();
+  renderStep();
 }
 
-function resetToFlowSelection() {
-  state.selectedFlowId = null;
-  state.answers = {};
+function openSheet(isOpen) {
+  sheetBackdrop.classList.toggle("hidden", !isOpen);
+  sheetPanel.classList.toggle("hidden", !isOpen);
+  document.body.classList.toggle("overflow-hidden", isOpen);
+}
+
+function closeJourney({ preservePreview = false } = {}) {
+  openSheet(false);
+  hideSheetError();
+
   state.stepIndex = 0;
+  state.submitting = false;
 
-  setFrameOpen(false);
-  clearQuestionError();
-  hideResult();
-
-  wizardSection.classList.add("hidden");
-  draftSection.classList.add("hidden");
-  flowSection.classList.remove("hidden");
+  if (!preservePreview) {
+    state.flowId = null;
+    state.answers = {};
+    previewStage.classList.add("hidden");
+    flowSection.classList.remove("hidden");
+  }
 }
 
-function hideResult() {
-  resultCard.classList.add("hidden");
-  resultCard.innerHTML = "";
+function getFlow() {
+  return FLOW_MAP[state.flowId] || null;
 }
 
-function getSelectedFlow() {
-  return FLOW_MAP[state.selectedFlowId] || null;
-}
-
-function getVisibleQuestions() {
-  const flow = getSelectedFlow();
+function getSteps() {
+  const flow = getFlow();
   if (!flow) return [];
 
-  const allQuestions = [...flow.questions, ...CONTACT_QUESTIONS];
-  const visible = allQuestions.filter((question) => {
-    if (!question.showIf) return true;
-    return question.showIf(state.answers);
+  const allSteps = [...flow.questions, ...CONTACT_STEPS];
+  const visible = allSteps.filter((step) => {
+    if (!step.showIf) return true;
+    return step.showIf(state.answers);
   });
 
-  const visibleIds = new Set(visible.map((q) => q.id));
+  const visibleIds = new Set(visible.map((step) => step.id));
   Object.keys(state.answers).forEach((key) => {
     if (key === "flow_id") return;
-    if (!visibleIds.has(key)) {
-      delete state.answers[key];
-    }
+    if (!visibleIds.has(key)) delete state.answers[key];
   });
 
   return visible;
 }
 
-function renderQuestion() {
-  clearQuestionError();
+function getCurrentStep() {
+  const steps = getSteps();
+  return steps[state.stepIndex] || null;
+}
 
-  const flow = getSelectedFlow();
+function renderStep() {
+  hideSheetError();
+
+  const flow = getFlow();
   if (!flow) return;
 
-  const questions = getVisibleQuestions();
-  if (state.stepIndex >= questions.length) {
-    showDraft();
-    return;
+  const steps = getSteps();
+  if (!steps.length) return;
+
+  if (state.stepIndex > steps.length - 1) {
+    state.stepIndex = steps.length - 1;
   }
 
-  const question = questions[state.stepIndex];
-  const remaining = questions.length - (state.stepIndex + 1);
+  const step = steps[state.stepIndex];
+  const isLast = state.stepIndex === steps.length - 1;
 
-  wizardTitle.textContent = flow.title;
-  stepsMeta.textContent = `الخطوة ${state.stepIndex + 1} من ${questions.length} - المتبقي ${remaining}`;
+  sheetRouteTitle.textContent = flow.title;
+  sheetStepMeta.textContent = `الخطوة ${state.stepIndex + 1} من ${steps.length}`;
 
-  renderStepper(questions.length, state.stepIndex);
+  sheetQuestionTitle.textContent = step.label;
+  sheetQuestionHelp.textContent = step.help || "";
+  sheetOptions.innerHTML = renderControl(step);
 
-  questionLabel.textContent = question.label;
-  questionHelp.textContent = question.help || "";
+  renderSheetStepper(steps.length, state.stepIndex);
 
-  questionInput.innerHTML = renderQuestionControl(question);
+  sheetBack.disabled = state.stepIndex === 0;
+  sheetBack.classList.toggle("opacity-50", state.stepIndex === 0);
 
-  btnBack.disabled = state.stepIndex === 0;
-  btnBack.classList.toggle("opacity-50", state.stepIndex === 0);
-
-  if (question.type === "choice") {
-    btnNext.classList.add("hidden");
-    questionHint.classList.remove("hidden");
-    questionHint.textContent = "اضغط على الخيار للانتقال إلى السؤال التالي.";
+  if (state.submitting) {
+    sheetSubmit.disabled = true;
+    sheetSubmit.textContent = "جاري الإصدار...";
   } else {
-    btnNext.classList.remove("hidden");
-    questionHint.classList.add("hidden");
+    sheetSubmit.disabled = false;
+    sheetSubmit.textContent = "إصدار الطلب";
+  }
+
+  if (isLast) {
+    sheetNext.classList.add("hidden");
+    sheetSubmit.classList.remove("hidden");
+  } else if (step.type === "choice") {
+    sheetNext.classList.add("hidden");
+    sheetSubmit.classList.add("hidden");
+    sheetHint.classList.remove("hidden");
+    sheetHint.textContent = "اضغط على الخيار للانتقال تلقائيًا.";
+  } else {
+    sheetNext.classList.remove("hidden");
+    sheetSubmit.classList.add("hidden");
+    sheetHint.classList.add("hidden");
   }
 }
 
-function renderStepper(total, active) {
-  stepper.innerHTML = Array.from({ length: total + 1 }, (_, idx) => {
-    const stepNumber = idx + 1;
-    const isDraft = idx === total;
+function renderSheetStepper(total, active) {
+  sheetStepper.innerHTML = Array.from({ length: total }, (_, idx) => {
+    const number = idx + 1;
     const isActive = idx === active;
-    const isDone = idx < active;
+    const done = idx < active;
 
-    const badgeClass = isActive
-      ? "border-waqf-800 bg-waqf-800 text-white shadow-sm"
-      : isDone
+    const badge = isActive
+      ? "border-waqf-800 bg-waqf-800 text-white"
+      : done
         ? "border-waqf-500 bg-waqf-500 text-white"
         : "border-waqf-300 bg-white text-waqf-700";
 
-    return `
-      <div class="flex min-w-fit items-center gap-2">
-        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-extrabold ${badgeClass}">${stepNumber}</span>
-        <span class="text-xs font-semibold text-waqf-800">${isDraft ? "مسودة" : "سؤال"}</span>
-        ${idx < total ? '<span class="mx-1 h-px w-5 bg-waqf-400"></span>' : ""}
-      </div>
-    `;
+    return `<span class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-[11px] font-extrabold ${badge}">${number}</span>`;
   }).join("");
 }
 
-function renderQuestionControl(question) {
-  const value = state.answers[question.id] ?? "";
+function renderControl(step) {
+  const value = state.answers[step.id] ?? "";
 
-  if (question.type === "choice") {
-    return (question.options || [])
+  if (step.type === "choice") {
+    return (step.options || [])
       .map((option) => {
-        const selected = value === option.value;
+        const selected = option.value === value;
         return `
           <button
             type="button"
-            data-choice-field="${question.id}"
+            data-choice-id="${step.id}"
             data-choice-value="${option.value}"
             class="w-full rounded-lg border px-3 py-3 text-right text-sm font-bold transition ${
               selected
@@ -613,12 +564,12 @@ function renderQuestionControl(question) {
       .join("");
   }
 
-  if (question.type === "textarea") {
+  if (step.type === "textarea") {
     return `
       <textarea
-        name="${question.id}"
+        name="${step.id}"
         rows="4"
-        placeholder="${question.placeholder || ""}"
+        placeholder="${step.placeholder || ""}"
         class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-300"
       >${escapeHtml(value)}</textarea>
     `;
@@ -626,30 +577,37 @@ function renderQuestionControl(question) {
 
   return `
     <input
-      name="${question.id}"
-      type="${question.type || "text"}"
+      name="${step.id}"
+      type="${step.type || "text"}"
       value="${escapeHtml(value)}"
-      placeholder="${question.placeholder || ""}"
-      min="${question.min ?? ""}"
-      max="${question.max ?? ""}"
-      step="${question.step ?? ""}"
+      placeholder="${step.placeholder || ""}"
+      min="${step.min ?? ""}"
+      max="${step.max ?? ""}"
+      step="${step.step ?? ""}"
       class="w-full rounded-lg border border-waqf-400 bg-white px-3 py-2 text-sm text-waqf-900 outline-none focus:ring-2 focus:ring-waqf-300"
     />
   `;
 }
 
 function onChoiceClick(event) {
-  const button = event.target.closest("[data-choice-field]");
+  const button = event.target.closest("[data-choice-id]");
   if (!button) return;
 
-  const field = button.dataset.choiceField;
+  const fieldId = button.dataset.choiceId;
   const value = button.dataset.choiceValue;
-  if (!field) return;
+  if (!fieldId) return;
 
-  state.answers[field] = value;
+  state.answers[fieldId] = value;
 
-  const current = getCurrentQuestion();
-  if (!current || current.type !== "choice") return;
+  pulsePreview();
+  renderPreview();
+
+  const current = getCurrentStep();
+  const isCurrentChoice = current && current.id === fieldId && current.type === "choice";
+  if (!isCurrentChoice) {
+    renderStep();
+    return;
+  }
 
   setTimeout(() => {
     goNext();
@@ -661,137 +619,179 @@ function onInputChange(event) {
   if (!target?.name) return;
 
   state.answers[target.name] = target.value.trim();
-}
-
-function getCurrentQuestion() {
-  const questions = getVisibleQuestions();
-  return questions[state.stepIndex] || null;
+  pulsePreview();
+  renderPreview();
 }
 
 function goBack() {
-  clearQuestionError();
+  hideSheetError();
 
   if (state.stepIndex === 0) {
-    resetToFlowSelection();
+    closeJourney();
     return;
   }
 
   state.stepIndex -= 1;
-  renderQuestion();
+  renderStep();
 }
 
 function goNext() {
-  clearQuestionError();
+  hideSheetError();
+  const step = getCurrentStep();
+  if (!step) return;
 
-  const current = getCurrentQuestion();
-  if (!current) return;
-
-  const validation = validateQuestion(current);
+  const validation = validateStep(step);
   if (!validation.ok) {
-    showQuestionError(validation.message);
+    showSheetError(validation.message);
     return;
   }
 
   state.stepIndex += 1;
-  renderQuestion();
+  renderStep();
 }
 
-function validateQuestion(question) {
-  const raw = state.answers[question.id];
+function validateStep(step) {
+  const raw = state.answers[step.id];
   const value = typeof raw === "string" ? raw.trim() : raw;
 
-  if (question.required && (value === undefined || value === null || value === "")) {
-    return { ok: false, message: `الرجاء تعبئة: ${question.label}` };
+  if (step.required && (value === undefined || value === null || value === "")) {
+    return { ok: false, message: `الرجاء تعبئة: ${step.label}` };
   }
 
-  if (!value) {
+  if (value === undefined || value === null || value === "") {
     return { ok: true };
   }
 
-  if (question.type === "number") {
+  if (step.type === "number") {
     const num = Number(value);
     if (!Number.isFinite(num)) {
-      return { ok: false, message: `${question.label}: قيمة رقمية غير صحيحة.` };
+      return { ok: false, message: `${step.label}: القيمة غير صحيحة.` };
     }
 
-    if (typeof question.min === "number" && num < question.min) {
-      return { ok: false, message: `${question.label}: يجب ألا تقل عن ${question.min}.` };
+    if (typeof step.min === "number" && num < step.min) {
+      return { ok: false, message: `${step.label}: يجب ألا تقل عن ${step.min}.` };
     }
 
-    if (typeof question.max === "number" && num > question.max) {
-      return { ok: false, message: `${question.label}: يجب ألا تزيد عن ${question.max}.` };
+    if (typeof step.max === "number" && num > step.max) {
+      return { ok: false, message: `${step.label}: يجب ألا تزيد عن ${step.max}.` };
     }
   }
 
-  if (question.id === "phone" && !PHONE_REGEX.test(String(value))) {
-    return { ok: false, message: "رقم الجوال غير صحيح. مثال: 05xxxxxxxx" };
+  if (step.id === "phone" && !PHONE_REGEX.test(String(value))) {
+    return { ok: false, message: "رقم التواصل غير صحيح. مثال: 05xxxxxxxx" };
   }
 
-  if (question.type === "email" && !/^\S+@\S+\.\S+$/.test(String(value))) {
-    return { ok: false, message: "صيغة البريد الإلكتروني غير صحيحة." };
+  if (step.type === "email" && !/^\S+@\S+\.\S+$/.test(String(value))) {
+    return { ok: false, message: "البريد الإلكتروني غير صحيح." };
   }
 
   return { ok: true };
 }
 
-function showQuestionError(message) {
-  questionError.classList.remove("hidden");
-  questionError.textContent = message;
+function validateAllSteps() {
+  const steps = getSteps();
+
+  for (let idx = 0; idx < steps.length; idx += 1) {
+    const validation = validateStep(steps[idx]);
+    if (!validation.ok) {
+      return { ok: false, index: idx, message: validation.message };
+    }
+  }
+
+  const flow = getFlow();
+  if (!flow) return { ok: false, index: 0, message: "المسار غير محدد." };
+
+  if (flow.id === "buy_over_million" && Number(state.answers.available_amount || 0) < 1000000) {
+    return { ok: false, index: findStepIndex("available_amount"), message: "هذا المسار يتطلب مبلغ مليون ريال فأكثر." };
+  }
+
+  if (flow.id === "contribute_under_million" && Number(state.answers.contribution_amount || 0) >= 1000000) {
+    return { ok: false, index: findStepIndex("contribution_amount"), message: "هذا المسار مخصص للمبالغ الأقل من مليون ريال." };
+  }
+
+  return { ok: true };
 }
 
-function clearQuestionError() {
-  questionError.classList.add("hidden");
-  questionError.textContent = "";
+function findStepIndex(stepId) {
+  return getSteps().findIndex((step) => step.id === stepId);
 }
 
-function showDraft() {
-  const flow = getSelectedFlow();
-  if (!flow) return;
-
-  const questions = getVisibleQuestions();
-  const invalidQuestion = questions.find((q) => !validateQuestion(q).ok);
-  if (invalidQuestion) {
-    state.stepIndex = Math.max(questions.findIndex((q) => q.id === invalidQuestion.id), 0);
-    renderQuestion();
-    showQuestionError(`الرجاء إكمال: ${invalidQuestion.label}`);
+function renderPreview() {
+  const flow = getFlow();
+  if (!flow) {
+    previewStage.classList.add("hidden");
     return;
   }
 
-  wizardSection.classList.add("hidden");
-  draftSection.classList.remove("hidden");
+  previewStage.classList.remove("hidden");
 
-  const name = state.answers.full_name || "مقدم الطلب";
-  draftTitle.textContent = `مسودة الطلب باسم: ${name}`;
+  const steps = getSteps();
+  const completed = steps.filter((step) => {
+    const value = state.answers[step.id];
+    return value !== undefined && value !== null && String(value).trim() !== "";
+  }).length;
 
-  draftList.innerHTML = `
-    <div class="rounded-lg border border-waqf-200 bg-waqf-50 px-3 py-2 text-sm"><strong>المسار:</strong> ${flow.title}</div>
-    ${questions
-      .map((q) => {
-        const value = state.answers[q.id];
-        if (value === undefined || value === null || String(value).trim() === "") return "";
-        return `<div class="rounded-lg border border-waqf-200 bg-white px-3 py-2 text-sm"><strong>${q.label}:</strong> ${escapeHtml(
-          displayValue(q, value)
-        )}</div>`;
-      })
-      .join("")}
-  `;
+  const progressPercent = steps.length ? Math.round((completed / steps.length) * 100) : 0;
+
+  previewRouteTitle.textContent = `بطاقة ${flow.title}`;
+  previewProgress.textContent = `${completed}/${steps.length} مكتمل`;
+  previewProgressBar.style.width = `${progressPercent}%`;
+
+  previewList.innerHTML = steps
+    .map((step) => {
+      const rawValue = state.answers[step.id];
+      const hasValue = rawValue !== undefined && rawValue !== null && String(rawValue).trim() !== "";
+      const valueText = hasValue ? escapeHtml(formatStepValue(step, rawValue)) : "بانتظار";
+
+      return `
+        <div class="rounded-lg border px-3 py-2 text-xs ${
+          hasValue ? "border-waqf-300 bg-waqf-50 text-waqf-900" : "border-waqf-200 bg-white text-waqf-500"
+        }">
+          <strong>${escapeHtml(step.label)}:</strong> ${valueText}
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function pulsePreview() {
+  previewCard.classList.remove("preview-bump");
+  // restart animation
+  // eslint-disable-next-line no-unused-expressions
+  previewCard.offsetWidth;
+  previewCard.classList.add("preview-bump");
+}
+
+function formatStepValue(step, value) {
+  if (step.type === "choice") {
+    const option = (step.options || []).find((item) => item.value === value);
+    return option?.label || String(value);
+  }
+
+  return String(value);
 }
 
 async function submitRequest() {
   if (state.submitting) return;
 
-  const flow = getSelectedFlow();
+  const flow = getFlow();
   if (!flow) return;
 
-  if (!supabaseClient) {
-    showSystemAlert("لا يمكن الإرسال لأن إعدادات Supabase غير مكتملة.", "warn");
+  const fullValidation = validateAllSteps();
+  if (!fullValidation.ok) {
+    state.stepIndex = Math.max(fullValidation.index, 0);
+    renderStep();
+    showSheetError(fullValidation.message);
     return;
   }
 
-  clearSystemAlert();
+  if (!supabaseClient) {
+    showAlert("لا يمكن الإرسال لأن إعدادات Supabase غير مكتملة.", "warn");
+    return;
+  }
+
   state.submitting = true;
-  btnSubmit.disabled = true;
-  btnSubmit.textContent = "جاري إصدار الطلب...";
+  renderStep();
 
   try {
     const outcome = evaluateOutcome(flow.id, state.answers);
@@ -813,9 +813,9 @@ async function submitRequest() {
       p_option_title: flow.title,
       p_applicant_name: state.answers.full_name,
       p_phone: state.answers.phone,
-      p_city: state.answers.city,
-      p_preferred_contact: state.answers.preferred_contact,
-      p_email: state.answers.email || null,
+      p_city: state.answers.city || "غير محدد",
+      p_preferred_contact: state.answers.preferred_contact || "call",
+      p_email: state.answers.email,
       p_answers: state.answers,
       p_route_result: outcome.routeResult,
       p_recommendation: outcome.recommendation,
@@ -832,67 +832,122 @@ async function submitRequest() {
       throw new Error("تعذر إصدار رقم الطلب.");
     }
 
-    draftSection.classList.add("hidden");
-    renderResult(created.request_number, created.created_at, flow.title, outcome);
+    const trackingToken = created.tracking_token || "";
+    const trackingUrl = trackingToken
+      ? `${window.location.origin}/track.html?token=${encodeURIComponent(String(trackingToken))}`
+      : "";
+
+    let emailStatus = "";
+    if (state.answers.email && trackingUrl) {
+      const sentResult = await sendTrackingEmail({
+        email: state.answers.email,
+        name: state.answers.full_name,
+        requestNumber: created.request_number,
+        trackingUrl,
+        trackingToken
+      });
+      emailStatus = sentResult;
+    }
+
+    renderResult({
+      requestNumber: created.request_number,
+      createdAt: created.created_at,
+      flowTitle: flow.title,
+      outcome,
+      trackingUrl,
+      emailStatus
+    });
+
+    closeJourney({ preservePreview: false });
   } catch (error) {
-    showSystemAlert(`تعذر إرسال الطلب: ${error.message || "خطأ غير متوقع"}`, "error");
+    showSheetError(`تعذر إرسال الطلب: ${error.message || "خطأ غير متوقع"}`);
   } finally {
     state.submitting = false;
-    btnSubmit.disabled = false;
-    btnSubmit.textContent = "إصدار رقم الطلب";
+    renderStep();
   }
 }
 
-function renderResult(requestNumber, createdAt, flowTitle, outcome) {
-  const name = state.answers.full_name || "-";
+async function sendTrackingEmail({ email, name, requestNumber, trackingUrl, trackingToken }) {
+  try {
+    const response = await fetch("/api/public/send-tracking-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, name, requestNumber, trackingUrl, trackingToken })
+    });
 
-  setFrameOpen(false);
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      return payload?.error ? `تعذر إرسال البريد: ${payload.error}` : "تعذر إرسال البريد الإلكتروني.";
+    }
+
+    if (payload?.sent) {
+      return "تم إرسال رابط المتابعة إلى بريدك الإلكتروني.";
+    }
+
+    return payload?.message || "تم إنشاء رابط المتابعة لكن لم يتم إرسال البريد تلقائيًا.";
+  } catch (_error) {
+    return "تم إنشاء الطلب ولكن لم يتم إرسال البريد بسبب خطأ اتصال.";
+  }
+}
+
+function renderResult({ requestNumber, createdAt, flowTitle, outcome, trackingUrl, emailStatus }) {
   resultCard.classList.remove("hidden");
+
+  const trackingLinkBlock = trackingUrl
+    ? `<div class="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs"><strong>رابط المتابعة:</strong> <a class="underline" href="${trackingUrl}" target="_blank" rel="noopener">فتح صفحة المتابعة</a></div>`
+    : "";
+
+  const emailBlock = emailStatus
+    ? `<div class="rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs">${escapeHtml(emailStatus)}</div>`
+    : "";
+
   resultCard.innerHTML = `
-    <h3 class="text-base font-extrabold text-emerald-900">تم إصدار رقم الطلب بنجاح</h3>
+    <h3 class="text-base font-extrabold text-emerald-900">تم إصدار الطلب بنجاح</h3>
     <div class="mt-3 space-y-2 text-sm text-emerald-900">
-      <div class="rounded-lg border border-emerald-200 bg-white px-3 py-2"><strong>رقم الطلب:</strong> ${requestNumber}</div>
-      <div class="rounded-lg border border-emerald-200 bg-white px-3 py-2"><strong>اسم مقدم الطلب:</strong> ${escapeHtml(name)}</div>
-      <div class="rounded-lg border border-emerald-200 bg-white px-3 py-2"><strong>المسار:</strong> ${flowTitle}</div>
-      <div class="rounded-lg border border-emerald-200 bg-white px-3 py-2"><strong>الحالة:</strong> ${outcome.status}</div>
-      <div class="rounded-lg border border-emerald-200 bg-white px-3 py-2"><strong>التوصية:</strong> ${outcome.recommendation}</div>
-      <div class="rounded-lg border border-emerald-200 bg-white px-3 py-2"><strong>تاريخ الإنشاء:</strong> ${formatDate(
-        createdAt || new Date().toISOString()
-      )}</div>
+      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>رقم الطلب:</strong> ${escapeHtml(requestNumber)}</div>
+      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>المسار:</strong> ${escapeHtml(flowTitle)}</div>
+      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>الحالة:</strong> ${escapeHtml(outcome.status)}</div>
+      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>التوصية:</strong> ${escapeHtml(outcome.recommendation)}</div>
+      <div class="rounded-lg border border-emerald-300 bg-white px-3 py-2"><strong>تاريخ الإنشاء:</strong> ${formatDate(createdAt || new Date().toISOString())}</div>
+      ${emailBlock}
+      ${trackingLinkBlock}
     </div>
+
     <div class="mt-4 flex flex-wrap gap-2">
-      <button id="result-track" type="button" class="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-bold text-white">متابعة الطلب</button>
-      <button id="result-new" type="button" class="rounded-lg border border-emerald-300 px-4 py-2 text-sm font-bold text-emerald-800">طلب جديد</button>
+      <button id="result-new" type="button" class="rounded-lg border border-emerald-400 bg-white px-4 py-2 text-sm font-bold text-emerald-800">بدء طلب جديد</button>
+      <button id="result-track-tab" type="button" class="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-bold text-white">متابعة برقم الطلب</button>
     </div>
   `;
 
-  document.getElementById("result-track")?.addEventListener("click", () => {
-    setTab("track");
-    document.getElementById("request-number").value = requestNumber;
-  });
-
   document.getElementById("result-new")?.addEventListener("click", () => {
-    resetToFlowSelection();
+    hideResult();
+    flowSection.classList.remove("hidden");
+    previewStage.classList.add("hidden");
   });
 
-  state.selectedFlowId = null;
-  state.answers = {};
-  state.stepIndex = 0;
-  flowSection.classList.remove("hidden");
+  document.getElementById("result-track-tab")?.addEventListener("click", () => {
+    setTab("track");
+    const input = document.getElementById("request-number");
+    input.value = requestNumber;
+    input.focus();
+  });
+}
+
+function hideResult() {
+  resultCard.classList.add("hidden");
+  resultCard.innerHTML = "";
 }
 
 function evaluateOutcome(flowId, answers) {
   if (flowId === "buy_over_million") {
-    const immediate = answers.readiness === "immediate";
+    const urgent = answers.readiness === "immediate";
     return {
       routeResult: "تأسيس وقف بشراء أصل",
-      recommendation: immediate
-        ? "تم تصنيف الطلب كأولوية عالية للتواصل العاجل."
-        : "سيتم ترتيب جلسة دراسة أولية لاختيار الأصل المناسب.",
-      status: immediate ? "قيد التواصل العاجل" : "قيد الدراسة الأولية",
-      timelineNote: immediate
-        ? "أولوية عاجلة بناءً على جاهزية البدء."
-        : "إدراج الطلب ضمن مسار الدراسة الأولية.",
+      recommendation: urgent
+        ? "تم تصنيف الطلب كأولوية عالية للتواصل السريع."
+        : "سيتم جدولة جلسة دراسة أولية لاختيار الأصل المناسب.",
+      status: urgent ? "قيد التواصل العاجل" : "قيد الدراسة الأولية",
+      timelineNote: urgent ? "تصنيف الطلب كعاجل." : "إدراج الطلب ضمن الدراسة الأولية.",
       requiredActions: ["تجهيز ما يثبت الملاءة المالية", "تأكيد نوع الأصل والمدينة"]
     };
   }
@@ -902,10 +957,10 @@ function evaluateOutcome(flowId, answers) {
     return {
       routeResult: "تحويل أصل قائم إلى وقف",
       recommendation: ready
-        ? "الطلب جاهز مبدئيًا للعرض على اللجنة القانونية والشرعية."
-        : "يلزم استكمال المتطلبات النظامية قبل الإقرار النهائي.",
+        ? "الطلب جاهز مبدئيًا للعرض على اللجنة المختصة."
+        : "يلزم استكمال المتطلبات النظامية قبل الاعتماد النهائي.",
       status: ready ? "مؤهل للعرض على اللجنة" : "بانتظار استكمال المتطلبات",
-      timelineNote: ready ? "تم تصنيف الطلب كجاهز مبدئيًا." : "تم رصد نواقص أو التزامات.",
+      timelineNote: ready ? "تم اعتبار الطلب جاهزًا مبدئيًا." : "الطلب يحتاج استكمالًا قبل المضي.",
       requiredActions: ["تقديم مستندات الملكية", "تقديم تقييم محدث للأصل"]
     };
   }
@@ -918,7 +973,7 @@ function evaluateOutcome(flowId, answers) {
         ? "سيتم البدء في إجراءات النقل الرسمية."
         : "يلزم استكمال الموافقة الرسمية/القضائية.",
       status: approved ? "قيد اعتماد نقل النظارة" : "بانتظار مستندات رسمية",
-      timelineNote: approved ? "تحويل الطلب للفريق القانوني." : "المعاملة بانتظار المستندات الرسمية.",
+      timelineNote: approved ? "تحويل الطلب للفريق القانوني." : "المعاملة بانتظار مستندات رسمية.",
       requiredActions: ["إرفاق موافقات ذوي العلاقة", "إرفاق صك الوقف"]
     };
   }
@@ -943,24 +998,24 @@ function evaluateOutcome(flowId, answers) {
       : monthly
         ? "تحويل الطلب لمسار التفعيل الشهري."
         : "تحويل الطلب لمسار الفاتورة المباشرة.",
-    requiredActions: ["تأكيد مبلغ المساهمة", "اختيار قناة السداد المناسبة"]
+    requiredActions: ["تأكيد مبلغ المساهمة", "اختيار قناة السداد"]
   };
 }
 
-async function handleTrack(event) {
+async function onTrackSubmit(event) {
   event.preventDefault();
-  clearSystemAlert();
+  clearAlert();
 
   const input = document.getElementById("request-number");
   const requestNumber = input.value.trim().toUpperCase();
 
   if (!requestNumber) {
-    showSystemAlert("أدخل رقم الطلب.", "warn");
+    showAlert("أدخل رقم الطلب.", "warn");
     return;
   }
 
   if (!supabaseClient) {
-    showSystemAlert("لا يمكن متابعة الطلب لأن إعدادات Supabase غير مكتملة.", "warn");
+    showAlert("لا يمكن متابعة الطلب لأن إعدادات Supabase غير مكتملة.", "warn");
     return;
   }
 
@@ -972,11 +1027,9 @@ async function handleTrack(event) {
     const { data, error } = await supabaseClient.rpc("track_waqf_request", {
       p_request_number: requestNumber
     });
-
     if (error) throw error;
 
     const request = Array.isArray(data) ? data[0] : data;
-
     if (!request) {
       trackResult.innerHTML =
         '<p class="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700">لا يوجد طلب بهذا الرقم.</p>';
@@ -987,13 +1040,13 @@ async function handleTrack(event) {
     const requiredActions = Array.isArray(request.required_actions) ? request.required_actions : [];
 
     trackResult.innerHTML = `
-      <article class="rounded-xl border border-waqf-200 bg-waqf-50 p-4">
-        <h3 class="text-sm font-extrabold text-waqf-900">رقم الطلب: ${request.request_number}</h3>
+      <article class="rounded-xl border border-waqf-300 bg-white p-4">
+        <h3 class="text-sm font-extrabold text-waqf-900">رقم الطلب: ${escapeHtml(request.request_number)}</h3>
         <div class="mt-2 space-y-2 text-sm text-waqf-800">
-          <div><strong>المسار:</strong> ${request.option_title}</div>
-          <div><strong>الحالة:</strong> ${request.status}</div>
-          <div><strong>النتيجة:</strong> ${request.route_result}</div>
-          <div><strong>آخر تحديث:</strong> ${formatDate(request.updated_at || request.created_at)}</div>
+          <p><strong>المسار:</strong> ${escapeHtml(request.option_title)}</p>
+          <p><strong>الحالة:</strong> ${escapeHtml(request.status)}</p>
+          <p><strong>النتيجة:</strong> ${escapeHtml(request.route_result)}</p>
+          <p><strong>آخر تحديث:</strong> ${formatDate(request.updated_at || request.created_at)}</p>
         </div>
 
         <div class="mt-3">
@@ -1004,10 +1057,10 @@ async function handleTrack(event) {
                 ? requiredActions
                     .map(
                       (action) =>
-                        `<div class="rounded-lg border border-waqf-200 bg-white px-3 py-2 text-xs text-waqf-800">${action}</div>`
+                        `<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-900">${escapeHtml(action)}</div>`
                     )
                     .join("")
-                : '<div class="rounded-lg border border-waqf-200 bg-white px-3 py-2 text-xs text-waqf-700">لا توجد متطلبات إضافية حاليًا.</div>'
+                : '<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا توجد متطلبات إضافية.</div>'
             }
           </div>
         </div>
@@ -1020,71 +1073,70 @@ async function handleTrack(event) {
                 ? timeline
                     .map(
                       (item) =>
-                        `<div class="rounded-lg border border-waqf-200 bg-white px-3 py-2 text-xs text-waqf-800"><strong>${
+                        `<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-900"><strong>${escapeHtml(
                           item.status || "تحديث"
-                        }</strong><br>${item.note || ""}<br><span class="text-waqf-600">${formatDate(
+                        )}</strong><br>${escapeHtml(item.note || "-")}<br><span class="text-waqf-700">${formatDate(
                           item.at || request.updated_at || request.created_at
                         )}</span></div>`
                     )
                     .join("")
-                : '<div class="rounded-lg border border-waqf-200 bg-white px-3 py-2 text-xs text-waqf-700">لا يوجد سجل حالة مفصل.</div>'
+                : '<div class="rounded-lg border border-waqf-300 bg-waqf-50 px-3 py-2 text-xs text-waqf-700">لا يوجد سجل حالة مفصل.</div>'
             }
           </div>
         </div>
       </article>
     `;
   } catch (error) {
-    showSystemAlert(`تعذر متابعة الطلب: ${error.message || "خطأ غير متوقع"}`, "error");
+    showAlert(`تعذر متابعة الطلب: ${error.message || "خطأ غير متوقع"}`, "error");
   } finally {
     submitButton.disabled = false;
     submitButton.textContent = "بحث";
   }
 }
 
-function displayValue(question, value) {
-  if (question.type === "choice") {
-    const option = (question.options || []).find((item) => item.value === value);
-    return option?.label || value;
-  }
-
-  return String(value);
+function showSheetError(message) {
+  sheetError.classList.remove("hidden");
+  sheetError.textContent = message;
 }
 
-function showSystemAlert(message, type = "warn") {
-  systemAlert.classList.remove(
+function hideSheetError() {
+  sheetError.classList.add("hidden");
+  sheetError.textContent = "";
+}
+
+function showAlert(message, type = "warn") {
+  alertBox.classList.remove(
     "hidden",
     "border-amber-300",
     "bg-amber-50",
     "text-amber-900",
     "border-rose-300",
     "bg-rose-50",
-    "text-rose-800"
+    "text-rose-800",
+    "border-emerald-300",
+    "bg-emerald-50",
+    "text-emerald-800"
   );
 
   if (type === "error") {
-    systemAlert.classList.add("border-rose-300", "bg-rose-50", "text-rose-800");
+    alertBox.classList.add("border-rose-300", "bg-rose-50", "text-rose-800");
+  } else if (type === "success") {
+    alertBox.classList.add("border-emerald-300", "bg-emerald-50", "text-emerald-800");
   } else {
-    systemAlert.classList.add("border-amber-300", "bg-amber-50", "text-amber-900");
+    alertBox.classList.add("border-amber-300", "bg-amber-50", "text-amber-900");
   }
 
-  systemAlert.textContent = message;
+  alertBox.textContent = message;
 }
 
-function clearSystemAlert() {
-  systemAlert.classList.add("hidden");
-  systemAlert.textContent = "";
+function clearAlert() {
+  alertBox.classList.add("hidden");
+  alertBox.textContent = "";
 }
 
-function setFrameOpen(isOpen) {
-  frameBackdrop.classList.toggle("hidden", !isOpen);
-  document.body.classList.toggle("overflow-hidden", isOpen);
-  document.body.classList.toggle("h-screen", isOpen);
-}
-
-function formatDate(dateValue) {
-  if (!dateValue) return "-";
-
-  const date = new Date(dateValue);
+function formatDate(value) {
+  if (!value) return "-";
+  const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "-";
 
   return new Intl.DateTimeFormat("ar-SA", {
