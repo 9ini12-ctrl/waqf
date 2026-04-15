@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>التقارير العامة - الحملات التسويقية</title>
+    <meta name="description" content="تقارير عامة لحملات التبرع مع مؤشرات الأداء الرئيسية." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body data-page="public">
+    <div class="page-bg" aria-hidden="true">
+      <span class="glow glow-one"></span>
+      <span class="glow glow-two"></span>
+    </div>
+
+    <div class="page">
+      <header class="glass-card top-nav">
+        <div class="brand">
+          <small>Public View</small>
+          <h1>التقارير العامة للحملات</h1>
+        </div>
+        <div class="top-actions">
+          <a class="btn btn-secondary" href="index.html" aria-label="العودة لتسجيل الدخول">تسجيل الدخول</a>
+          <button id="public-refresh-btn" class="btn btn-primary" aria-label="تحديث البيانات">تحديث</button>
+        </div>
+      </header>
+
+      <section id="public-status" class="state-box state-loading">جاري تحميل التقارير العامة...</section>
+
+      <section class="kpi-grid" style="margin-top: 1rem" id="public-kpi-grid">
+        <article class="kpi-card">
+          <span class="label">إجمالي التبرعات</span>
+          <strong class="value" id="public-kpi-total">-</strong>
+          <span class="hint">جميع الحملات</span>
+        </article>
+        <article class="kpi-card">
+          <span class="label">نسبة تحقيق الهدف</span>
+          <strong class="value" id="public-kpi-achievement">-</strong>
+          <span class="hint">الهدف العام</span>
+        </article>
+        <article class="kpi-card">
+          <span class="label">عدد المتبرعين</span>
+          <strong class="value" id="public-kpi-donors">-</strong>
+          <span class="hint">متبرعون فريدون</span>
+        </article>
+        <article class="kpi-card">
+          <span class="label">أفضل قناة</span>
+          <strong class="value" id="public-kpi-best-channel">-</strong>
+          <span class="hint">حسب ROI</span>
+        </article>
+        <article class="kpi-card">
+          <span class="label">أفضل سفير</span>
+          <strong class="value" id="public-kpi-best-ambassador">-</strong>
+          <span class="hint">أعلى تحصيل</span>
+        </article>
+      </section>
+
+      <section class="grid-2" style="margin-top: 1rem">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>مقارنة الحملات</h2>
+              <p>عرض يومي مع نسبة الإنجاز لكل حملة.</p>
+            </div>
+            <span class="badge badge-info" id="public-last-update">-</span>
+          </div>
+          <section id="public-campaigns-state" class="state-box state-loading">جاري تحليل الحملات...</section>
+          <div id="public-campaigns-content" class="hidden"></div>
+        </article>
+
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h2>تقرير القنوات</h2>
+              <p>العائد، التكلفة، وعدد المتبرعين لكل قناة.</p>
+            </div>
+          </div>
+          <section id="public-channels-state" class="state-box state-loading">جاري تجهيز تقرير القنوات...</section>
+          <div id="public-channels-content" class="hidden"></div>
+        </article>
+      </section>
+
+      <section class="section-card" style="margin-top: 1rem">
+        <div class="section-head">
+          <div>
+            <h2>أفضل السفراء</h2>
+            <p>قائمة عامة لأكثر السفراء تحقيقًا للتبرعات.</p>
+          </div>
+        </div>
+        <section id="public-ambassadors-state" class="state-box state-loading">جاري تحميل ترتيب السفراء...</section>
+        <div id="public-ambassadors-content" class="hidden"></div>
+      </section>
+    </div>
+
+    <div id="toast-root" aria-live="polite" aria-atomic="true"></div>
+    <script src="assets/app.js" defer></script>
+  </body>
+</html>

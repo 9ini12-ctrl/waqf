@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>متابعة الإنجاز برمز</title>
+    <meta name="description" content="صفحة متابعة الإنجاز برمز مكوّن من 4 أرقام." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body data-page="teacher">
+    <div class="page-bg" aria-hidden="true">
+      <span class="glow glow-one"></span>
+      <span class="glow glow-two"></span>
+    </div>
+
+    <div class="page center-box">
+      <header class="glass-card top-nav">
+        <div class="brand">
+          <small>Teacher Public Access</small>
+          <h1>متابعة الإنجاز برمز</h1>
+        </div>
+        <div class="top-actions">
+          <a class="btn btn-secondary" href="public.html" aria-label="التقارير العامة">تقارير عامة</a>
+          <a class="btn btn-secondary" href="index.html" aria-label="تسجيل الدخول">تسجيل الدخول</a>
+        </div>
+      </header>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <h2>دخول سريع</h2>
+            <p>أدخل رمزًا مكوّنًا من 4 أرقام لعرض الإنجاز وما لم يُنجز.</p>
+          </div>
+          <span class="badge badge-info">4-Digit PIN</span>
+        </div>
+
+        <form id="teacher-pin-form" class="form-grid" novalidate>
+          <div class="field">
+            <label for="teacher-pin">رمز الدخول</label>
+            <input
+              id="teacher-pin"
+              name="pin"
+              class="input"
+              inputmode="numeric"
+              pattern="\d{4}"
+              maxlength="4"
+              placeholder="****"
+              required
+              aria-label="أدخل رمز الدخول المكون من 4 أرقام"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary" aria-label="عرض الإنجاز">عرض الإنجاز</button>
+        </form>
+      </section>
+
+      <section id="teacher-status" class="state-box state-empty" style="margin-top: 0.9rem">
+        أدخل الرمز ثم اضغط "عرض الإنجاز".
+      </section>
+
+      <section id="teacher-result" class="section-card hidden" style="margin-top: 1rem">
+        <div class="section-head">
+          <div>
+            <h2 id="teacher-name">-</h2>
+            <p>الفرع: <strong id="teacher-branch">-</strong></p>
+          </div>
+          <div class="circular-progress" id="teacher-circle" style="--value: 0">
+            <span id="teacher-circle-text">0%</span>
+          </div>
+        </div>
+
+        <div class="inline-note" id="teacher-progress-label">-</div>
+        <div class="progress" style="margin-top: 0.35rem">
+          <span id="teacher-progress-bar" style="width: 0%"></span>
+        </div>
+
+        <section class="grid-2" style="margin-top: 1rem">
+          <article>
+            <h3 style="margin: 0 0 0.55rem; font-size: 0.95rem">ما تم إنجازه</h3>
+            <div id="teacher-achieved-list" class="list"></div>
+          </article>
+
+          <article>
+            <h3 style="margin: 0 0 0.55rem; font-size: 0.95rem">ما لم يُنجز</h3>
+            <div id="teacher-pending-list" class="list"></div>
+          </article>
+        </section>
+      </section>
+    </div>
+
+    <div id="toast-root" aria-live="polite" aria-atomic="true"></div>
+    <script src="assets/app.js" defer></script>
+  </body>
+</html>

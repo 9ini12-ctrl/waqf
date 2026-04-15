@@ -3,944 +3,147 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>منصة مدكر للأوقاف</title>
+    <title>منصة إدارة الحملات التسويقية</title>
+    <meta name="description" content="منصة عربية لإدارة الحملات التسويقية لجمعيات تحفيظ القرآن الكريم." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <style>
-      :root {
-        --bg-0: #040a14;
-        --bg-1: #0a1426;
-        --bg-2: #102440;
-        --card: rgba(255, 255, 255, 0.07);
-        --card-strong: rgba(255, 255, 255, 0.13);
-        --line: rgba(255, 255, 255, 0.16);
-        --text: #f5f9ff;
-        --muted: #9bb0cf;
-        --accent: #00d0ff;
-        --accent-2: #4cffc7;
-        --error: #ff7a93;
-        --shadow-xl: 0 26px 70px rgba(0, 0, 0, 0.45);
-        --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.28);
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        margin: 0;
-        min-height: 100%;
-      }
-
-      body {
-        font-family: "Tajawal", sans-serif;
-        color: var(--text);
-        background: radial-gradient(circle at 15% 20%, #11315a 0%, transparent 38%),
-          radial-gradient(circle at 85% 0%, #0e4a54 0%, transparent 42%),
-          linear-gradient(180deg, #02060f 0%, #070f1d 58%, #091226 100%);
-      }
-
-      .hidden {
-        display: none !important;
-      }
-
-      .app-shell {
-        position: relative;
-        width: 100%;
-        max-width: 440px;
-        min-height: 100dvh;
-        margin: 0 auto;
-        overflow: hidden;
-        background: linear-gradient(160deg, var(--bg-0) 0%, var(--bg-1) 45%, var(--bg-2) 100%);
-      }
-
-      @media (min-width: 880px) {
-        .app-shell {
-          margin-top: 18px;
-          margin-bottom: 18px;
-          min-height: calc(100dvh - 36px);
-          border-radius: 36px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: var(--shadow-xl);
-        }
-      }
-
-      .ambient {
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        overflow: hidden;
-      }
-
-      .orb {
-        position: absolute;
-        border-radius: 999px;
-        filter: blur(55px);
-        opacity: 0.45;
-      }
-
-      .orb-a {
-        width: 210px;
-        height: 210px;
-        top: -68px;
-        left: 30%;
-        background: #23b9ff;
-      }
-
-      .orb-b {
-        width: 230px;
-        height: 230px;
-        bottom: -96px;
-        right: -48px;
-        background: #28ffd7;
-      }
-
-      .content {
-        position: relative;
-        z-index: 2;
-      }
-
-      .header-wrap {
-        padding: calc(env(safe-area-inset-top) + 12px) 16px 12px;
-      }
-
-      .hero {
-        border: 1px solid var(--line);
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
-        backdrop-filter: blur(14px);
-        border-radius: 26px;
-        padding: 14px;
-        box-shadow: var(--shadow-md);
-      }
-
-      .hero-top {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 10px;
-      }
-
-      .eyebrow {
-        margin: 0;
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.45px;
-      }
-
-      .title {
-        margin: 3px 0 0;
-        font-size: 20px;
-        line-height: 1.6;
-        font-weight: 800;
-      }
-
-      .hero-sub {
-        margin: 8px 0 0;
-        font-size: 12px;
-        line-height: 1.9;
-        color: #d3e2f8;
-      }
-
-      .admin-link {
-        text-decoration: none;
-        border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.12);
-        color: var(--text);
-        border-radius: 999px;
-        padding: 6px 11px;
-        font-size: 11px;
-        font-weight: 700;
-      }
-
-      .kpi-row {
-        margin-top: 10px;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-      }
-
-      .kpi {
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 14px;
-        padding: 8px 6px;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.18);
-      }
-
-      .kpi strong {
-        display: block;
-        font-size: 15px;
-        font-weight: 800;
-        color: var(--accent-2);
-      }
-
-      .kpi span {
-        display: block;
-        margin-top: 2px;
-        font-size: 10px;
-        font-weight: 700;
-        color: var(--muted);
-      }
-
-      .segment-wrap {
-        padding: 0 16px;
-      }
-
-      .segment {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 7px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        padding: 6px;
-      }
-
-      .seg-btn {
-        width: 100%;
-        border: 1px solid transparent;
-        border-radius: 14px;
-        padding: 11px 10px;
-        background: transparent;
-        color: var(--muted);
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-
-      .seg-active {
-        background: linear-gradient(145deg, rgba(0, 208, 255, 0.24), rgba(0, 208, 255, 0.1));
-        border-color: rgba(0, 208, 255, 0.45);
-        color: #f4ffff;
-      }
-
-      .system-alert {
-        margin: 9px 0 0;
-        border-radius: 14px;
-        border: 1px solid;
-        padding: 10px 12px;
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 1.7;
-      }
-
-      .system-alert.warn {
-        background: rgba(0, 208, 255, 0.12);
-        border-color: rgba(0, 208, 255, 0.45);
-        color: #bcefff;
-      }
-
-      .system-alert.error {
-        background: rgba(255, 122, 147, 0.1);
-        border-color: rgba(255, 122, 147, 0.45);
-        color: #ffc0d2;
-      }
-
-      .main-scroll {
-        padding: 12px 16px 118px;
-      }
-
-      #start-view,
-      #track-view {
-        display: grid;
-        gap: 10px;
-      }
-
-      .panel {
-        border: 1px solid var(--line);
-        background: var(--card);
-        border-radius: 24px;
-        padding: 14px;
-        backdrop-filter: blur(12px);
-        box-shadow: var(--shadow-md);
-      }
-
-      .panel-title {
-        margin: 0;
-        font-size: 14px;
-        font-weight: 800;
-      }
-
-      .panel-help {
-        margin: 5px 0 0;
-        color: #bed0eb;
-        font-size: 12px;
-        line-height: 1.8;
-      }
-
-      .flow-list {
-        margin-top: 12px;
-        display: grid;
-        gap: 10px;
-      }
-
-      .route-card {
-        width: 100%;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 18px;
-        padding: 12px;
-        text-align: right;
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
-        color: var(--text);
-        cursor: pointer;
-      }
-
-      .route-kicker {
-        margin: 0;
-        font-size: 11px;
-        font-weight: 700;
-        color: #d2e7ff;
-      }
-
-      .route-title {
-        margin: 6px 0 0;
-        font-size: 14px;
-        line-height: 1.8;
-        font-weight: 800;
-      }
-
-      .route-desc {
-        margin: 4px 0 0;
-        font-size: 12px;
-        line-height: 1.7;
-        color: var(--muted);
-      }
-
-      .route-meta {
-        margin-top: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 11px;
-        font-weight: 700;
-        color: #cde0f8;
-      }
-
-      .preview-wrap {
-        display: grid;
-        gap: 10px;
-      }
-
-      .progress-bar {
-        margin-top: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.16);
-        overflow: hidden;
-      }
-
-      .progress-value {
-        height: 100%;
-        width: 0;
-        border-radius: 999px;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        transition: width 240ms ease;
-      }
-
-      .preview-card {
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 22px;
-        padding: 13px;
-      }
-
-      .preview-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 11px;
-        font-weight: 700;
-        color: var(--muted);
-      }
-
-      .preview-list {
-        margin-top: 9px;
-        display: grid;
-        gap: 7px;
-      }
-
-      .preview-row {
-        border: 1px solid;
-        border-radius: 12px;
-        padding: 8px 10px;
-        font-size: 12px;
-        line-height: 1.6;
-      }
-
-      .preview-row.filled {
-        border-color: rgba(76, 255, 199, 0.45);
-        background: rgba(76, 255, 199, 0.1);
-        color: #e6fff7;
-      }
-
-      .preview-row.pending {
-        border-color: rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--muted);
-      }
-
-      .result-card {
-        border: 1px solid rgba(76, 255, 199, 0.45);
-        background: rgba(76, 255, 199, 0.12);
-      }
-
-      .result-title {
-        margin: 0;
-        font-size: 14px;
-        font-weight: 800;
-      }
-
-      .result-list {
-        margin-top: 10px;
-        display: grid;
-        gap: 7px;
-      }
-
-      .result-item {
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.22);
-        background: rgba(0, 0, 0, 0.2);
-        padding: 8px 10px;
-        font-size: 12px;
-        line-height: 1.7;
-      }
-
-      .result-actions {
-        margin-top: 10px;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-      }
-
-      .action-btn {
-        border-radius: 13px;
-        border: 1px solid var(--line);
-        padding: 10px 8px;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-
-      .action-btn.secondary {
-        background: rgba(255, 255, 255, 0.12);
-        color: var(--text);
-      }
-
-      .action-btn.primary {
-        background: linear-gradient(90deg, var(--accent), #1ba8ff);
-        border-color: rgba(0, 208, 255, 0.55);
-        color: #001629;
-      }
-
-      .track-form {
-        margin-top: 10px;
-        display: grid;
-        gap: 8px;
-      }
-
-      .field-label {
-        display: grid;
-        gap: 6px;
-        font-size: 12px;
-        font-weight: 700;
-      }
-
-      .field-control {
-        width: 100%;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 13px;
-        background: rgba(0, 0, 0, 0.2);
-        color: var(--text);
-        padding: 10px 12px;
-        font: inherit;
-      }
-
-      .field-control::placeholder {
-        color: #7f96ba;
-      }
-
-      .field-control:focus {
-        outline: 2px solid rgba(0, 208, 255, 0.38);
-        border-color: rgba(0, 208, 255, 0.5);
-      }
-
-      .btn-primary {
-        width: 100%;
-        border: 1px solid rgba(0, 208, 255, 0.52);
-        border-radius: 13px;
-        background: linear-gradient(90deg, var(--accent), #1ba8ff);
-        color: #001629;
-        padding: 10px 12px;
-        font-size: 13px;
-        font-weight: 800;
-        cursor: pointer;
-      }
-
-      .empty-card {
-        border-radius: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.06);
-        padding: 10px 12px;
-        font-size: 12px;
-        line-height: 1.7;
-      }
-
-      .empty-card.error {
-        border-color: rgba(255, 122, 147, 0.42);
-        background: rgba(255, 122, 147, 0.12);
-        color: #ffd0db;
-      }
-
-      .track-card {
-        border: 1px solid var(--line);
-        background: var(--card);
-        border-radius: 22px;
-        padding: 13px;
-        backdrop-filter: blur(10px);
-      }
-
-      .track-title {
-        margin: 0;
-        font-size: 14px;
-        font-weight: 800;
-      }
-
-      .track-meta {
-        margin-top: 8px;
-        display: grid;
-        gap: 6px;
-        font-size: 12px;
-        line-height: 1.7;
-        color: #d3e4fd;
-      }
-
-      .section-cap {
-        margin: 10px 0 0;
-        font-size: 11px;
-        font-weight: 800;
-        color: var(--muted);
-      }
-
-      .chip-list {
-        margin-top: 7px;
-        display: grid;
-        gap: 7px;
-      }
-
-      .chip {
-        border: 1px solid rgba(76, 255, 199, 0.38);
-        border-radius: 12px;
-        background: rgba(76, 255, 199, 0.12);
-        padding: 8px 10px;
-        font-size: 12px;
-        line-height: 1.6;
-      }
-
-      .timeline-item {
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 12px;
-        background: rgba(0, 0, 0, 0.2);
-        padding: 8px 10px;
-        font-size: 12px;
-        line-height: 1.7;
-      }
-
-      .sheet-backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(3, 8, 16, 0.62);
-        backdrop-filter: blur(2px);
-        z-index: 30;
-      }
-
-      .sheet-panel {
-        position: fixed;
-        inset-inline: 0;
-        bottom: 0;
-        z-index: 40;
-        padding: 0 7px max(env(safe-area-inset-bottom), 8px);
-      }
-
-      .sheet-shell {
-        width: 100%;
-        max-width: 440px;
-        margin: 0 auto;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 28px 28px 0 0;
-        background: linear-gradient(180deg, rgba(10, 20, 34, 0.96), rgba(8, 16, 28, 0.97));
-        box-shadow: var(--shadow-xl);
-      }
-
-      .sheet-handle {
-        margin: 8px auto 0;
-        width: 58px;
-        height: 5px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.24);
-      }
-
-      .sheet-head {
-        padding: 10px 14px 0;
-      }
-
-      .sheet-title-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-      }
-
-      .sheet-title {
-        margin: 0;
-        font-size: 13px;
-        font-weight: 800;
-      }
-
-      .close-btn {
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.09);
-        color: var(--text);
-        padding: 5px 10px;
-        font-size: 11px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-
-      .sheet-meta {
-        margin: 5px 0 0;
-        font-size: 11px;
-        font-weight: 700;
-        color: var(--muted);
-      }
-
-      .sheet-stepper {
-        margin-top: 7px;
-        display: flex;
-        align-items: center;
-        gap: 2px;
-        overflow-x: auto;
-        padding-bottom: 8px;
-      }
-
-      .stepper-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        flex-shrink: 0;
-      }
-
-      .step-dot {
-        display: inline-flex;
-        width: 22px;
-        height: 22px;
-        align-items: center;
-        justify-content: center;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.24);
-        color: var(--muted);
-        background: rgba(255, 255, 255, 0.06);
-        font-size: 10px;
-        font-weight: 800;
-      }
-
-      .step-dot.active {
-        border-color: rgba(0, 208, 255, 0.62);
-        background: rgba(0, 208, 255, 0.24);
-        color: #f2ffff;
-      }
-
-      .step-dot.done {
-        border-color: rgba(76, 255, 199, 0.55);
-        background: rgba(76, 255, 199, 0.18);
-        color: #dcfff3;
-      }
-
-      .step-line {
-        width: 14px;
-        height: 2px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.2);
-      }
-
-      .step-line.done {
-        background: rgba(76, 255, 199, 0.55);
-      }
-
-      .sheet-body {
-        max-height: 56vh;
-        overflow-y: auto;
-        padding: 0 14px 7px;
-      }
-
-      .question-card {
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.06);
-        padding: 12px;
-      }
-
-      .question-title {
-        margin: 0;
-        font-size: 14px;
-        font-weight: 800;
-      }
-
-      .question-help {
-        margin: 4px 0 0;
-        color: #c2d5f3;
-        font-size: 12px;
-        line-height: 1.8;
-      }
-
-      .sheet-options {
-        margin-top: 10px;
-        display: grid;
-        gap: 7px;
-      }
-
-      .choice-btn {
-        width: 100%;
-        text-align: right;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 14px;
-        background: rgba(0, 0, 0, 0.22);
-        color: var(--text);
-        padding: 10px 12px;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-
-      .choice-btn.is-selected {
-        border-color: rgba(0, 208, 255, 0.55);
-        background: rgba(0, 208, 255, 0.18);
-        color: #d8f8ff;
-      }
-
-      .sheet-hint {
-        margin: 7px 0 0;
-        font-size: 11px;
-        font-weight: 700;
-        color: #92ffc9;
-      }
-
-      .sheet-error {
-        margin-top: 8px;
-        border: 1px solid rgba(255, 122, 147, 0.44);
-        border-radius: 12px;
-        background: rgba(255, 122, 147, 0.12);
-        color: #ffc5d3;
-        padding: 8px 10px;
-        font-size: 11px;
-        font-weight: 700;
-      }
-
-      .sheet-foot {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 10px 14px 12px;
-      }
-
-      .sheet-actions {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-      }
-
-      .btn {
-        border-radius: 14px;
-        padding: 10px 10px;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-
-      .btn-ghost {
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.08);
-        color: var(--text);
-      }
-
-      .btn-next {
-        border: 1px solid rgba(0, 208, 255, 0.58);
-        background: linear-gradient(90deg, var(--accent), #17b8ff);
-        color: #001629;
-      }
-
-      .btn-submit {
-        grid-column: 1 / -1;
-        border: 1px solid rgba(76, 255, 199, 0.5);
-        background: linear-gradient(90deg, #4cffc7, #24d9ff);
-        color: #002019;
-      }
-
-      .muted {
-        color: var(--muted);
-      }
-
-      .preview-bump {
-        animation: bump 280ms ease;
-      }
-
-      @keyframes bump {
-        0% {
-          transform: scale(1);
-        }
-        45% {
-          transform: scale(1.01);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/styles.css" />
   </head>
-  <body>
-    <main class="app-shell">
-      <div class="ambient" aria-hidden="true">
-        <span class="orb orb-a"></span>
-        <span class="orb orb-b"></span>
-      </div>
+  <body data-page="index">
+    <div class="page-bg" aria-hidden="true">
+      <span class="glow glow-one"></span>
+      <span class="glow glow-two"></span>
+    </div>
 
-      <div class="content">
-        <header class="header-wrap">
-          <div class="hero">
-            <div class="hero-top">
-              <div>
-                <p class="eyebrow">MADKAR WAQF PLATFORM</p>
-                <h1 class="title">رحلة الوقف الرقمية</h1>
-              </div>
-              <a href="/admin.html" class="admin-link">الإدارة</a>
-            </div>
-            <p class="hero-sub">منصة تفاعلية لإصدار الطلبات الوقفية ومتابعتها من الهاتف بخطوات واضحة وسريعة.</p>
-            <div class="kpi-row" aria-hidden="true">
-              <div class="kpi">
-                <strong>4</strong>
-                <span>مسارات رئيسية</span>
-              </div>
-              <div class="kpi">
-                <strong>+1</strong>
-                <span>رقم طلب فوري</span>
-              </div>
-              <div class="kpi">
-                <strong>100%</strong>
-                <span>تتبع رقمي</span>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <section class="segment-wrap">
-          <div class="segment">
-            <button id="tab-start" type="button" class="seg-btn seg-active">طلب جديد</button>
-            <button id="tab-track" type="button" class="seg-btn">متابعة طلب</button>
-          </div>
-
-          <section id="system-alert" class="system-alert hidden"></section>
-        </section>
-
-        <section class="main-scroll">
-          <section id="start-view">
-            <section id="flow-section" class="panel">
-              <h2 class="panel-title">اختر نوع طلبك</h2>
-              <p class="panel-help">اضغط على المسار المناسب لك، ثم أكمل الخطوات حتى إصدار الطلب.</p>
-              <div id="flow-list" class="flow-list"></div>
-            </section>
-
-            <section id="preview-stage" class="hidden preview-wrap">
-              <section class="panel">
-                <div style="display: flex; justify-content: space-between; gap: 8px; align-items: center">
-                  <h2 id="preview-route-title" class="panel-title"></h2>
-                  <p id="preview-progress" class="eyebrow" style="color: var(--muted)"></p>
-                </div>
-                <div class="progress-bar">
-                  <div id="preview-progress-bar" class="progress-value"></div>
-                </div>
-              </section>
-
-              <section id="preview-card" class="preview-card">
-                <div class="preview-meta">
-                  <span>DRAFT PREVIEW</span>
-                  <span>يتحدث تلقائيًا</span>
-                </div>
-                <div id="preview-list" class="preview-list"></div>
-              </section>
-            </section>
-
-            <section id="result-card" class="panel result-card hidden" aria-live="polite"></section>
-          </section>
-
-          <section id="track-view" class="hidden">
-            <section class="panel">
-              <h2 class="panel-title">متابعة الطلب</h2>
-              <p class="panel-help">أدخل رقم الطلب لمعرفة الحالة وسجل التحديثات.</p>
-
-              <form id="track-form" class="track-form" novalidate>
-                <label class="field-label" for="request-number">
-                  <span>رقم الطلب</span>
-                  <input
-                    id="request-number"
-                    name="request-number"
-                    type="text"
-                    placeholder="MDK-WQF-20260413-000001"
-                    required
-                    class="field-control"
-                  />
-                </label>
-                <button type="submit" class="btn-primary">بحث</button>
-              </form>
-            </section>
-
-            <section id="track-result" style="margin-top: 10px"></section>
-          </section>
-        </section>
-      </div>
-    </main>
-
-    <div id="sheet-backdrop" class="sheet-backdrop hidden"></div>
-
-    <section id="sheet-panel" class="sheet-panel hidden">
-      <div class="sheet-shell">
-        <div class="sheet-handle"></div>
-
-        <header class="sheet-head">
-          <div class="sheet-title-row">
-            <h3 id="sheet-route-title" class="sheet-title"></h3>
-            <button id="sheet-close" type="button" class="close-btn">إغلاق</button>
-          </div>
-          <p id="sheet-step-meta" class="sheet-meta"></p>
-          <div id="sheet-stepper" class="sheet-stepper"></div>
-        </header>
-
-        <div class="sheet-body">
-          <section class="question-card">
-            <h4 id="sheet-question-title" class="question-title"></h4>
-            <p id="sheet-question-help" class="question-help"></p>
-            <div id="sheet-options" class="sheet-options"></div>
-            <p id="sheet-hint" class="sheet-hint hidden"></p>
-          </section>
-
-          <p id="sheet-error" class="sheet-error hidden"></p>
+    <div class="page">
+      <header class="glass-card top-nav">
+        <div class="brand">
+          <small>Marketing Campaign Management</small>
+          <h1>منصة إدارة الحملات التسويقية</h1>
         </div>
+        <div class="top-actions">
+          <a class="btn btn-secondary" href="public.html" aria-label="عرض التقارير العامة">التقارير العامة</a>
+          <a class="btn btn-secondary" href="teacher-public.html" aria-label="صفحة المتابعة برمز">متابعة برمز</a>
+        </div>
+      </header>
 
-        <footer class="sheet-foot">
-          <div class="sheet-actions">
-            <button id="sheet-back" type="button" class="btn btn-ghost">السابق</button>
-            <button id="sheet-next" type="button" class="btn btn-next">التالي</button>
-            <button id="sheet-submit" type="button" class="btn btn-submit hidden">إصدار الطلب</button>
+      <section class="hero-grid">
+        <article class="glass-card">
+          <h2 class="hero-title">تحكم كامل بالحملات من شاشة واحدة</h2>
+          <p class="hero-sub">
+            أنشئ الحملات، راقب التبرعات، تابع أداء القنوات والسفراء، واستخرج التقارير لحظيًا بواجهة عربية مهيأة للجوال.
+          </p>
+          <div class="stats-inline" aria-hidden="true">
+            <span class="chip">Campaigns</span>
+            <span class="chip">Channels</span>
+            <span class="chip">Referral</span>
+            <span class="chip">Live KPI</span>
           </div>
-        </footer>
-      </div>
-    </section>
+        </article>
+      </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="config.js"></script>
-    <script src="app.js"></script>
+      <section id="index-status" class="state-box hidden" aria-live="polite"></section>
+
+      <section class="auth-layout">
+        <article class="section-card" id="bootstrap-section">
+          <div class="section-head">
+            <div>
+              <h2>تهيئة أول مدير للنظام</h2>
+              <p>يظهر هذا النموذج مرة واحدة عند أول تشغيل فقط.</p>
+            </div>
+            <span class="badge badge-info">Bootstrap</span>
+          </div>
+
+          <form id="bootstrap-form" class="form-grid" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="bootstrap-name">الاسم الكامل</label>
+                <input id="bootstrap-name" name="name" class="input" placeholder="مثال: مدير المنصة" required />
+              </div>
+              <div class="field">
+                <label for="bootstrap-email">البريد الإلكتروني</label>
+                <input
+                  id="bootstrap-email"
+                  name="email"
+                  class="input"
+                  type="email"
+                  placeholder="admin@quran.org"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="field">
+                <label for="bootstrap-password">كلمة المرور</label>
+                <input
+                  id="bootstrap-password"
+                  name="password"
+                  class="input"
+                  type="password"
+                  minlength="6"
+                  placeholder="6 أحرف أو أكثر"
+                  required
+                />
+              </div>
+              <div class="field">
+                <label for="bootstrap-branch">الفرع</label>
+                <input id="bootstrap-branch" name="branch" class="input" placeholder="الفرع الرئيسي" required />
+              </div>
+              <div class="field">
+                <label for="bootstrap-phone">رقم الجوال</label>
+                <input id="bootstrap-phone" name="phone" class="input" placeholder="05xxxxxxxx" required />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" aria-label="إنشاء أول مدير">إنشاء المدير والبدء</button>
+          </form>
+        </article>
+
+        <article class="section-card" id="login-section">
+          <div class="section-head">
+            <div>
+              <h2>تسجيل الدخول</h2>
+              <p>الدخول إلى لوحة إدارة الحملات التسويقية.</p>
+            </div>
+            <span class="badge badge-success">Secure Access</span>
+          </div>
+
+          <form id="login-form" class="form-grid" novalidate>
+            <div class="field">
+              <label for="login-email">البريد الإلكتروني</label>
+              <input id="login-email" name="email" class="input" type="email" required placeholder="user@quran.org" />
+            </div>
+            <div class="field">
+              <label for="login-password">كلمة المرور</label>
+              <input
+                id="login-password"
+                name="password"
+                class="input"
+                type="password"
+                required
+                placeholder="أدخل كلمة المرور"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary" aria-label="تسجيل الدخول">دخول</button>
+          </form>
+
+          <div class="state-box state-empty" style="margin-top: 0.9rem">
+            <strong>حسابات تجريبية بعد التهيئة:</strong>
+            <ul class="helper-list" id="demo-users-list"></ul>
+          </div>
+        </article>
+      </section>
+
+      <p class="footer-note">الإصدار التجريبي - يعمل بالكامل على الجوال وسطح المكتب.</p>
+    </div>
+
+    <div id="toast-root" aria-live="polite" aria-atomic="true"></div>
+    <script src="assets/app.js" defer></script>
   </body>
 </html>
