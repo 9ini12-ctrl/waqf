@@ -177,6 +177,12 @@ textarea {
   transform: translateY(-1px);
 }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .btn-primary {
   background: linear-gradient(90deg, var(--sky-500), #17a5ff);
   color: #022238;
@@ -244,7 +250,13 @@ textarea {
 
 @media (min-width: 768px) {
   .kpi-grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .kpi-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
 
@@ -634,6 +646,229 @@ textarea {
   margin: 0;
   font-size: 0.74rem;
   color: var(--text-soft);
+}
+
+.lifecycle-grid,
+.goal-grid,
+.risk-grid,
+.budget-grid {
+  display: grid;
+  gap: 0.7rem;
+}
+
+@media (min-width: 900px) {
+  .lifecycle-grid,
+  .goal-grid,
+  .budget-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.project-card,
+.goal-card,
+.risk-card,
+.budget-card,
+.kanban-col {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: rgba(6, 17, 31, 0.58);
+  padding: 0.8rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.project-head,
+.kanban-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.project-head h4,
+.kanban-head h4,
+.goal-card h4,
+.risk-card h4,
+.budget-card h4 {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.project-head p {
+  margin: 0.2rem 0 0;
+  font-size: 0.76rem;
+  color: var(--text-soft);
+}
+
+.project-meta-grid,
+.goal-meta-grid,
+.budget-meta-grid {
+  margin-top: 0.55rem;
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 560px) {
+  .project-meta-grid,
+  .goal-meta-grid,
+  .budget-meta-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.project-meta-grid > div,
+.goal-meta-grid > div,
+.budget-meta-grid > div {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.78rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.45rem 0.55rem;
+  font-size: 0.76rem;
+  color: var(--text-soft);
+}
+
+.project-meta-grid strong,
+.goal-meta-grid strong,
+.budget-meta-grid strong {
+  color: var(--text-main);
+}
+
+.stage-track {
+  margin-top: 0.55rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.stage-pill {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-soft);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.48rem;
+}
+
+.stage-pill.done {
+  border-color: rgba(70, 242, 209, 0.45);
+  background: rgba(70, 242, 209, 0.14);
+  color: #c5fff4;
+}
+
+.mini-actions {
+  margin-top: 0.55rem;
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.mini-actions .btn {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.75rem;
+}
+
+.kanban-grid {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1000px) {
+  .kanban-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.kanban-head {
+  margin-bottom: 0.55rem;
+}
+
+.kanban-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.task-card {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.62rem;
+}
+
+.task-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.task-card h5 {
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+.task-card p {
+  margin: 0.28rem 0 0;
+  font-size: 0.73rem;
+  color: var(--text-soft);
+}
+
+.task-actions {
+  margin-top: 0.48rem;
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.task-actions .btn {
+  padding: 0.34rem 0.65rem;
+  font-size: 0.72rem;
+}
+
+.risk-grid {
+  grid-template-columns: 1fr;
+}
+
+.status-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.status-chip {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-soft);
+  border-radius: 999px;
+  padding: 0.23rem 0.6rem;
+  font-size: 0.69rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.status-chip:hover {
+  border-color: rgba(34, 197, 255, 0.45);
+  color: #d4f4ff;
+}
+
+.status-chip:focus-visible {
+  outline: 2px solid rgba(34, 197, 255, 0.65);
+  outline-offset: 1px;
+}
+
+.status-chip.active {
+  border-color: rgba(70, 242, 209, 0.5);
+  background: rgba(70, 242, 209, 0.14);
+  color: #d4fff8;
+}
+
+.goal-card .inline-note,
+.risk-card .inline-note,
+.budget-card .inline-note,
+.project-card .inline-note {
+  overflow-wrap: anywhere;
 }
 
 .inline-note {

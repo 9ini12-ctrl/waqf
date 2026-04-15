@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>لوحة التحكم - إدارة الحملات التسويقية</title>
-    <meta name="description" content="لوحة تحكم لإدارة الحملات التسويقية، التبرعات، القنوات، السفراء، والتقارير." />
+    <title>لوحة PMP - إدارة حملات جمعية التحفيظ</title>
+    <meta
+      name="description"
+      content="لوحة إدارة الحملة كمشروع وفق PMP: نطاق، وقت، تكلفة، جودة، أهداف، فريق، مخاطر، وتقارير أداء لحظية."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,8 +26,8 @@
     <div class="page">
       <header class="glass-card top-nav">
         <div class="brand">
-          <small>Dashboard</small>
-          <h1>لوحة إدارة الحملات</h1>
+          <small>Project Management Dashboard</small>
+          <h1>لوحة إدارة الحملات كمشاريع (PMP)</h1>
         </div>
         <div class="top-actions">
           <a class="btn btn-secondary" href="public.html" aria-label="فتح التقارير العامة">التقارير العامة</a>
@@ -36,7 +39,7 @@
         <article class="glass-card" style="padding: 1rem">
           <div class="section-head" style="margin-bottom: 0.4rem">
             <div>
-              <h2 id="welcome-title">مرحبًا بك</h2>
+              <h2 id="welcome-title">لوحة المدير التنفيذي للحملات</h2>
               <p>
                 المستخدم: <strong id="user-name">-</strong>
                 <span class="badge badge-info" id="user-role">-</span>
@@ -48,8 +51,8 @@
             </div>
           </div>
 
-          <div class="inline-note" style="margin-bottom: 0.4rem">نسبة تحقيق الهدف العام</div>
-          <div class="progress" aria-label="نسبة تحقيق الهدف">
+          <div class="inline-note" style="margin-bottom: 0.4rem">نسبة إنجاز الخطة الإجمالية (Target vs Actual)</div>
+          <div class="progress" aria-label="نسبة إنجاز الخطة الإجمالية">
             <span id="achievement-progress-bar" style="width: 0%"></span>
           </div>
           <div class="inline-note" id="achievement-progress-label" style="margin-top: 0.35rem">0 / 0 ريال</div>
@@ -57,35 +60,40 @@
 
         <article class="glass-card" style="padding: 1rem">
           <h3 style="margin: 0 0 0.5rem; font-size: 0.95rem">حالة النظام</h3>
-          <section id="app-status" class="state-box state-loading">جاري تحميل البيانات...</section>
+          <section id="app-status" class="state-box state-loading">جاري تحميل بيانات المشروع...</section>
         </article>
       </section>
 
-      <section class="kpi-grid" id="kpi-grid" aria-label="مؤشرات الأداء الرئيسية">
+      <section class="kpi-grid" id="kpi-grid" aria-label="مؤشرات لوحة المدير">
         <article class="kpi-card">
-          <span class="label">إجمالي التبرعات</span>
-          <strong class="value" id="kpi-total">-</strong>
-          <span class="hint">جميع القنوات</span>
+          <span class="label">نسبة إنجاز المشروع</span>
+          <strong class="value" id="kpi-project-progress">-</strong>
+          <span class="hint">متوسط تقدم الحملات</span>
         </article>
         <article class="kpi-card">
-          <span class="label">عدد المتبرعين</span>
-          <strong class="value" id="kpi-donors">-</strong>
-          <span class="hint">مميز حسب رقم الجوال</span>
+          <span class="label">الأداء مقابل الخطة</span>
+          <strong class="value" id="kpi-plan-vs-actual">-</strong>
+          <span class="hint">التحصيل ÷ الهدف</span>
         </article>
         <article class="kpi-card">
-          <span class="label">متوسط التبرع</span>
-          <strong class="value" id="kpi-avg">-</strong>
-          <span class="hint">قيمة التبرع لكل عملية</span>
+          <span class="label">حالة الفريق</span>
+          <strong class="value" id="kpi-team-completion">-</strong>
+          <span class="hint">المهام المنجزة</span>
         </article>
         <article class="kpi-card">
-          <span class="label">تكلفة المتبرع</span>
-          <strong class="value" id="kpi-cpa">-</strong>
-          <span class="hint">تكلفة القنوات ÷ المتبرعين</span>
+          <span class="label">حالة الأهداف</span>
+          <strong class="value" id="kpi-goals-completion">-</strong>
+          <span class="hint">الأهداف المحققة</span>
         </article>
         <article class="kpi-card">
-          <span class="label">إعادة التبرع</span>
-          <strong class="value" id="kpi-repeat">-</strong>
-          <span class="hint">نسبة المتبرعين المتكررين</span>
+          <span class="label">المخاطر المفتوحة</span>
+          <strong class="value" id="kpi-open-risks">-</strong>
+          <span class="hint">تحتاج متابعة</span>
+        </article>
+        <article class="kpi-card">
+          <span class="label">ROI العام</span>
+          <strong class="value" id="kpi-roi">-</strong>
+          <span class="hint">العائد ÷ الصرف</span>
         </article>
       </section>
 
@@ -93,10 +101,10 @@
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h3>إنشاء حملة جديدة</h3>
-              <p>إضافة حملة وربطها بهدف مالي وتاريخ تشغيل.</p>
+              <h3>تعريف الحملة كمشروع</h3>
+              <p>Project ID + Scope + Time + Cost + Quality.</p>
             </div>
-            <span class="badge badge-info">Campaign</span>
+            <span class="badge badge-info">Project Setup</span>
           </div>
 
           <form id="campaign-form" class="form-grid" novalidate>
@@ -119,8 +127,8 @@
 
             <div class="form-row cols-3">
               <div class="field">
-                <label for="campaign-target">الهدف المالي (ريال)</label>
-                <input id="campaign-target" name="target" type="number" min="1" class="input" placeholder="100000" required />
+                <label for="campaign-manager">مدير المشروع</label>
+                <select id="campaign-manager" name="managerId" class="select" required></select>
               </div>
               <div class="field">
                 <label for="campaign-start">تاريخ البداية</label>
@@ -132,17 +140,62 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" aria-label="إنشاء حملة">إضافة الحملة</button>
+            <div class="form-row cols-3">
+              <div class="field">
+                <label for="campaign-budget">الميزانية</label>
+                <input id="campaign-budget" name="budget" type="number" min="1" class="input" placeholder="200000" required />
+              </div>
+              <div class="field">
+                <label for="campaign-target">الهدف المالي</label>
+                <input id="campaign-target" name="target" type="number" min="1" class="input" placeholder="350000" required />
+              </div>
+              <div class="field">
+                <label for="campaign-status">الحالة</label>
+                <select id="campaign-status" name="status" class="select" required>
+                  <option value="Planning">Planning</option>
+                  <option value="Active">Active</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="field">
+                <label for="campaign-stage">المرحلة الحالية</label>
+                <select id="campaign-stage" name="stage" class="select" required>
+                  <option value="Initiation">Initiation</option>
+                  <option value="Planning">Planning</option>
+                  <option value="Execution">Execution</option>
+                  <option value="Monitoring">Monitoring & Control</option>
+                  <option value="Closing">Closing</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="campaign-scope">النطاق (Scope)</label>
+                <input id="campaign-scope" name="scope" class="input" placeholder="مثال: زيادة الكفالات في 3 فروع" required />
+              </div>
+              <div class="field">
+                <label for="campaign-quality">مؤشر الجودة</label>
+                <input id="campaign-quality" name="quality" class="input" placeholder="مثال: دقة تتبع 99%" required />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="campaign-charter">Project Charter (تعريف رسمي للحملة)</label>
+              <textarea id="campaign-charter" name="charter" class="textarea" rows="3" placeholder="ملخص فكرة الحملة والهدف العام..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" aria-label="إنشاء مشروع حملة">إنشاء مشروع الحملة</button>
           </form>
         </article>
 
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h3>تسجيل تبرع</h3>
-              <p>ربط التبرع بالحملة والمشروع والقناة وكود الإحالة.</p>
+              <h3>تنفيذ واستقبال التبرعات</h3>
+              <p>Execution Inputs → Donations Data.</p>
             </div>
-            <span class="badge badge-success">Donation</span>
+            <span class="badge badge-success">Execution</span>
           </div>
 
           <form id="donation-form" class="form-grid" novalidate>
@@ -152,7 +205,7 @@
                 <input id="donor-phone" name="donorPhone" class="input" placeholder="05xxxxxxxx" required />
               </div>
               <div class="field">
-                <label for="donation-amount">المبلغ (ريال)</label>
+                <label for="donation-amount">المبلغ</label>
                 <input id="donation-amount" name="amount" type="number" min="1" class="input" placeholder="500" required />
               </div>
               <div class="field">
@@ -163,25 +216,25 @@
 
             <div class="form-row cols-3">
               <div class="field">
-                <label for="donation-campaign">الحملة</label>
+                <label for="donation-campaign">المشروع/الحملة</label>
                 <select id="donation-campaign" name="campaign" class="select" required></select>
               </div>
               <div class="field">
-                <label for="donation-project">المشروع</label>
+                <label for="donation-project">المشروع الخيري</label>
                 <select id="donation-project" name="project" class="select" required></select>
               </div>
               <div class="field">
-                <label for="donation-channel">القناة التسويقية</label>
+                <label for="donation-channel">القناة</label>
                 <select id="donation-channel" name="channel" class="select" required></select>
               </div>
             </div>
 
             <div class="field">
-              <label for="donation-referral">كود الإحالة (اختياري)</label>
-              <input id="donation-referral" name="referral" class="input" placeholder="مثال: AMB-001" />
+              <label for="donation-referral">كود الإحالة</label>
+              <input id="donation-referral" name="referral" class="input" placeholder="?reff=AMB-001" />
             </div>
 
-            <button type="submit" class="btn btn-primary" aria-label="حفظ التبرع">حفظ التبرع</button>
+            <button type="submit" class="btn btn-primary" aria-label="تسجيل تبرع">تسجيل تبرع</button>
           </form>
         </article>
       </section>
@@ -189,8 +242,344 @@
       <section class="section-card" style="margin-top: 1rem">
         <div class="section-head">
           <div>
-            <h3>بحث وفرز وتصفية</h3>
-            <p>تحكم كامل في عرض بيانات التبرعات.</p>
+            <h3>مراحل المشروع (Project Lifecycle)</h3>
+            <p>Initiation → Planning → Execution → Monitoring → Closing</p>
+          </div>
+          <div class="field" style="min-width: 220px; margin: 0">
+            <label class="visually-hidden" for="lifecycle-campaign-filter">فلتر الحملة</label>
+            <select id="lifecycle-campaign-filter" class="select"></select>
+          </div>
+        </div>
+
+        <section id="lifecycle-state" class="state-box state-loading">جاري تحميل دورة حياة المشاريع...</section>
+        <div id="lifecycle-content" class="hidden"></div>
+      </section>
+
+      <section class="grid-2" style="margin-top: 1rem">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>إدارة المهام (Kanban)</h3>
+              <p>To Do / In Progress / Done</p>
+            </div>
+            <span class="badge badge-info">Team Tasks</span>
+          </div>
+
+          <form id="task-form" class="form-grid" novalidate>
+            <div class="form-row">
+              <div class="field">
+                <label for="task-name">اسم المهمة</label>
+                <input id="task-name" name="name" class="input" placeholder="مثال: إعداد خطة محتوى سناب" required />
+              </div>
+              <div class="field">
+                <label for="task-campaign">الحملة المرتبطة</label>
+                <select id="task-campaign" name="campaignId" class="select" required></select>
+              </div>
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="field">
+                <label for="task-owner">المسؤول</label>
+                <select id="task-owner" name="ownerId" class="select" required></select>
+              </div>
+              <div class="field">
+                <label for="task-role">الدور</label>
+                <select id="task-role" name="role" class="select" required>
+                  <option value="مدير حملة">مدير حملة</option>
+                  <option value="مسؤول قنوات">مسؤول قنوات</option>
+                  <option value="مسؤول محتوى">مسؤول محتوى</option>
+                  <option value="مسؤول إعلانات">مسؤول إعلانات</option>
+                  <option value="مسؤول سفراء">مسؤول سفراء</option>
+                  <option value="محلل بيانات">محلل بيانات</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="task-priority">الأولوية</label>
+                <select id="task-priority" name="priority" class="select" required>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="field">
+                <label for="task-start">بداية</label>
+                <input id="task-start" name="startDate" type="date" class="input" required />
+              </div>
+              <div class="field">
+                <label for="task-end">نهاية</label>
+                <input id="task-end" name="endDate" type="date" class="input" required />
+              </div>
+              <div class="field">
+                <label for="task-status">الحالة</label>
+                <select id="task-status" name="status" class="select" required>
+                  <option value="Pending">Pending</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Done">Done</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" aria-label="إضافة مهمة">إضافة مهمة</button>
+          </form>
+        </article>
+
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>لوحة Kanban</h3>
+              <p>متابعة مباشرة لتدفق المهام.</p>
+            </div>
+            <div class="field" style="min-width: 180px; margin: 0">
+              <label class="visually-hidden" for="task-board-campaign-filter">فلتر الحملة للكانبان</label>
+              <select id="task-board-campaign-filter" class="select"></select>
+            </div>
+          </div>
+
+          <section id="kanban-state" class="state-box state-loading">جاري تحميل المهام...</section>
+          <div id="kanban-board" class="kanban-grid hidden">
+            <section class="kanban-col">
+              <header class="kanban-head">
+                <h4>To Do</h4>
+                <span class="badge badge-warning" id="kanban-count-pending">0</span>
+              </header>
+              <div id="kanban-pending" class="kanban-list"></div>
+            </section>
+
+            <section class="kanban-col">
+              <header class="kanban-head">
+                <h4>In Progress</h4>
+                <span class="badge badge-info" id="kanban-count-progress">0</span>
+              </header>
+              <div id="kanban-progress" class="kanban-list"></div>
+            </section>
+
+            <section class="kanban-col">
+              <header class="kanban-head">
+                <h4>Done</h4>
+                <span class="badge badge-success" id="kanban-count-done">0</span>
+              </header>
+              <div id="kanban-done" class="kanban-list"></div>
+            </section>
+          </div>
+        </article>
+      </section>
+
+      <section class="section-card" style="margin-top: 1rem">
+        <div class="section-head">
+          <div>
+            <h3>إدارة الأهداف SMART</h3>
+            <p>Strategic / Tactical / Operational مع قياس نسبة الإنجاز.</p>
+          </div>
+          <span class="badge badge-success">Goal Management</span>
+        </div>
+
+        <form id="goal-form" class="form-grid" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="goal-title">اسم الهدف</label>
+              <input id="goal-title" name="title" class="input" placeholder="مثال: رفع تحصيل رمضان 20%" required />
+            </div>
+            <div class="field">
+              <label for="goal-type">نوع الهدف</label>
+              <select id="goal-type" name="goalType" class="select" required>
+                <option value="Strategic">Strategic</option>
+                <option value="Tactical">Tactical</option>
+                <option value="Operational">Operational</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row cols-3">
+            <div class="field">
+              <label for="goal-campaign">مرتبط بحملة</label>
+              <select id="goal-campaign" name="campaignId" class="select" required></select>
+            </div>
+            <div class="field">
+              <label for="goal-linked-type">مرتبط بـ</label>
+              <select id="goal-linked-type" name="linkedType" class="select" required>
+                <option value="Campaign">Campaign</option>
+                <option value="Branch">Branch</option>
+                <option value="Ambassador">Ambassador</option>
+                <option value="Channel">Channel</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="goal-linked-id">المعرّف المرتبط</label>
+              <input id="goal-linked-id" name="linkedId" class="input" placeholder="مثال: br-riyadh / ch-whatsapp" required />
+            </div>
+          </div>
+
+          <div class="form-row cols-3">
+            <div class="field">
+              <label for="goal-target">Target Value</label>
+              <input id="goal-target" name="targetValue" type="number" min="1" class="input" placeholder="100000" required />
+            </div>
+            <div class="field">
+              <label for="goal-current">Current Value</label>
+              <input id="goal-current" name="currentValue" type="number" min="0" class="input" placeholder="20000" required />
+            </div>
+            <div class="field">
+              <label for="goal-deadline">Time-bound (الموعد)</label>
+              <input id="goal-deadline" name="deadline" type="date" class="input" required />
+            </div>
+          </div>
+
+          <div class="form-row cols-3">
+            <div class="field">
+              <label for="goal-specific">Specific</label>
+              <input id="goal-specific" name="specific" class="input" placeholder="محدد بوضوح" required />
+            </div>
+            <div class="field">
+              <label for="goal-measurable">Measurable</label>
+              <input id="goal-measurable" name="measurable" class="input" placeholder="قابل للقياس" required />
+            </div>
+            <div class="field">
+              <label for="goal-achievable">Achievable/Relevant</label>
+              <input id="goal-achievable" name="achievable" class="input" placeholder="قابل للتحقيق ومرتبط" required />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" aria-label="إضافة هدف">إضافة هدف</button>
+        </form>
+
+        <section id="goals-state" class="state-box state-loading" style="margin-top: 0.85rem">جاري تحميل الأهداف...</section>
+        <div id="goals-content" class="hidden" style="margin-top: 0.85rem"></div>
+      </section>
+
+      <section class="grid-2" style="margin-top: 1rem">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>إدارة المخاطر</h3>
+              <p>الاحتمالية + التأثير + خطة المعالجة.</p>
+            </div>
+            <span class="badge badge-warning">Risk Register</span>
+          </div>
+
+          <form id="risk-form" class="form-grid" novalidate>
+            <div class="field">
+              <label for="risk-title">عنوان الخطر</label>
+              <input id="risk-title" name="title" class="input" placeholder="مثال: ضعف أداء قناة سناب" required />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="field">
+                <label for="risk-campaign">الحملة</label>
+                <select id="risk-campaign" name="campaignId" class="select" required></select>
+              </div>
+              <div class="field">
+                <label for="risk-probability">الاحتمالية</label>
+                <select id="risk-probability" name="probability" class="select" required>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="risk-impact">التأثير</label>
+                <select id="risk-impact" name="impact" class="select" required>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="field">
+                <label for="risk-owner">المالك</label>
+                <select id="risk-owner" name="ownerId" class="select" required></select>
+              </div>
+              <div class="field">
+                <label for="risk-status">الحالة</label>
+                <select id="risk-status" name="status" class="select" required>
+                  <option value="Open">Open</option>
+                  <option value="Monitoring">Monitoring</option>
+                  <option value="Mitigated">Mitigated</option>
+                  <option value="Closed">Closed</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="risk-response">خطة المعالجة</label>
+                <input id="risk-response" name="mitigation" class="input" placeholder="إعادة توزيع الميزانية" required />
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" aria-label="إضافة خطر">إضافة خطر</button>
+          </form>
+        </article>
+
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>سجل المخاطر الحالي</h3>
+              <p>التركيز على المخاطر ذات التأثير العالي.</p>
+            </div>
+          </div>
+          <section id="risks-state" class="state-box state-loading">جاري تحميل سجل المخاطر...</section>
+          <div id="risks-content" class="hidden"></div>
+        </article>
+      </section>
+
+      <section class="grid-2" style="margin-top: 1rem">
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>إدارة الميزانية</h3>
+              <p>توزيع ميزانية الحملة على القنوات.</p>
+            </div>
+            <span class="badge badge-info">Cost Management</span>
+          </div>
+
+          <form id="allocation-form" class="form-grid" novalidate>
+            <div class="form-row cols-3">
+              <div class="field">
+                <label for="allocation-campaign">الحملة</label>
+                <select id="allocation-campaign" name="campaignId" class="select" required></select>
+              </div>
+              <div class="field">
+                <label for="allocation-channel">القناة</label>
+                <select id="allocation-channel" name="channelId" class="select" required></select>
+              </div>
+              <div class="field">
+                <label for="allocation-planned">Planned Budget</label>
+                <input id="allocation-planned" name="plannedBudget" type="number" min="0" class="input" placeholder="25000" required />
+              </div>
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="field">
+                <label for="allocation-spent">Spent Budget</label>
+                <input id="allocation-spent" name="spentBudget" type="number" min="0" class="input" placeholder="18000" required />
+              </div>
+              <div></div>
+              <div></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" aria-label="حفظ توزيع الميزانية">حفظ التوزيع</button>
+          </form>
+        </article>
+
+        <article class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>ملخص الميزانية والـ ROI</h3>
+              <p>قراءة فورية للصرف مقابل العائد.</p>
+            </div>
+          </div>
+          <section id="budget-state" class="state-box state-loading">جاري تحميل ملخص الميزانية...</section>
+          <div id="budget-content" class="hidden"></div>
+        </article>
+      </section>
+
+      <section class="section-card" style="margin-top: 1rem">
+        <div class="section-head">
+          <div>
+            <h3>بحث وفرز وتصفية سجل التبرعات</h3>
+            <p>Monitoring & Control مع تتبع الانحرافات.</p>
           </div>
           <div class="top-actions">
             <button id="simulate-error-btn" class="btn btn-ghost" aria-label="محاكاة حالة خطأ">محاكاة خطأ</button>
@@ -200,8 +589,8 @@
 
         <form id="filter-form" class="controls-grid" novalidate>
           <div class="field">
-            <label for="search-input">بحث (جوال / كود إحالة)</label>
-            <input id="search-input" class="input" placeholder="ابحث برقم المتبرع أو كود الإحالة" />
+            <label for="search-input">بحث (رقم متبرع / إحالة / قناة)</label>
+            <input id="search-input" class="input" placeholder="ابحث في التبرعات" />
           </div>
           <div class="field">
             <label for="campaign-filter">الحملة</label>
@@ -231,8 +620,8 @@
       <section class="section-card" style="margin-top: 1rem">
         <div class="section-head">
           <div>
-            <h3>سجل التبرعات</h3>
-            <p>عرض موحد لجميع عمليات التبرع مع المصدر والإحالة.</p>
+            <h3>سجل التبرعات الموحد</h3>
+            <p>تتبع كامل لكل تبرع وربطه بالحملة/القناة/الإحالة.</p>
           </div>
           <span class="badge badge-info" id="donations-count-badge">0 سجل</span>
         </div>
@@ -246,7 +635,7 @@
           <div class="section-head">
             <div>
               <h3>أداء القنوات</h3>
-              <p>الأفضل حسب العائد على التكلفة.</p>
+              <p>أفضل قناة = العائد ÷ التكلفة.</p>
             </div>
           </div>
           <div id="channels-content" class="list"></div>
@@ -255,18 +644,18 @@
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h3>أداء السفراء</h3>
-              <p>ترتيب حسب إجمالي التبرعات.</p>
+              <h3>أداء الفريق (Performance Tracking)</h3>
+              <p>مهام منجزة + نسبة إنجاز + أثر على النتائج.</p>
             </div>
           </div>
-          <div id="ambassadors-content" class="list"></div>
+          <div id="team-performance-content" class="list"></div>
         </article>
 
         <article class="section-card">
           <div class="section-head">
             <div>
-              <h3>التقارير والتصدير</h3>
-              <p>مخرجات تساعد في اتخاذ القرار.</p>
+              <h3>التقارير والإغلاق</h3>
+              <p>Closing: تقرير نهائي + دروس مستفادة.</p>
             </div>
             <button id="export-csv-btn" class="btn btn-secondary" aria-label="تصدير CSV">تصدير CSV</button>
           </div>
@@ -274,7 +663,7 @@
         </article>
       </section>
 
-      <p class="footer-note">الواجهة مهيأة للجوال أولًا، وتتحول تلقائيًا لعرض مكتبي كامل.</p>
+      <p class="footer-note">بهذا النموذج أصبحت الحملة مشروعًا متكاملًا قابلًا للإدارة والتحكم.</p>
     </div>
 
     <div id="toast-root" aria-live="polite" aria-atomic="true"></div>
